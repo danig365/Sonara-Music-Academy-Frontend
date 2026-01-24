@@ -1,0 +1,492 @@
+/* ManageSubscriptions Styling */
+
+.subscriptions-header {
+    color: #1a2332;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+}
+
+/* Header Wrapper */
+.subscriptions-header-wrapper {
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.subscriptions-header-wrapper h2 {
+    flex: 0 1 auto;
+}
+
+/* Add Button */
+.subscriptions-add-btn {
+    background: #4285f4;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 24px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+
+.subscriptions-add-btn:hover {
+    background: #3b7ae8;
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Filter Card */
+.subscriptions-filter-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+    background: #fff;
+}
+
+.subscriptions-filter-card .card-body {
+    padding: 20px;
+}
+
+.subscriptions-filter-card .form-label {
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.subscriptions-filter-card .form-select {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+.subscriptions-filter-card .form-select:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+/* Table Card */
+.subscriptions-table-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: #fff;
+    margin-bottom: 24px;
+}
+
+.subscriptions-table-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.subscriptions-table-card .card-body {
+    padding: 20px;
+}
+
+/* Table Styling */
+.subscriptions-table {
+    margin-bottom: 0;
+    color: #1a2332;
+}
+
+.subscriptions-table thead {
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.subscriptions-table th {
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: none;
+    padding: 14px 16px;
+}
+
+.subscriptions-table td {
+    color: #1a2332;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 14px 16px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.subscriptions-table tbody tr:hover {
+    background: #f8f9fa;
+    transition: all 0.2s ease;
+}
+
+.subscriptions-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badge Styling */
+.subscriptions-table .badge {
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 11px;
+    padding: 6px 10px;
+    letter-spacing: 0.3px;
+}
+
+/* Modal Styling */
+.subscriptions-modal .modal-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 20px;
+}
+
+.subscriptions-modal .modal-header h5 {
+    font-weight: 700;
+    color: #1a2332;
+}
+
+.subscriptions-modal .modal-body {
+    padding: 20px;
+}
+
+.subscriptions-modal .form-label {
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.subscriptions-modal .form-control,
+.subscriptions-modal .form-select {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+.subscriptions-modal .form-control:focus,
+.subscriptions-modal .form-select:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+.subscriptions-modal .form-check-label {
+    font-size: 14px;
+    color: #1a2332;
+}
+
+.subscriptions-modal .modal-footer {
+    border-top: 1px solid #e9ecef;
+    padding: 16px 20px;
+    gap: 12px;
+}
+
+/* Responsive Design */
+
+/* Tablet - Medium screens (1024px and below) */
+@media (max-width: 1024px) {
+    .subscriptions-table th,
+    .subscriptions-table td {
+        padding: 12px 12px;
+        font-size: 13px;
+    }
+
+    .subscriptions-table th {
+        font-size: 11px;
+    }
+}
+
+/* Tablet - Small screens (768px and below) */
+@media (max-width: 768px) {
+    .subscriptions-header {
+        font-size: 22px;
+    }
+
+    .subscriptions-header-wrapper {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .subscriptions-header-wrapper h2 {
+        width: 100%;
+    }
+
+    .subscriptions-add-btn {
+        width: 100%;
+    }
+
+    /* Filter */
+    .subscriptions-filter-card .card-body {
+        padding: 14px;
+    }
+
+    .subscriptions-filter-card .row {
+        flex-direction: column;
+    }
+
+    .subscriptions-filter-card .col-md-3,
+    .subscriptions-filter-card .col-md-6 {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    /* Table */
+    .subscriptions-table-card .card-body {
+        padding: 12px;
+    }
+
+    .subscriptions-table {
+        font-size: 12px;
+    }
+
+    .subscriptions-table th {
+        padding: 10px 8px;
+        font-size: 10px;
+    }
+
+    .subscriptions-table td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .subscriptions-table .badge {
+        font-size: 9px;
+        padding: 4px 8px;
+    }
+
+    /* Buttons */
+    .subscriptions-table .btn-sm {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+
+    /* Modal */
+    .subscriptions-modal .modal-dialog {
+        margin: 20px;
+    }
+
+    .subscriptions-modal .form-label {
+        font-size: 13px;
+    }
+
+    .subscriptions-modal .form-control,
+    .subscriptions-modal .form-select {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+
+    .subscriptions-modal .modal-header {
+        padding: 16px;
+    }
+
+    .subscriptions-modal .modal-header h5 {
+        font-size: 16px;
+    }
+
+    .subscriptions-modal .modal-body {
+        padding: 16px;
+    }
+
+    .subscriptions-modal .modal-footer {
+        padding: 12px 16px;
+    }
+
+    .subscriptions-modal .modal-footer .btn {
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+}
+
+/* Mobile - Small screens (480px and below) */
+@media (max-width: 480px) {
+    .subscriptions-header {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .subscriptions-header-wrapper {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .subscriptions-add-btn {
+        width: 100%;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    /* Filter */
+    .subscriptions-filter-card {
+        margin-bottom: 16px;
+    }
+
+    .subscriptions-filter-card .card-body {
+        padding: 12px;
+    }
+
+    .subscriptions-filter-card .form-label {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .subscriptions-filter-card .form-select {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    /* Table - Horizontal Scrolling */
+    .subscriptions-table-card .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .subscriptions-table {
+        font-size: 11px;
+        min-width: 100%;
+    }
+
+    .subscriptions-table thead {
+        background: #f8f9fa;
+    }
+
+    .subscriptions-table th {
+        padding: 8px 6px;
+        font-size: 9px;
+        white-space: nowrap;
+    }
+
+    .subscriptions-table td {
+        padding: 8px 6px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .subscriptions-table .badge {
+        font-size: 8px;
+        padding: 3px 6px;
+    }
+
+    .subscriptions-table .btn-sm {
+        font-size: 10px;
+        padding: 4px 8px;
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1px;
+    }
+
+    /* Icons */
+    .subscriptions-table .bi {
+        font-size: 12px;
+    }
+
+    /* Modal */
+    .subscriptions-modal .modal-dialog {
+        margin: 8px;
+        width: calc(100% - 16px);
+    }
+
+    .subscriptions-modal .modal-header {
+        padding: 12px;
+    }
+
+    .subscriptions-modal .modal-header h5 {
+        font-size: 14px;
+    }
+
+    .subscriptions-modal .modal-body {
+        padding: 12px;
+    }
+
+    .subscriptions-modal .form-label {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+
+    .subscriptions-modal .form-control,
+    .subscriptions-modal .form-select {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .subscriptions-modal .mb-3 {
+        margin-bottom: 10px;
+    }
+
+    .subscriptions-modal .row {
+        margin-right: -6px;
+        margin-left: -6px;
+    }
+
+    .subscriptions-modal .col-md-6 {
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+
+    .subscriptions-modal .form-check {
+        margin-top: 8px;
+    }
+
+    .subscriptions-modal .form-check-label {
+        font-size: 12px;
+        margin-left: 6px;
+    }
+
+    .subscriptions-modal .modal-footer {
+        padding: 10px 12px;
+        gap: 6px;
+    }
+
+    .subscriptions-modal .modal-footer .btn {
+        font-size: 11px;
+        padding: 6px 12px;
+        flex: 1;
+    }
+}
+
+/* Extra small screens (360px and below) */
+@media (max-width: 360px) {
+    .subscriptions-header {
+        font-size: 16px;
+    }
+
+    .subscriptions-header-wrapper {
+        gap: 8px;
+    }
+
+    .subscriptions-add-btn {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+
+    .subscriptions-filter-card .form-label {
+        font-size: 11px;
+    }
+
+    .subscriptions-filter-card .form-select {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    .subscriptions-table th {
+        padding: 6px 4px;
+        font-size: 8px;
+    }
+
+    .subscriptions-table td {
+        padding: 6px 4px;
+        font-size: 10px;
+    }
+
+    .subscriptions-modal .form-control,
+    .subscriptions-modal .form-select {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    .subscriptions-modal .modal-footer .btn {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+}
