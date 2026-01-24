@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import './Sidebar.css'
+import { API_BASE_URL } from '../../config';
 
 const Sidebar = ({ isOpen = false, setIsOpen = null, isMobile = false }) => {
   const location = useLocation();
@@ -13,7 +14,6 @@ const Sidebar = ({ isOpen = false, setIsOpen = null, isMobile = false }) => {
     profile_img: ''
   });
   const studentId = localStorage.getItem('studentId');
-import { API_BASE_URL } from '../../config';
 
   const baseUrl = API_BASE_URL;
 
