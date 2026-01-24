@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ActivityLogs.css';
 
-const baseUrl = 'http://127.0.0.1:8000/api';
+import { API_BASE_URL } from '../../config';
+
+const baseUrl = API_BASE_URL;
 
 const ActivityLogs = () => {
     const [logs, setLogs] = useState([]);

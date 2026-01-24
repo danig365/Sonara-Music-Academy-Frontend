@@ -7,7 +7,9 @@ import StreakCalendar from './StreakCalendar';
 import AchievementBadges from './AchievementBadges';
 import './EnhancedDashboard.css';
 
-const baseUrl = 'http://127.0.0.1:8000/api';
+import { API_BASE_URL, SITE_URL } from '../../config';
+
+const baseUrl = API_BASE_URL;
 
 const EnhancedDashboard = () => {
     const navigate = useNavigate();
@@ -120,8 +122,7 @@ const EnhancedDashboard = () => {
         // If URL is already absolute, return as is
         if (imageUrl.startsWith('http')) return imageUrl;
         // If URL is relative, prepend the base URL (without /api part)
-        const baseUrl = 'http://127.0.0.1:8000';
-        return baseUrl + imageUrl;
+        return SITE_URL + imageUrl;
     };
 
     const formatTime = (seconds) => {

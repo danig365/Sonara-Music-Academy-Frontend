@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import './AllCourses.css'
 
-const baseUrl = 'http://127.0.0.1:8000/api/course/'
+import { API_BASE_URL } from '../../config';
+
+const baseUrl = `${API_BASE_URL}/course/`;
 
 const AllCourses = () => {
   const navigate = useNavigate()

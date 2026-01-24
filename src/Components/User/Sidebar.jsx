@@ -13,7 +13,9 @@ const Sidebar = ({ isOpen = false, setIsOpen = null, isMobile = false }) => {
     profile_img: ''
   });
   const studentId = localStorage.getItem('studentId');
-  const baseUrl = 'http://127.0.0.1:8000/api';
+import { API_BASE_URL } from '../../config';
+
+  const baseUrl = API_BASE_URL;
 
   useEffect(()=>{
     document.title='LMS | MainMenu'

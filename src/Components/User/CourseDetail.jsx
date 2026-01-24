@@ -8,8 +8,10 @@ import axios from 'axios'
 import './CourseDetail.css'
 import Sidebar from './Sidebar';
 
-const baseUrl='http://127.0.0.1:8000/api'
-const siteUrl='http://127.0.0.1:8000/'
+import { API_BASE_URL, SITE_URL } from '../../config';
+
+const baseUrl = API_BASE_URL;
+const siteUrl = SITE_URL;
 
 const CourseDetail = () => {
     const navigate = useNavigate();

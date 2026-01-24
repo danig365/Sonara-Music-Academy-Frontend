@@ -6,7 +6,9 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
-const baseUrl='http://127.0.0.1:8000/api'
+import { API_BASE_URL } from '../../config';
+
+const baseUrl = API_BASE_URL;
 
 const EditCourse = () => {
     useEffect(()=>{

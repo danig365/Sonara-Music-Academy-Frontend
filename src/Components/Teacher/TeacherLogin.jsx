@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom'
 import firebase from '../firebase'
 import Swal from 'sweetalert2'
 
-const baseUrl='http://127.0.0.1:8000/api'
+import { API_BASE_URL } from '../../config';
+
+const baseUrl = API_BASE_URL;
 
 const TeacherLogin = () => {
 
