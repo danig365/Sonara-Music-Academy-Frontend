@@ -199,6 +199,26 @@ const Sidebar = ({ isOpen = false, setIsOpen = null, isMobile = false }) => {
           <span style={{ fontSize: '14px', fontWeight: '500' }}>Achievements</span>
         </Link>
 
+        <Link 
+          to='/pricing'
+          onClick={handleNavClick}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '12px 16px',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            color: isActive('/pricing') ? 'white' : '#94a3b8',
+            backgroundColor: isActive('/pricing') ? '#1e40af' : 'transparent',
+            marginBottom: '4px',
+            transition: 'all 0.2s'
+          }}
+        >
+          <i className="bi bi-gem" style={{ fontSize: '18px' }}></i>
+          <span style={{ fontSize: '14px', fontWeight: '500' }}>Upgrade Plan</span>
+        </Link>
+
         <div style={{ height: '1px', backgroundColor: '#1e293b', margin: '8px 0' }}></div>
       </nav>
 

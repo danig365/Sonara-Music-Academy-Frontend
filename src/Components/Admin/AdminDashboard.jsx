@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import SubscriptionWidget from './SubscriptionWidget';
 import './AdminDashboard.css';
 
 import { API_BASE_URL } from '../../config';
@@ -253,6 +254,13 @@ const AdminDashboard = () => {
                             )}
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* Subscriptions Widget Row */}
+            <div className="row g-3 mt-4">
+                <div className="col-12">
+                    <SubscriptionWidget />
                 </div>
             </div>
         </>

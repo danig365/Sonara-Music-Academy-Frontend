@@ -5,6 +5,8 @@ import Sidebar from './Sidebar';
 import WeeklyGoalCard from './WeeklyGoalCard';
 import StreakCalendar from './StreakCalendar';
 import AchievementBadges from './AchievementBadges';
+import SubscriptionQuotaWidget from './SubscriptionQuotaWidget';
+import RecentBookings from './RecentBookings';
 import './EnhancedDashboard.css';
 
 import { API_BASE_URL, SITE_URL } from '../../config';
@@ -286,6 +288,16 @@ const EnhancedDashboard = () => {
                         </div>
                         <div className="col-12 col-lg-5">
                             <AchievementBadges studentId={studentId} compact={true} />
+                        </div>
+                    </div>
+
+                    {/* Subscription & Bookings Row */}
+                    <div className="row g-3 mb-4">
+                        <div className="col-12 col-lg-6">
+                            <SubscriptionQuotaWidget studentId={studentId} />
+                        </div>
+                        <div className="col-12 col-lg-6">
+                            <RecentBookings studentId={studentId} />
                         </div>
                     </div>
 

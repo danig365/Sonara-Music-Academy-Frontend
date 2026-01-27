@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import TeacherSidebar from './TeacherSidebar'
+import StudentLessonBookings from './StudentLessonBookings'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -66,6 +67,13 @@ const TeacherDashboard = () => {
                         <h3><Link to="/teacher-my-course">{dashbarData.total_teacher_chapters} <i class="bi bi-stickies-fill"></i></Link></h3>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Lesson Bookings Widget */}
+                <div className='row mt-4'>
+                  <div className='col-12'>
+                    <StudentLessonBookings teacherId={teacherId} />
                   </div>
                 </div>
             </section>

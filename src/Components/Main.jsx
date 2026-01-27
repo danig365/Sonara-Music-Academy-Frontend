@@ -12,6 +12,9 @@ import EnhancedDashboard from './User/EnhancedDashboard'
 import MyCourses from './User/MyCourses'
 import ProfileSetting from './User/ProfileSetting'
 import ChangePassword from './User/ChangePassword'
+import PricingPage from './User/PricingPage'
+import SubscriptionSuccess from './User/SubscriptionSuccess'
+import SubscriptionCancel from './User/SubscriptionCancel'
 import TeacherLogin from './Teacher/TeacherLogin'
 import TeacherRegister from './Teacher/TeacherRegister'
 import TeacherDashboard from './Teacher/TeacherDashboard'
@@ -84,6 +87,9 @@ const MainContent = () => {
                                    location.pathname.startsWith('/my-teachers') ||
                                    location.pathname.startsWith('/profile-setting') ||
                                    location.pathname.startsWith('/change-password') ||
+                                   location.pathname.startsWith('/pricing') ||
+                                   location.pathname.startsWith('/subscription-success') ||
+                                   location.pathname.startsWith('/subscription-cancel') ||
                                    location.pathname.startsWith('/my-progress') ||
                                    location.pathname.startsWith('/my-achievements') ||
                                    location.pathname.startsWith('/learn') ||
@@ -121,6 +127,9 @@ const MainContent = () => {
           <Route path='/my-courses' element={<MyCourses />}/>
           <Route path='/profile-setting' element={<ProfileSetting/>}/>
           <Route path='/change-password' element={<ChangePassword/>}/>
+          <Route path='/pricing' element={<PricingPage/>}/>
+          <Route path='/subscription-success' element={<SubscriptionSuccess/>}/>
+          <Route path='/subscription-cancel' element={<SubscriptionCancel/>}/>
           
           {/* Enhanced Student Dashboard Routes */}
           <Route path='/my-progress' element={<MyProgress />}/>
