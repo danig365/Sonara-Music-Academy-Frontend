@@ -18,7 +18,7 @@ const baseUrl = API_BASE_URL;
 
 const Home = () => {
   useEffect(()=>{
-    document.title='Edu Learning'
+    document.title='EduLearning - Learn from Top Instructors'
   })
 
   const icon={
@@ -95,12 +95,12 @@ try{
     <div class="overlay"></div>
     <div class="text">
       <h1 className='head'>Never stop learning.<br/> Never stop growing.</h1> 
-      <h1 className='headss'>Learn with Us!</h1>
-      <p className='para'>Learn from the top Instructor over the World.<br/>Learn the latest Technology Trend.</p>
+      <h1 className='headss'>Welcome to EduLearning</h1>
+      <p className='para'>Learn from top instructors around the world.<br/>Master the latest technology trends and skills.</p>
     </div>
     </section>
       {/*  End Background video player*/}
-      {/*  Start Features of meetLearning*/}
+      {/*  Start Features of EduLearning*/}
     <div class="container-xxl py-5" className='space'>
         <div class="container">
             <div class="row g-4">
@@ -109,7 +109,7 @@ try{
                         <div class="p-4">
                             <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
                             <h5 class="mb-3">Skilled Instructors</h5>
-                            <p>Our Instructors Says: <br/>If you are planning for a year, sow rice; if you are planning for a decade, plant trees; if you are planning for a lifetime, educate people.</p>
+                            <p>Learn from experienced educators and industry experts who are passionate about teaching. Our instructors bring real-world knowledge and practical insights to every course.</p>
                         </div>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ try{
                         <div class="p-4">
                             <i class="fa fa-3x fa-globe text-primary mb-4"></i>
                             <h5 class="mb-3">Online Courses</h5>
-                            <p>The most profound words will remain unread unless you can keep the learner engaged. You can't see their eyes to know if they got it so … say it, show it, write it, demo it and link it to an activity.</p>
+                            <p>Access quality courses from anywhere, anytime. Our diverse course catalog covers technology, business, creative skills, and more, designed for learners at all levels.</p>
                         </div>
                     </div>
                 </div>
@@ -126,8 +126,8 @@ try{
                     <div class="service-item text-center pt-3">
                         <div class="p-4">
                             <i class="fa fa-3x fa-home text-primary mb-4"></i>
-                            <h5 class="mb-3">Home Assignments</h5>
-                            <p>To Prepare all our students for future. Instructors provides best quality Assignments for practice. Assignments which include all chapters Question for better understand of the entire Course.</p>
+                            <h5 class="mb-3">Practice Assignments</h5>
+                            <p>Reinforce your learning with carefully crafted assignments and hands-on projects. Regular practice helps consolidate knowledge and build practical skills.</p>
                         </div>
                     </div>
                 </div>
@@ -135,15 +135,15 @@ try{
                     <div class="service-item text-center pt-3">
                         <div class="p-4">
                             <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
-                            <h5 class="mb-3">Best Study Material</h5>
-                            <p>With our quality study material any can achieve their goal and with the top instructors nothing can stop you. At the Time of Exam any student can refer the study material and ace any exam or interview.</p>
+                            <h5 class="mb-3">Study Materials</h5>
+                            <p>Download comprehensive study materials, notes, and resources to support your learning journey. Everything you need is organized and easily accessible.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-      {/*  End Features of meetLearning*/}
+      {/* End Features of EduLearning*/}
       {/*  About Us card */}
     <div class="container-xxl py-5">
         <div class="container">
@@ -155,27 +155,27 @@ try{
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                     <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                    <h1 class="mb-4">Welcome to eduLEARNING</h1>
-                    <p class="mb-4">Students do not learn much just sitting in classes listening to teachers, memorizing prepackaged assignments, and spitting out answers. They must talk about what they are learning, write reflectively about it, relate it to past experiences, and apply it to their daily lives. They must make what they learn part of themselves.</p>
-                    <p class="mb-4">It’s time to step up to the plate and get passionate about your work commit to making eLearning courses that don't bore people to tears, but instead inspire and motivate them to learn a new skill, change a certain behavior, or improve their performance..</p>
+                    <h1 class="mb-4">Welcome to EduLearning</h1>
+                    <p class="mb-4">EduLearning is a comprehensive online learning platform connecting students with skilled instructors worldwide. We believe students learn best when they actively engage with content, reflect on what they're learning, and apply it to real-world scenarios. Our platform facilitates this through interactive courses, live instruction, and collaborative learning.</p>
+                    <p class="mb-4">We are committed to creating engaging, high-quality learning experiences that inspire students to develop new skills, improve their performance, and achieve their educational goals. Our courses are designed with industry experts and experienced educators to ensure relevance and practical value.</p>
                     <div class="row gy-2 gx-4 mb-4"> 
                         <div class="col-sm-6">
                             <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Courses</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Interactive Courses</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Chat with Teachers</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Direct Instructor Support</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Get Study Materials</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Quality Study Materials</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Weekly Assignments</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Regular Practice Assignments</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Self-Learning</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Flexible Learning Schedule</p>
                         </div>
                     </div>
                 </div>
