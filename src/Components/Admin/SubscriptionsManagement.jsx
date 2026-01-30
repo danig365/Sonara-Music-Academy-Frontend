@@ -603,10 +603,12 @@ const SubscriptionsManagement = () => {
             {/* Plans Tab */}
             {activeTab === 'plans' && (
                 <div>
-                    <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                        <h4 className="mb-0">Subscription Plans</h4>
+                    <div className="plans-header d-flex justify-content-between align-items-center mb-4">
+                        <h4 className="mb-0 fw-700" style={{color: '#2c3e50', fontSize: '1.5rem'}}>
+                            <i className="bi bi-collection me-2"></i>Subscription Plans
+                        </h4>
                         <button
-                            className="btn btn-primary btn-create-plan"
+                            className="btn-create-plan-custom"
                             onClick={() => {
                                 if (editingPlan) {
                                     handleCancelEditPlan();
