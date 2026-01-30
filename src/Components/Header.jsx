@@ -22,7 +22,7 @@ const Header = () => {
     <>
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <Link to="/" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="bi bi-book-half ms-1"></i><Link className='ms-2' to="/">EduLearning</Link></h2>
+            <h2 class="m-0 text-primary"><i class="bi bi-music ms-1"></i><Link className='ms-2' to="/">Sonara Music Academy</Link></h2>
         </Link>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>

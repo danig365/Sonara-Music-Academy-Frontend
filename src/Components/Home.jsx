@@ -18,7 +18,7 @@ const baseUrl = API_BASE_URL;
 
 const Home = () => {
   useEffect(()=>{
-    document.title='EduLearning - Learn from Top Instructors'
+    document.title='Sonara Music Academy - Learn Music from Top Instructors'
   })
 
   const icon={
@@ -95,12 +95,12 @@ try{
     <div class="overlay"></div>
     <div class="text">
       <h1 className='head'>Never stop learning.<br/> Never stop growing.</h1> 
-      <h1 className='headss'>Welcome to EduLearning</h1>
-      <p className='para'>Learn from top instructors around the world.<br/>Master the latest technology trends and skills.</p>
+      <h1 className='headss'>Welcome to Sonara Music Academy</h1>
+      <p className='para'>Learn music from world-class instructors.<br/>Master various instruments and music theory.</p>
     </div>
     </section>
       {/*  End Background video player*/}
-      {/*  Start Features of EduLearning*/}
+      {/*  Start Features of Sonara Music Academy*/}
     <div class="container-xxl py-5" className='space'>
         <div class="container">
             <div class="row g-4">
@@ -108,8 +108,8 @@ try{
                     <div class="service-item text-center pt-3">
                         <div class="p-4">
                             <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
-                            <h5 class="mb-3">Skilled Instructors</h5>
-                            <p>Learn from experienced educators and industry experts who are passionate about teaching. Our instructors bring real-world knowledge and practical insights to every course.</p>
+                            <h5 class="mb-3">Expert Musicians</h5>
+                            <p>Learn from accomplished musicians with years of professional experience. Our instructors bring passion for music and proven teaching methodologies to every lesson.</p>
                         </div>
                     </div>
                 </div>
@@ -117,8 +117,8 @@ try{
                     <div class="service-item text-center pt-3">
                         <div class="p-4">
                             <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                            <h5 class="mb-3">Online Courses</h5>
-                            <p>Access quality courses from anywhere, anytime. Our diverse course catalog covers technology, business, creative skills, and more, designed for learners at all levels.</p>
+                            <h5 class="mb-3">Music Courses</h5>
+                            <p>Access comprehensive music courses from anywhere, anytime. Learn instruments from guitar and piano to drums and voice, designed for beginners to advanced musicians.</p>
                         </div>
                     </div>
                 </div>
@@ -126,8 +126,8 @@ try{
                     <div class="service-item text-center pt-3">
                         <div class="p-4">
                             <i class="fa fa-3x fa-home text-primary mb-4"></i>
-                            <h5 class="mb-3">Practice Assignments</h5>
-                            <p>Reinforce your learning with carefully crafted assignments and hands-on projects. Regular practice helps consolidate knowledge and build practical skills.</p>
+                            <h5 class="mb-3">Practice Sessions</h5>
+                            <p>Strengthen your musical skills with structured practice assignments and daily exercises. Regular practice with guidance helps you progress faster and build muscle memory.</p>
                         </div>
                     </div>
                 </div>
@@ -135,15 +135,15 @@ try{
                     <div class="service-item text-center pt-3">
                         <div class="p-4">
                             <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
-                            <h5 class="mb-3">Study Materials</h5>
-                            <p>Download comprehensive study materials, notes, and resources to support your learning journey. Everything you need is organized and easily accessible.</p>
+                            <h5 class="mb-3">Learning Resources</h5>
+                            <p>Access sheet music, chord charts, practice guides, and audio references. All resources are curated to support your musical development and available for download.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-      {/* End Features of EduLearning*/}
+      {/* End Features of Sonara Music Academy*/}
       {/*  About Us card */}
     <div class="container-xxl py-5">
         <div class="container">
@@ -155,27 +155,27 @@ try{
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                     <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                    <h1 class="mb-4">Welcome to EduLearning</h1>
-                    <p class="mb-4">EduLearning is a comprehensive online learning platform connecting students with skilled instructors worldwide. We believe students learn best when they actively engage with content, reflect on what they're learning, and apply it to real-world scenarios. Our platform facilitates this through interactive courses, live instruction, and collaborative learning.</p>
-                    <p class="mb-4">We are committed to creating engaging, high-quality learning experiences that inspire students to develop new skills, improve their performance, and achieve their educational goals. Our courses are designed with industry experts and experienced educators to ensure relevance and practical value.</p>
+                    <h1 class="mb-4">Welcome to Sonara Music Academy</h1>
+                    <p class="mb-4">Sonara Music Academy is a premier online music learning platform connecting aspiring musicians with world-class instructors. We believe music students learn best through hands-on practice, personalized feedback, and consistent guidance. Our platform facilitates this through interactive lessons, live sessions, and dedicated instructor support.</p>
+                    <p class="mb-4">We are committed to nurturing musical talent and helping every student achieve their musical goals. Whether you're learning your first chord or refining your skills, our experienced instructors provide quality instruction tailored to your pace and learning style.</p>
                     <div class="row gy-2 gx-4 mb-4"> 
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Expert Musicians</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Interactive Courses</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Interactive Lessons</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Direct Instructor Support</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>One-on-One Guidance</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Quality Study Materials</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Sheet Music & Notes</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Regular Practice Assignments</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Daily Practice Exercises</p>
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Flexible Learning Schedule</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Learn at Your Pace</p>
                         </div>
                     </div>
                 </div>
