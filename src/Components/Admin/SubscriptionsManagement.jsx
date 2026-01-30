@@ -606,7 +606,7 @@ const SubscriptionsManagement = () => {
                     <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                         <h4 className="mb-0">Subscription Plans</h4>
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary btn-create-plan"
                             onClick={() => {
                                 if (editingPlan) {
                                     handleCancelEditPlan();
