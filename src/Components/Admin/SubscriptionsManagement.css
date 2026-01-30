@@ -100,15 +100,57 @@
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    width: auto;
-    display: inline-block;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.btn-success:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1e7e34 0%, #145a27 100%);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #bb2d3b 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: linear-gradient(135deg, #bb2d3b 0%, #992433 100%);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    transform: translateY(-2px);
+}
+
+.plan-card .btn-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    color: white;
+    width: auto;
+    display: inline-block;
+    margin-top: auto;
+    padding: 0.75rem 1.5rem;
+}
+
+.plan-card .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
     transform: translateY(-2px);
 }
 
@@ -386,16 +428,54 @@
 
 /* Create Plan Button */
 .btn-create-plan {
-    white-space: nowrap;
-    padding: 0.5rem 1.25rem !important;
+    padding: 0.75rem 1.75rem !important;
     font-size: 0.95rem !important;
+    font-weight: 600 !important;
     width: auto !important;
-    display: inline-block !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 8px !important;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    white-space: nowrap;
     margin-left: auto;
+}
+
+.btn-create-plan:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0056b3 0%, #003d82 100%) !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4) !important;
+    transform: translateY(-2px);
+}
+
+.btn-create-plan:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3) !important;
+}
+
+.btn-create-plan:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.btn-create-plan i {
+    font-size: 1.1rem;
 }
 
 @media (max-width: 768px) {
     .btn-create-plan {
         margin-left: 0;
+        width: 100% !important;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-create-plan {
+        padding: 0.65rem 1.25rem !important;
+        font-size: 0.9rem !important;
     }
 }
