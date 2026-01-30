@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import SubscriptionWidget from './SubscriptionWidget';
 import './AdminDashboard.css';
 
 import { API_BASE_URL } from '../../config';
@@ -15,7 +14,6 @@ const AdminDashboard = () => {
         total_students: 0,
         total_courses: 0,
         total_enrollments: 0,
-        active_subscriptions: 0,
         recent_enrollments: [],
         popular_courses: [],
         monthly_stats: { labels: [], enrollments: [] },
@@ -101,15 +99,6 @@ const AdminDashboard = () => {
                             <i className="bi bi-people"></i>
                             <h3 className="mt-2">{stats.total_enrollments}</h3>
                             <p className="mb-0">Enrollments</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                    <div className="card admin-stat-card bg-secondary h-100">
-                        <div className="card-body text-center">
-                            <i className="bi bi-credit-card"></i>
-                            <h3 className="mt-2">{stats.active_subscriptions}</h3>
-                            <p className="mb-0">Subscriptions</p>
                         </div>
                     </div>
                 </div>
@@ -254,13 +243,6 @@ const AdminDashboard = () => {
                             )}
                         </div>
                     </div>
-                </div>
-            </div>
-
-            {/* Subscriptions Widget Row */}
-            <div className="row g-3 mt-4">
-                <div className="col-12">
-                    <SubscriptionWidget />
                 </div>
             </div>
         </>

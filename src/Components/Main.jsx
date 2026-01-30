@@ -12,9 +12,6 @@ import EnhancedDashboard from './User/EnhancedDashboard'
 import MyCourses from './User/MyCourses'
 import ProfileSetting from './User/ProfileSetting'
 import ChangePassword from './User/ChangePassword'
-import PricingPage from './User/PricingPage'
-import SubscriptionSuccess from './User/SubscriptionSuccess'
-import SubscriptionCancel from './User/SubscriptionCancel'
 import TeacherLogin from './Teacher/TeacherLogin'
 import TeacherRegister from './Teacher/TeacherRegister'
 import TeacherDashboard from './Teacher/TeacherDashboard'
@@ -46,6 +43,7 @@ import Policy from './Policy'
 import MyProgress from './User/MyProgress'
 import MyAchievements from './User/MyAchievements'
 import StudentCoursePlayer from './User/StudentCoursePlayer'
+import StudentSubscriptions from './User/StudentSubscriptions'
 
 // Enhanced Teacher Dashboard Components
 import TeacherOverview from './Teacher/NewDashboard/TeacherOverview'
@@ -63,11 +61,11 @@ import UsersManagement from './Admin/UsersManagement'
 import ManageSchools from './Admin/ManageSchools'
 import ManageTeachers from './Admin/ManageTeachers'
 import ManageStudents from './Admin/ManageStudents'
-import ManageSubscriptions from './Admin/ManageSubscriptions'
 import ActivityLogs from './Admin/ActivityLogs'
 import AdminSettings from './Admin/AdminSettings'
 import AdminLessonManagement from './Admin/AdminLessonManagement'
 import CourseAnalytics from './Admin/CourseAnalytics'
+import SubscriptionsManagement from './Admin/SubscriptionsManagement'
 
 const Main = () => {
   return (
@@ -87,11 +85,9 @@ const MainContent = () => {
                                    location.pathname.startsWith('/my-teachers') ||
                                    location.pathname.startsWith('/profile-setting') ||
                                    location.pathname.startsWith('/change-password') ||
-                                   location.pathname.startsWith('/pricing') ||
-                                   location.pathname.startsWith('/subscription-success') ||
-                                   location.pathname.startsWith('/subscription-cancel') ||
                                    location.pathname.startsWith('/my-progress') ||
                                    location.pathname.startsWith('/my-achievements') ||
+                                   location.pathname.startsWith('/subscriptions') ||
                                    location.pathname.startsWith('/learn') ||
                                    location.pathname.startsWith('/all-courses');
   const isTeacherDashboardRoute = location.pathname.startsWith('/teacher-dashboard') ||
@@ -127,13 +123,11 @@ const MainContent = () => {
           <Route path='/my-courses' element={<MyCourses />}/>
           <Route path='/profile-setting' element={<ProfileSetting/>}/>
           <Route path='/change-password' element={<ChangePassword/>}/>
-          <Route path='/pricing' element={<PricingPage/>}/>
-          <Route path='/subscription-success' element={<SubscriptionSuccess/>}/>
-          <Route path='/subscription-cancel' element={<SubscriptionCancel/>}/>
           
           {/* Enhanced Student Dashboard Routes */}
           <Route path='/my-progress' element={<MyProgress />}/>
           <Route path='/my-achievements' element={<MyAchievements />}/>
+          <Route path='/subscriptions' element={<StudentSubscriptions />}/>
           <Route path='/learn/:course_id' element={<StudentCoursePlayer />}/>
           <Route path='/learn/:course_id/lesson/:lesson_id' element={<StudentCoursePlayer />}/>
           
@@ -186,12 +180,12 @@ const MainContent = () => {
             <Route path='schools' element={<ManageSchools />}/>
             <Route path='manage-teachers' element={<ManageTeachers />}/>
             <Route path='manage-students' element={<ManageStudents />}/>
-            <Route path='subscriptions' element={<ManageSubscriptions />}/>
             <Route path='activity-logs' element={<ActivityLogs />}/>
             <Route path='settings' element={<AdminSettings />}/>
             <Route path='lesson-management' element={<AdminLessonManagement />}/>
             <Route path='lesson-management/:course_id' element={<AdminLessonManagement />}/>
             <Route path='course-analytics/:course_id' element={<CourseAnalytics />}/>
+            <Route path='subscriptions' element={<SubscriptionsManagement />}/>
           </Route>
       </Routes>
       {!isAdminRoute && <Footer />}

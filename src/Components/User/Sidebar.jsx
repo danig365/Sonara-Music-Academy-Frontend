@@ -200,7 +200,7 @@ const Sidebar = ({ isOpen = false, setIsOpen = null, isMobile = false }) => {
         </Link>
 
         <Link 
-          to='/pricing'
+          to='/subscriptions'
           onClick={handleNavClick}
           style={{
             display: 'flex',
@@ -209,14 +209,14 @@ const Sidebar = ({ isOpen = false, setIsOpen = null, isMobile = false }) => {
             padding: '12px 16px',
             borderRadius: '8px',
             textDecoration: 'none',
-            color: isActive('/pricing') ? 'white' : '#94a3b8',
-            backgroundColor: isActive('/pricing') ? '#1e40af' : 'transparent',
+            color: isActive('/subscriptions') ? 'white' : '#94a3b8',
+            backgroundColor: isActive('/subscriptions') ? '#1e40af' : 'transparent',
             marginBottom: '4px',
             transition: 'all 0.2s'
           }}
         >
-          <i className="bi bi-gem" style={{ fontSize: '18px' }}></i>
-          <span style={{ fontSize: '14px', fontWeight: '500' }}>Upgrade Plan</span>
+          <i className="bi bi-credit-card-2-front" style={{ fontSize: '18px' }}></i>
+          <span style={{ fontSize: '14px', fontWeight: '500' }}>Subscriptions</span>
         </Link>
 
         <div style={{ height: '1px', backgroundColor: '#1e293b', margin: '8px 0' }}></div>

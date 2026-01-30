@@ -128,33 +128,6 @@ const AdminSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, onNa
                     </Link>
 
                     <Link 
-                        to="/admin/subscriptions" 
-                        onClick={(e) => handleNavClick(e, '/admin/subscriptions')}
-                        className="text-decoration-none d-flex align-items-center px-4 py-3 position-relative"
-                        style={{ 
-                            color: isActive('/admin/subscriptions') ? '#fff' : '#8b92a7',
-                            backgroundColor: isActive('/admin/subscriptions') ? 'rgba(66, 133, 244, 0.15)' : 'transparent',
-                            borderLeft: isActive('/admin/subscriptions') ? '3px solid #4285f4' : '3px solid transparent',
-                            transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                            if (!isActive('/admin/subscriptions')) {
-                                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
-                                e.currentTarget.style.color = '#fff';
-                            }
-                        }}
-                        onMouseLeave={(e) => {
-                            if (!isActive('/admin/subscriptions')) {
-                                e.currentTarget.style.backgroundColor = 'transparent';
-                                e.currentTarget.style.color = '#8b92a7';
-                            }
-                        }}
-                    >
-                        <i className="bi bi-credit-card me-3" style={{ fontSize: '18px' }}></i>
-                        <span style={{ fontSize: '14px' }}>Subscriptions</span>
-                    </Link>
-
-                    <Link 
                         to="/admin/lesson-management" 
                         onClick={(e) => handleNavClick(e, '/admin/lesson-management')}
                         className="text-decoration-none d-flex align-items-center px-4 py-3 position-relative"
@@ -206,6 +179,33 @@ const AdminSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, onNa
                     >
                         <i className="bi bi-clock-history me-3" style={{ fontSize: '18px' }}></i>
                         <span style={{ fontSize: '14px' }}>Activity Logs</span>
+                    </Link>
+
+                    <Link 
+                        to="/admin/subscriptions" 
+                        onClick={(e) => handleNavClick(e, '/admin/subscriptions')}
+                        className="text-decoration-none d-flex align-items-center px-4 py-3 position-relative"
+                        style={{ 
+                            color: isActive('/admin/subscriptions') ? '#fff' : '#8b92a7',
+                            backgroundColor: isActive('/admin/subscriptions') ? 'rgba(66, 133, 244, 0.15)' : 'transparent',
+                            borderLeft: isActive('/admin/subscriptions') ? '3px solid #4285f4' : '3px solid transparent',
+                            transition: 'all 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                            if (!isActive('/admin/subscriptions')) {
+                                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
+                                e.currentTarget.style.color = '#fff';
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (!isActive('/admin/subscriptions')) {
+                                e.currentTarget.style.backgroundColor = 'transparent';
+                                e.currentTarget.style.color = '#8b92a7';
+                            }
+                        }}
+                    >
+                        <i className="bi bi-credit-card-2-front me-3" style={{ fontSize: '18px' }}></i>
+                        <span style={{ fontSize: '14px' }}>Subscriptions</span>
                     </Link>
                 </nav>
             </div>
