@@ -566,38 +566,44 @@ const StudentSubscriptions = () => {
                                 <div key={sub.id} className="col-md-6 col-lg-4 mb-4">
                                     <div className="card h-100 subscription-card">
                                         <div className="card-body">
-                                            <h5 className="card-title">
-                                                {sub.plan_details?.name || 'Plan'}
-                                            </h5>
-                                            <div className="mb-3">
+                                            <div className="d-flex justify-content-between align-items-start mb-3">
+                                                <h5 className="card-title mb-0">
+                                                    {sub.plan_details?.name || 'Plan'}
+                                                </h5>
                                                 <span className={`badge bg-${
                                                     sub.status === 'active' ? 'success' :
                                                     sub.status === 'pending' ? 'warning' :
                                                     'danger'
                                                 }`}>
-                                                    {sub.status}
+                                                    {sub.status.charAt(0).toUpperCase() + sub.status.slice(1)}
                                                 </span>
                                             </div>
                                             <ul className="subscription-details">
                                                 <li>
-                                                    <strong>Price:</strong> ${sub.price_paid}
+                                                    <strong><i className="bi bi-cash-coin me-2"></i>Price</strong>
+                                                    <span className="fw-600">${sub.price_paid}</span>
                                                 </li>
                                                 <li>
-                                                    <strong>Start:</strong> {new Date(sub.start_date).toLocaleDateString()}
+                                                    <strong><i className="bi bi-calendar-event me-2"></i>Start Date</strong>
+                                                    <span>{new Date(sub.start_date).toLocaleDateString()}</span>
                                                 </li>
                                                 <li>
-                                                    <strong>End:</strong> {new Date(sub.end_date).toLocaleDateString()}
+                                                    <strong><i className="bi bi-calendar-x me-2"></i>End Date</strong>
+                                                    <span>{new Date(sub.end_date).toLocaleDateString()}</span>
                                                 </li>
                                                 {sub.is_active_status && (
                                                     <li className="text-success">
-                                                        <strong>Days Remaining:</strong> {sub.days_remaining}
+                                                        <strong><i className="bi bi-hourglass-split me-2"></i>Days Left</strong>
+                                                        <span className="fw-700">{sub.days_remaining} days</span>
                                                     </li>
                                                 )}
                                                 <li>
-                                                    <strong>Max Courses:</strong> {sub.plan_details?.max_courses}
+                                                    <strong><i className="bi bi-book me-2"></i>Max Courses</strong>
+                                                    <span>{sub.plan_details?.max_courses}</span>
                                                 </li>
                                                 <li>
-                                                    <strong>Max Lessons:</strong> {sub.plan_details?.max_lessons}
+                                                    <strong><i className="bi bi-collection-play me-2"></i>Max Lessons</strong>
+                                                    <span>{sub.plan_details?.max_lessons}</span>
                                                 </li>
                                             </ul>
                                         </div>
