@@ -426,6 +426,46 @@
     color: #000;
 }
 
+/* Create Subscription Button */
+.btn-create-subscription-custom {
+    padding: 0.875rem 1.875rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0, 123, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.btn-create-subscription-custom:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+    transform: translateY(-3px);
+}
+
+.btn-create-subscription-custom:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-create-subscription-custom:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-create-subscription-custom i {
+    font-size: 1.1rem;
+}
+
 /* Create Plan Button - Custom Styling */
 .btn-create-plan-custom {
     padding: 0.875rem 1.875rem;
@@ -473,43 +513,81 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .plans-header h4 {
     display: flex;
     align-items: center;
     color: #2c3e50;
+    margin: 0;
 }
 
 .plans-header i {
     color: #007bff;
 }
 
+/* Subscription Header Section */
+.subscription-header-section {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subscription-header-section h4 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    color: #2c3e50;
+}
+
+.subscription-header-section i {
+    color: #007bff;
+}
+
 @media (max-width: 768px) {
-    .btn-create-plan-custom {
+    .btn-create-plan-custom,
+    .btn-create-subscription-custom {
         margin-left: 0;
         width: 100%;
         justify-content: center;
     }
     
-    .plans-header {
+    .plans-header,
+    .subscription-header-section {
         flex-direction: column;
         align-items: flex-start;
+        gap: 1rem;
     }
     
-    .btn-create-plan-custom {
-        margin-top: 1rem;
+    .plans-header h4,
+    .subscription-header-section h4 {
+        width: 100%;
+    }
+    
+    .btn-create-plan-custom,
+    .btn-create-subscription-custom {
+        margin-top: 0.5rem;
         width: 100%;
     }
 }
 
 @media (max-width: 576px) {
-    .btn-create-plan-custom {
+    .btn-create-plan-custom,
+    .btn-create-subscription-custom {
         padding: 0.75rem 1.25rem;
         font-size: 0.9rem;
     }
     
-    .plans-header h4 {
+    .plans-header h4,
+    .subscription-header-section h4 {
         font-size: 1.2rem;
     }
 }

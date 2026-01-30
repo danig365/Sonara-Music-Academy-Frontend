@@ -387,10 +387,12 @@ const SubscriptionsManagement = () => {
             {/* Subscriptions Tab */}
             {activeTab === 'subscriptions' && (
                 <div>
-                    <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                        <h4 className="mb-0">Student Subscriptions</h4>
+                    <div className="subscription-header-section d-flex justify-content-between align-items-center mb-4">
+                        <h4 className="mb-0 fw-700" style={{color: '#2c3e50', fontSize: '1.5rem'}}>
+                            <i className="bi bi-person-check me-2"></i>Student Subscriptions
+                        </h4>
                         <button
-                            className="btn btn-primary"
+                            className="btn-create-subscription-custom"
                             onClick={() => setShowSubscriptionForm(!showSubscriptionForm)}
                         >
                             <i className="bi bi-plus-circle me-2"></i>
