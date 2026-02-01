@@ -242,7 +242,7 @@ const PaymentLogsTable = () => {
                         <small>{log.subscription_plan_name || 'N/A'}</small>
                       </td>
                       <td>
-                        <strong>${log.final_amount?.toFixed(2)}</strong>
+                        <strong>${typeof log.final_amount === 'number' ? log.final_amount.toFixed(2) : parseFloat(log.final_amount || 0).toFixed(2)}</strong>
                       </td>
                       <td>
                         <small className="text-capitalize text-muted">
@@ -349,6 +349,11 @@ const getPaymentIcon = (status) => {
   }
 };
 
+const formatAmount = (amount) => {
+  if (typeof amount === 'number') return amount.toFixed(2);
+  return parseFloat(amount || 0).toFixed(2);
+};
+
 const showDetails = (log) => {
   const details = `
     <div style="text-align: left;">
@@ -357,9 +362,9 @@ const showDetails = (log) => {
       <p><strong>Plan:</strong> ${log.subscription_plan_name || 'N/A'}</p>
       <p><strong>Payment Type:</strong> ${log.payment_type?.replace('_', ' ')}</p>
       <p><strong>Status:</strong> ${log.status}</p>
-      <p><strong>Amount:</strong> $${log.final_amount?.toFixed(2)}</p>
-      <p><strong>Tax:</strong> $${log.tax_amount?.toFixed(2)}</p>
-      <p><strong>Discount:</strong> $${log.discount_amount?.toFixed(2)}</p>
+      <p><strong>Amount:</strong> $$${formatAmount(log.final_amount)}</p>
+      <p><strong>Tax:</strong> $$${formatAmount(log.tax_amount)}</p>
+      <p><strong>Discount:</strong> $$${formatAmount(log.discount_amount)}</p>
       <p><strong>Payment Method:</strong> ${log.payment_method || 'N/A'}</p>
       <p><strong>Email:</strong> ${log.user_email || 'N/A'}</p>
       <p><strong>IP Address:</strong> ${log.user_ip_address || 'N/A'}</p>
