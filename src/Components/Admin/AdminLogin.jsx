@@ -16,7 +16,7 @@ const AdminLogin = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        document.title = 'Admin Login | EduLearning';
+        document.title = 'Admin Login | Sonara Music Academy';
         const adminLoginStatus = localStorage.getItem('adminLoginStatus');
         if (adminLoginStatus === 'true') {
             navigate('/admin-dashboard');

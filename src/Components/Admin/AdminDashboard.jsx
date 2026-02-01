@@ -23,7 +23,7 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        document.title = 'Admin Dashboard | EduLearning';
+        document.title = 'Admin Dashboard | Sonara Music Academy';
         fetchStats();
     }, []);
 

@@ -9,13 +9,13 @@ const Policy = () => {
       }, [])
 
       useEffect(()=>{
-        document.title='Edu Learning Policy | Terms & conditions'
+        document.title='Sonara Music Academy Policy | Terms & conditions'
       })
 
   return (
     <div className='maro'>
       <h2>PRIVACY POLICY</h2>
-<p><strong>Edu Learning</strong> (the “Company”) is committed to protecting the privacy of its users. This Privacy Policy (“Privacy Policy”) is designed to help you understand what information we gather, how we use it, what we do to protect it, and to assist you in making informed decisions when using our website.  Unless otherwise indicated below, this Privacy Policy applies to any website that references this Privacy Policy, any Company website, as well as any data the Company may collect across partnered and unaffiliated sites.</p>
+<p><strong>Sonara Music Academy</strong> (the "Company") is committed to protecting the privacy of its users. This Privacy Policy ("Privacy Policy") is designed to help you understand what information we gather, how we use it, what we do to protect it, and to assist you in making informed decisions when using our website.  Unless otherwise indicated below, this Privacy Policy applies to any website that references this Privacy Policy, any Company website, as well as any data the Company may collect across partnered and unaffi
 <p>For purposes of this Agreement, the terms “we,” “us,” and “our” refer to the Company. “You” refers to you, as a user of the website. </p>
 <h2>I. CONSENT</h2>
 <p>By accessing our website, you accept our Privacy Policy and Terms of Use, and you consent to our collection, storage, use and disclosure of your personal information as described in this Privacy Policy. In addition, by using our website, or services across partnered and unaffiliated sites, you are accepting the policies and practices described in this Privacy Policy. Each time you visit our website, and any time you voluntarily provide us with information, you agree that you are consenting to our collection, use and disclosure of the information that you provide, and you are consenting to receive emails or otherwise be contacted, as described in this Privacy Policy. Whether or not you register or do any sort of business with us, this Privacy Policy applies to all users of the website.</p>
@@ -82,7 +82,7 @@ const Policy = () => {
 <p>If you have any questions regarding this Privacy Policy or the practices of this Site, or wish to withdraw your consent for the continued collection, use or disclosure of your Personal Information, please contact us by sending an email to us.</p>
 <h2>XII. Last Updated</h2>
 <p>This Privacy Policy was last updated on Monday, March 17, 2023.</p>
-
+</p>
     </div>
   )
 }

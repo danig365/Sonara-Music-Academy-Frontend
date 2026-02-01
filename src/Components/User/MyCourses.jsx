@@ -72,7 +72,7 @@ const MyCourses = () => {
                         >
                             <i className="bi bi-list"></i>
                         </button>
-                        <div className="logo-mini">EduLearning</div>
+                        <div className="logo-mini">Sonara Music Academy</div>
                     </div>
                     <div className="dashboard-main">
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
@@ -108,7 +108,7 @@ const MyCourses = () => {
                     >
                         <i className="bi bi-list"></i>
                     </button>
-                    <div className="logo-mini">EduLearning</div>
+                    <div className="logo-mini">Sonara Music Academy</div>
                 </div>
 
                 <div className="dashboard-main">

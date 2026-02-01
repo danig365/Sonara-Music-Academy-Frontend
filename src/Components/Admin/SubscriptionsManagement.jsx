@@ -76,7 +76,7 @@ const SubscriptionsManagement = () => {
     });
 
     useEffect(() => {
-        document.title = 'Subscriptions Management | EduLearning';
+        document.title = 'Subscriptions Management | Sonara Music Academy';
         fetchAllData();
     }, []);
 

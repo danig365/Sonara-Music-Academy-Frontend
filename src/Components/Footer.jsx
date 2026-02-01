@@ -57,7 +57,7 @@ const Footer = () => {
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy;2023  <Link class="border-bottom" to="/"> Edu Learning</Link><br/><br/>
+                        &copy;2023  <Link class="border-bottom" to="/"> Sonara Music Academy</Link><br/><br/>
                         All Right are Reserved
                     </div>
                     <div class="col-md-6 text-center text-md-end">

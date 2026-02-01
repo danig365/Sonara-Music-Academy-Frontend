@@ -308,7 +308,7 @@ const StudentSubscriptions = () => {
         if (studentLoginStatus !== 'true') {
             navigate('/user-login');
         } else {
-            document.title = 'Subscribe to Plans | EduLearning';
+            document.title = 'Subscribe to Plans | Sonara Music Academy';
             getStudentId();
         }
     }, [studentLoginStatus, navigate]);

@@ -23,7 +23,7 @@ const TeacherSidebarNew = () => {
       <div className='sidebar-header'>
         <div className='logo-container'>
           <i className="bi bi-music-note-beamed logo-icon"></i>
-          <span className='logo-text'>EduLearning</span>
+          <span className='logo-text'>Sonara Music Academy</span>
         </div>
       </div>
       
