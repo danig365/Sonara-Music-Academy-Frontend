@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Sidebar from './Sidebar';
 import './StudentSubscriptions.css';
-import { API_BASE_URL } from '../../config';
+import { API_BASE_URL, SITE_URL } from '../../config';
+import { getStudentSubscription, getSubscriptionUsage, getAssignedTeacher, getPlanTeachers, formatAccessLevel, getAccessLevelColor, clearSubscriptionCache } from '../../services/subscriptionService';
 
 const baseUrl = API_BASE_URL;
 const stripePublicKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || 'pk_test_51QriK4FvQfkVZfKcMNu8LHUqNl4qZP2jFpYXGqCu5pQY9FmxNgVRUQ9q4rMxKPQqsGVuGrL4pGDSuTLNTNSs0006002mxKxbv';
@@ -479,8 +480,30 @@ const StudentSubscriptions = () => {
             {activeTab === 'plans' && (
                 <div>
                     <div className="plans-grid">
-                        {plans.map(plan => (
-                            <div key={plan.id} className="plan-card">
+                        {plans.map(plan => {
+                            const accessLevel = plan.access_level || 0;
+                            const levelColor = getAccessLevelColor(accessLevel);
+                            
+                            return (
+                            <div key={plan.id} className="plan-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                                {/* Access Level Badge */}
+                                <div style={{
+                                    position: 'absolute',
+                                    top: '12px',
+                                    right: '12px',
+                                    background: levelColor,
+                                    color: 'white',
+                                    padding: '4px 10px',
+                                    borderRadius: '16px',
+                                    fontSize: '11px',
+                                    fontWeight: 600,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.5px'
+                                }}>
+                                    <i className="bi bi-award me-1"></i>
+                                    {formatAccessLevel(accessLevel)}
+                                </div>
+
                                 <div className="plan-header">
                                     <h5>{plan.name}</h5>
                                     <span className={`badge bg-${plan.status === 'active' ? 'success' : 'secondary'}`}>
@@ -512,6 +535,55 @@ const StudentSubscriptions = () => {
                                         <li className="feature">
                                             <i className="bi bi-check-circle-fill text-success me-2"></i>
                                             {plan.lessons_per_week} Lessons/Week
+                                        </li>
+                                    )}
+                                    {plan.allowed_teachers && plan.allowed_teachers.length > 0 && (
+                                        <li className="feature">
+                                            <i className="bi bi-person-check-fill text-info me-2"></i>
+                                            <div style={{ marginLeft: '-0.5rem' }}>
+                                                <div style={{ fontWeight: 500, marginBottom: '6px' }}>Instructors: <span style={{ fontWeight: 400, color: '#64748b', fontSize: '0.9em' }}>({plan.allowed_teachers.length})</span></div>
+                                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                                    {plan.allowed_teachers.map((teacher, idx) => (
+                                                        <span key={idx} style={{
+                                                            background: '#e0f2fe',
+                                                            color: '#0369a1',
+                                                            padding: '3px 8px',
+                                                            borderRadius: '12px',
+                                                            fontSize: '12px',
+                                                            fontWeight: 500,
+                                                            whiteSpace: 'nowrap',
+                                                            display: 'inline-block'
+                                                        }}>
+                                                            {teacher.full_name}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    )}
+                                    {/* Access Control Features */}
+                                    {plan.can_access_premium_courses && (
+                                        <li className="feature">
+                                            <i className="bi bi-star-fill text-warning me-2"></i>
+                                            Premium Course Access
+                                        </li>
+                                    )}
+                                    {plan.can_download_content && (
+                                        <li className="feature">
+                                            <i className="bi bi-download text-primary me-2"></i>
+                                            Download Content
+                                        </li>
+                                    )}
+                                    {plan.can_access_live_sessions && (
+                                        <li className="feature">
+                                            <i className="bi bi-camera-video-fill text-danger me-2"></i>
+                                            Live Sessions
+                                        </li>
+                                    )}
+                                    {plan.priority_support && (
+                                        <li className="feature">
+                                            <i className="bi bi-headset text-info me-2"></i>
+                                            Priority Support
                                         </li>
                                     )}
                                     {plan.features_list && plan.features_list.map((feature, idx) => (
@@ -547,7 +619,7 @@ const StudentSubscriptions = () => {
                                     )}
                                 </button>
                             </div>
-                        ))}
+                        )})}
                     </div>
                 </div>
             )}
@@ -562,25 +634,194 @@ const StudentSubscriptions = () => {
                         </div>
                     ) : (
                         <div className="row">
-                            {userSubscriptions.map(sub => (
-                                <div key={sub.id} className="col-md-6 col-lg-4 mb-4">
-                                    <div className="card h-100 subscription-card">
-                                        <div className="card-body">
-                                            <div className="d-flex justify-content-between align-items-start mb-3">
-                                                <h5 className="card-title mb-0">
-                                                    {sub.plan_details?.name || 'Plan'}
-                                                </h5>
+                            {userSubscriptions.map(sub => {
+                                const accessLevel = sub.plan_details?.access_level || 0;
+                                const levelColor = getAccessLevelColor(accessLevel);
+                                const isExpiringSoon = sub.days_remaining && sub.days_remaining <= 7;
+                                
+                                return (
+                                <div key={sub.id} className="col-lg-6 mb-4">
+                                    <div className="card h-100 subscription-card" style={{ borderRadius: '16px', overflow: 'hidden' }}>
+                                        {/* Header with Access Level */}
+                                        <div style={{ 
+                                            background: `linear-gradient(135deg, ${levelColor} 0%, ${levelColor}dd 100%)`,
+                                            padding: '20px',
+                                            color: 'white'
+                                        }}>
+                                            <div className="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <span style={{ 
+                                                        display: 'inline-block',
+                                                        background: 'rgba(255,255,255,0.2)',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '20px',
+                                                        fontSize: '12px',
+                                                        fontWeight: 600,
+                                                        marginBottom: '8px'
+                                                    }}>
+                                                        <i className="bi bi-award me-1"></i>
+                                                        {formatAccessLevel(accessLevel)} Access
+                                                    </span>
+                                                    <h4 style={{ margin: 0, fontWeight: 700 }}>
+                                                        {sub.plan_details?.name || 'Plan'}
+                                                    </h4>
+                                                </div>
                                                 <span className={`badge bg-${
-                                                    sub.status === 'active' ? 'success' :
+                                                    sub.status === 'active' ? 'light text-success' :
                                                     sub.status === 'pending' ? 'warning' :
                                                     'danger'
-                                                }`}>
+                                                }`} style={{ fontSize: '12px', padding: '6px 12px' }}>
+                                                    {sub.status === 'active' && <i className="bi bi-check-circle me-1"></i>}
                                                     {sub.status.charAt(0).toUpperCase() + sub.status.slice(1)}
                                                 </span>
                                             </div>
-                                            <ul className="subscription-details">
+                                        </div>
+                                        
+                                        <div className="card-body">
+                                            {/* Days Remaining Alert */}
+                                            {isExpiringSoon && sub.status === 'active' && (
+                                                <div style={{
+                                                    background: '#fef3c7',
+                                                    border: '1px solid #fcd34d',
+                                                    borderRadius: '10px',
+                                                    padding: '12px',
+                                                    marginBottom: '16px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '10px'
+                                                }}>
+                                                    <i className="bi bi-exclamation-triangle-fill" style={{ color: '#f59e0b' }}></i>
+                                                    <span style={{ color: '#92400e', fontSize: '14px' }}>
+                                                        Expiring in {sub.days_remaining} days - Renew now to avoid interruption
+                                                    </span>
+                                                </div>
+                                            )}
+
+                                            {/* Assigned Teacher */}
+                                            {sub.assigned_teacher_details && (
+                                                <div style={{
+                                                    background: '#f0f9ff',
+                                                    borderRadius: '12px',
+                                                    padding: '14px',
+                                                    marginBottom: '16px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '12px'
+                                                }}>
+                                                    <div style={{
+                                                        width: '48px',
+                                                        height: '48px',
+                                                        borderRadius: '50%',
+                                                        background: '#3b82f6',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        color: 'white',
+                                                        fontSize: '20px',
+                                                        overflow: 'hidden',
+                                                        flexShrink: 0
+                                                    }}>
+                                                        {sub.assigned_teacher_details.profile_img ? (
+                                                            <img 
+                                                                src={sub.assigned_teacher_details.profile_img.startsWith('http') 
+                                                                    ? sub.assigned_teacher_details.profile_img 
+                                                                    : `${SITE_URL}${sub.assigned_teacher_details.profile_img}`}
+                                                                alt="Teacher"
+                                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                            />
+                                                        ) : (
+                                                            <i className="bi bi-person-fill"></i>
+                                                        )}
+                                                    </div>
+                                                    <div>
+                                                        <div style={{ fontSize: '12px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                                            Your Assigned Teacher
+                                                        </div>
+                                                        <div style={{ fontWeight: 600, color: '#1e40af' }}>
+                                                            {sub.assigned_teacher_details.fullname}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Allowed Teachers */}
+                                            {sub.plan_details?.allowed_teachers && sub.plan_details.allowed_teachers.length > 0 && (
+                                                <div style={{
+                                                    background: '#f5f3ff',
+                                                    borderRadius: '12px',
+                                                    padding: '14px',
+                                                    marginBottom: '16px',
+                                                    borderLeft: '4px solid #a78bfa'
+                                                }}>
+                                                    <div style={{ fontSize: '12px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px', fontWeight: 600 }}>
+                                                        <i className="bi bi-people-fill me-2"></i>Allowed Instructors
+                                                    </div>
+                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                                        {sub.plan_details.allowed_teachers.map((teacher, idx) => (
+                                                            <span key={idx} style={{
+                                                                background: '#ede9fe',
+                                                                color: '#6b21a8',
+                                                                padding: '4px 12px',
+                                                                borderRadius: '20px',
+                                                                fontSize: '13px',
+                                                                fontWeight: 500
+                                                            }}>
+                                                                {teacher.full_name}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Usage Stats */}
+                                            {sub.usage_summary && (
+                                                <div style={{ marginBottom: '16px' }}>
+                                                    <h6 style={{ fontSize: '13px', color: '#64748b', marginBottom: '12px', fontWeight: 600 }}>
+                                                        <i className="bi bi-bar-chart me-2"></i>Usage This Period
+                                                    </h6>
+                                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                                                        <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px' }}>
+                                                            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a' }}>
+                                                                {sub.usage_summary.courses_accessed || 0}
+                                                            </div>
+                                                            <div style={{ fontSize: '12px', color: '#64748b' }}>
+                                                                / {sub.usage_summary.max_courses || '∞'} courses
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px' }}>
+                                                            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a' }}>
+                                                                {sub.usage_summary.lessons_accessed || 0}
+                                                            </div>
+                                                            <div style={{ fontSize: '12px', color: '#64748b' }}>
+                                                                / {sub.usage_summary.max_lessons || '∞'} lessons
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {sub.usage_summary.lessons_per_week && (
+                                                        <div style={{ marginTop: '12px' }}>
+                                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '6px' }}>
+                                                                <span style={{ color: '#64748b' }}>Weekly Lessons</span>
+                                                                <span style={{ fontWeight: 600 }}>
+                                                                    {sub.usage_summary.current_week_lessons || 0} / {sub.usage_summary.lessons_per_week}
+                                                                </span>
+                                                            </div>
+                                                            <div style={{ height: '8px', background: '#e2e8f0', borderRadius: '4px', overflow: 'hidden' }}>
+                                                                <div style={{
+                                                                    height: '100%',
+                                                                    width: `${Math.min(((sub.usage_summary.current_week_lessons || 0) / sub.usage_summary.lessons_per_week) * 100, 100)}%`,
+                                                                    background: '#8b5cf6',
+                                                                    borderRadius: '4px'
+                                                                }}></div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            {/* Subscription Details */}
+                                            <ul className="subscription-details" style={{ marginBottom: 0 }}>
                                                 <li>
-                                                    <strong><i className="bi bi-cash-coin me-2"></i>Price</strong>
+                                                    <strong><i className="bi bi-cash-coin me-2"></i>Price Paid</strong>
                                                     <span className="fw-600">${sub.price_paid}</span>
                                                 </li>
                                                 <li>
@@ -591,25 +832,43 @@ const StudentSubscriptions = () => {
                                                     <strong><i className="bi bi-calendar-x me-2"></i>End Date</strong>
                                                     <span>{new Date(sub.end_date).toLocaleDateString()}</span>
                                                 </li>
-                                                {sub.is_active_status && (
-                                                    <li className="text-success">
+                                                {sub.status === 'active' && sub.days_remaining && (
+                                                    <li className={isExpiringSoon ? 'text-warning' : 'text-success'}>
                                                         <strong><i className="bi bi-hourglass-split me-2"></i>Days Left</strong>
                                                         <span className="fw-700">{sub.days_remaining} days</span>
                                                     </li>
                                                 )}
-                                                <li>
-                                                    <strong><i className="bi bi-book me-2"></i>Max Courses</strong>
-                                                    <span>{sub.plan_details?.max_courses}</span>
-                                                </li>
-                                                <li>
-                                                    <strong><i className="bi bi-collection-play me-2"></i>Max Lessons</strong>
-                                                    <span>{sub.plan_details?.max_lessons}</span>
-                                                </li>
                                             </ul>
+
+                                            {/* Plan Features */}
+                                            {sub.plan_details?.features_list && sub.plan_details.features_list.length > 0 && (
+                                                <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #f1f5f9' }}>
+                                                    <h6 style={{ fontSize: '13px', color: '#64748b', marginBottom: '10px' }}>
+                                                        <i className="bi bi-check2-square me-2"></i>Plan Features
+                                                    </h6>
+                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                                        {sub.plan_details.features_list.slice(0, 4).map((feature, idx) => (
+                                                            <span key={idx} style={{
+                                                                background: '#f0fdf4',
+                                                                color: '#16a34a',
+                                                                padding: '4px 10px',
+                                                                borderRadius: '16px',
+                                                                fontSize: '12px',
+                                                                display: 'inline-flex',
+                                                                alignItems: 'center',
+                                                                gap: '4px'
+                                                            }}>
+                                                                <i className="bi bi-check"></i>
+                                                                {feature}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            )})}
                         </div>
                     )}
                 </div>

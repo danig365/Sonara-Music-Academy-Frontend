@@ -66,6 +66,7 @@ import AdminSettings from './Admin/AdminSettings'
 import AdminLessonManagement from './Admin/AdminLessonManagement'
 import CourseAnalytics from './Admin/CourseAnalytics'
 import SubscriptionsManagement from './Admin/SubscriptionsManagement'
+import AuditLogsDashboard from './Admin/AuditLogsDashboard'
 
 const Main = () => {
   return (
@@ -186,6 +187,7 @@ const MainContent = () => {
             <Route path='lesson-management/:course_id' element={<AdminLessonManagement />}/>
             <Route path='course-analytics/:course_id' element={<CourseAnalytics />}/>
             <Route path='subscriptions' element={<SubscriptionsManagement />}/>
+            <Route path='audit-logs' element={<AuditLogsDashboard />}/>
           </Route>
       </Routes>
       {!isAdminRoute && <Footer />}

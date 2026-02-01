@@ -4,6 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Sidebar from './Sidebar';
 import './StudentCoursePlayer.css';
+import { checkLessonAccess, recordLessonAccess, getStudentSubscription, formatAccessLevel } from '../../services/subscriptionService';
 
 import { API_BASE_URL, SITE_URL } from '../../config';
 
@@ -27,6 +28,8 @@ const StudentCoursePlayer = () => {
     const [showResumePrompt, setShowResumePrompt] = useState(false);
     const [floatingObjectivesOpen, setFloatingObjectivesOpen] = useState(false);
     const [floatingResourcesOpen, setFloatingResourcesOpen] = useState(false);
+    const [lessonAccess, setLessonAccess] = useState({ can_access: true, checking: true });
+    const [subscriptionInfo, setSubscriptionInfo] = useState(null);
 
     const milestoneMessages = {
         25: { emoji: '🚀', title: 'Great Start!', text: "You're 25% through! Keep up the momentum!" },
@@ -118,6 +121,21 @@ const StudentCoursePlayer = () => {
             setShowResumePrompt(false);
 
             try {
+                // Check lesson access first
+                const [accessResult, subInfo] = await Promise.all([
+                    checkLessonAccess(studentId, lesson_id),
+                    getStudentSubscription(studentId)
+                ]);
+                
+                setLessonAccess({ ...accessResult, checking: false });
+                setSubscriptionInfo(subInfo);
+
+                // If no access, show upgrade prompt
+                if (!accessResult.can_access) {
+                    setLoading(false);
+                    return;
+                }
+
                 const url = `${baseUrl}/student/${studentId}/course/${course_id}/lesson/${lesson_id}/full-page-data/`;
                 const response = await axios.get(url);
 
@@ -128,6 +146,9 @@ const StudentCoursePlayer = () => {
                     !response.data.current_lesson.is_completed) {
                     setShowResumePrompt(true);
                 }
+
+                // Record lesson access for usage tracking
+                await recordLessonAccess(studentId, lesson_id);
             } catch (err) {
                 console.error('Error loading lesson data:', err);
                 const errorMsg = err.response?.data?.error || err.message || 'Failed to load lesson content';
@@ -557,6 +578,105 @@ const StudentCoursePlayer = () => {
             <div className="course-player-loading">
                 <div className="loading-spinner"></div>
                 <p style={{marginTop: '16px', fontSize: '16px'}}>Loading course content...</p>
+            </div>
+        );
+    }
+
+    // Check for subscription access denial
+    if (!lessonAccess.checking && !lessonAccess.can_access) {
+        return (
+            <div className="course-player-container">
+                <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} isMobile={isMobile} />
+                <div className="player-main-content" style={{ marginLeft: isMobile ? 0 : '250px' }}>
+                    <div className="access-denied-container" style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        minHeight: '60vh',
+                        padding: '40px 20px',
+                        textAlign: 'center'
+                    }}>
+                        <div style={{
+                            width: '100px',
+                            height: '100px',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginBottom: '24px'
+                        }}>
+                            <i className="bi bi-lock-fill" style={{ fontSize: '40px', color: '#f59e0b' }}></i>
+                        </div>
+                        <h3 style={{ marginBottom: '12px', color: '#1e293b', fontWeight: 700 }}>
+                            Premium Content
+                        </h3>
+                        <p style={{ color: '#64748b', maxWidth: '400px', marginBottom: '8px' }}>
+                            {lessonAccess.reason || 'This lesson requires an upgraded subscription.'}
+                        </p>
+                        
+                        {subscriptionInfo?.subscription && (
+                            <div style={{
+                                background: '#f8fafc',
+                                borderRadius: '12px',
+                                padding: '16px 24px',
+                                marginBottom: '24px',
+                                border: '1px solid #e2e8f0'
+                            }}>
+                                <p style={{ margin: 0, fontSize: '14px', color: '#64748b' }}>
+                                    Your current plan: <strong style={{ color: '#3b82f6' }}>
+                                        {subscriptionInfo.subscription.plan_details?.name || 'Basic'}
+                                    </strong>
+                                </p>
+                                {subscriptionInfo.usage && (
+                                    <p style={{ margin: '8px 0 0', fontSize: '13px', color: '#94a3b8' }}>
+                                        Weekly lessons: {subscriptionInfo.usage.current_week_lessons || 0} / {subscriptionInfo.usage.lessons_per_week || '∞'}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+
+                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                            <Link 
+                                to="/subscriptions" 
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                                    color: 'white',
+                                    padding: '12px 24px',
+                                    borderRadius: '10px',
+                                    fontWeight: 600,
+                                    textDecoration: 'none',
+                                    transition: 'transform 0.2s, box-shadow 0.2s'
+                                }}
+                            >
+                                <i className="bi bi-star-fill"></i>
+                                Upgrade Plan
+                            </Link>
+                            <button 
+                                onClick={() => navigate(`/detail/${course_id}`)}
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    background: '#f1f5f9',
+                                    color: '#475569',
+                                    padding: '12px 24px',
+                                    borderRadius: '10px',
+                                    fontWeight: 600,
+                                    border: 'none',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <i className="bi bi-arrow-left"></i>
+                                Back to Course
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

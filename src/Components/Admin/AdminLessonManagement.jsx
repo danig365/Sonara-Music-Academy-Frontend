@@ -281,7 +281,7 @@ const AdminLessonManagement = () => {
         setCourseFormData({
             title: course.title || '',
             description: course.description || '',
-            category: course.category?.id || '',
+            category: course.category?.title || '',  // Use category name instead of ID
             teacher: course.teacher?.id || '',
             techs: course.techs || '',
             featured_img: null
@@ -343,16 +343,47 @@ const AdminLessonManagement = () => {
 
     const handleCourseSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate required fields
+        if (!courseFormData.title.trim()) {
+            Swal.fire('Error', 'Course title is required', 'error');
+            return;
+        }
+        if (!courseFormData.category.trim()) {
+            Swal.fire('Error', 'Category name is required', 'error');
+            return;
+        }
+        if (!courseFormData.teacher) {
+            Swal.fire('Error', 'Please select an instructor', 'error');
+            return;
+        }
+        if (!courseFormData.description.trim()) {
+            Swal.fire('Error', 'Course description is required', 'error');
+            return;
+        }
+        if (!courseFormData.techs.trim()) {
+            Swal.fire('Error', 'Technologies/Topics are required', 'error');
+            return;
+        }
+        
         setSavingCourse(true);
         try {
             const submitData = new FormData();
             submitData.append('title', courseFormData.title);
             submitData.append('description', courseFormData.description);
-            submitData.append('category', courseFormData.category);
+            submitData.append('category_name', courseFormData.category.trim());
             submitData.append('teacher', courseFormData.teacher);
             submitData.append('techs', courseFormData.techs);
             if (courseFormData.featured_img) {
                 submitData.append('featured_img', courseFormData.featured_img);
+            }
+
+            // Log the data being sent
+            console.log('=== COURSE FORM SUBMISSION ===');
+            console.log('Form Data:', courseFormData);
+            console.log('FormData entries:');
+            for (let [key, value] of submitData.entries()) {
+                console.log(`  ${key}: ${value}`);
             }
 
             if (editingCourse) {
@@ -369,8 +400,20 @@ const AdminLessonManagement = () => {
             closeCourseModal();
             fetchCourses();
         } catch (error) {
-            console.error('Error saving course:', error);
-            Swal.fire('Error', 'Error saving course. Please check all fields.', 'error');
+            console.error('=== ERROR SAVING COURSE ===');
+            console.error('Error:', error);
+            console.error('Response data:', error.response?.data);
+            console.error('Response status:', error.response?.status);
+            
+            const errorMsg = error.response?.data?.detail || 
+                            (error.response?.data && typeof error.response.data === 'object' 
+                                ? Object.entries(error.response.data)
+                                    .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
+                                    .join('\n')
+                                : error.message) || 
+                            'Error saving course. Please check all fields.';
+            
+            Swal.fire('Error', errorMsg, 'error');
         } finally {
             setSavingCourse(false);
         }
@@ -389,12 +432,22 @@ const AdminLessonManagement = () => {
 
         if (result.isConfirmed) {
             try {
-                await axios.post(`${baseUrl}/admin/delete-course/${courseId}/`);
-                Swal.fire('Deleted!', 'Course has been deleted.', 'success');
-                fetchCourses();
+                console.log(`=== DELETING COURSE ${courseId} ===`);
+                const response = await axios.post(`${baseUrl}/admin/delete-course/${courseId}/`);
+                console.log('Delete response:', response.data);
+                
+                if (response.data.bool === true) {
+                    Swal.fire('Deleted!', response.data.message || 'Course has been deleted.', 'success');
+                    await fetchCourses();
+                } else {
+                    Swal.fire('Error', response.data.message || 'Failed to delete course', 'error');
+                }
             } catch (error) {
                 console.error('Error deleting course:', error);
-                Swal.fire('Error', 'Failed to delete course', 'error');
+                console.error('Error response:', error.response?.data);
+                Swal.fire('Error', 
+                    error.response?.data?.message || error.response?.data?.detail || 'Failed to delete course', 
+                    'error');
             }
         }
     };
@@ -1386,61 +1439,15 @@ const AdminLessonManagement = () => {
                                             <label className="form-label" style={{ fontWeight: 500, color: '#374151' }}>
                                                 Category <span style={{ color: '#ef4444' }}>*</span>
                                             </label>
-                                            {!showNewCategoryInput ? (
-                                                <div className="d-flex gap-2">
-                                                    <select
-                                                        className="form-select"
-                                                        name="category"
-                                                        value={courseFormData.category}
-                                                        onChange={handleCourseInputChange}
-                                                        required
-                                                        style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px', flex: 1 }}
-                                                    >
-                                                        <option value="">Select Category</option>
-                                                        {categories.map(cat => (
-                                                            <option key={cat.id} value={cat.id}>{cat.title}</option>
-                                                        ))}
-                                                    </select>
-                                                    <button
-                                                        type="button"
-                                                        className="btn"
-                                                        onClick={() => setShowNewCategoryInput(true)}
-                                                        title="Add new category"
-                                                        style={{ background: '#e8f5e9', color: '#2e7d32', border: 'none', borderRadius: '8px', padding: '10px 12px' }}
-                                                    >
-                                                        <i className="bi bi-plus-lg"></i>
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <div className="d-flex gap-2">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        value={newCategoryName}
-                                                        onChange={(e) => setNewCategoryName(e.target.value)}
-                                                        placeholder="New category name"
-                                                        style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px', flex: 1 }}
-                                                        autoFocus
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        className="btn"
-                                                        onClick={handleCreateCategory}
-                                                        disabled={savingCategory || !newCategoryName.trim()}
-                                                        style={{ background: '#4285f4', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px 12px' }}
-                                                    >
-                                                        {savingCategory ? <span className="spinner-border spinner-border-sm"></span> : <i className="bi bi-check-lg"></i>}
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="btn"
-                                                        onClick={() => { setShowNewCategoryInput(false); setNewCategoryName(''); }}
-                                                        style={{ background: '#f3f4f6', color: '#6b7280', border: 'none', borderRadius: '8px', padding: '10px 12px' }}
-                                                    >
-                                                        <i className="bi bi-x-lg"></i>
-                                                    </button>
-                                                </div>
-                                            )}
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                name="category"
+                                                value={courseFormData.category}
+                                                onChange={handleCourseInputChange}
+                                                placeholder="Enter category name (e.g., Music, Programming, Art)"
+                                                style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px' }}
+                                            />
                                         </div>
                                         <div className="col-md-6">
                                             <label className="form-label" style={{ fontWeight: 500, color: '#374151' }}>

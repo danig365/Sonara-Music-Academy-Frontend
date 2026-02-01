@@ -207,6 +207,33 @@ const AdminSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, onNa
                         <i className="bi bi-credit-card-2-front me-3" style={{ fontSize: '18px' }}></i>
                         <span style={{ fontSize: '14px' }}>Subscriptions</span>
                     </Link>
+
+                    <Link 
+                        to="/admin/audit-logs" 
+                        onClick={(e) => handleNavClick(e, '/admin/audit-logs')}
+                        className="text-decoration-none d-flex align-items-center px-4 py-3 position-relative"
+                        style={{ 
+                            color: isActive('/admin/audit-logs') ? '#fff' : '#8b92a7',
+                            backgroundColor: isActive('/admin/audit-logs') ? 'rgba(66, 133, 244, 0.15)' : 'transparent',
+                            borderLeft: isActive('/admin/audit-logs') ? '3px solid #4285f4' : '3px solid transparent',
+                            transition: 'all 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                            if (!isActive('/admin/audit-logs')) {
+                                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
+                                e.currentTarget.style.color = '#fff';
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (!isActive('/admin/audit-logs')) {
+                                e.currentTarget.style.backgroundColor = 'transparent';
+                                e.currentTarget.style.color = '#8b92a7';
+                            }
+                        }}
+                    >
+                        <i className="bi bi-shield-check me-3" style={{ fontSize: '18px' }}></i>
+                        <span style={{ fontSize: '14px' }}>Audit Logs</span>
+                    </Link>
                 </nav>
             </div>
 
