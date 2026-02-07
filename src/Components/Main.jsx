@@ -15,24 +15,16 @@ import ChangePassword from './User/ChangePassword'
 import TeacherLogin from './Teacher/TeacherLogin'
 import TeacherRegister from './Teacher/TeacherRegister'
 import TeacherDashboard from './Teacher/TeacherDashboard'
-import TeacherChangePassword from './Teacher/TeacherChangePassword'
 import TeacherProfileSetting from './Teacher/TeacherProfileSetting'
 import TeacherMyCourses from './Teacher/TeacherMyCourses'
-import AddCourse from './Teacher/AddCourses'
 import MyUsers from './Teacher/MyUsers'
 import AllCourses from './User/AllCourses'
 import PopularCourses from '../PopularCourses'
 import TeacherLogout from './Teacher/TeacherLogout'
-import AddChapter from './Teacher/AddChapter'
-import AllChapters from './Teacher/CourseChapters'
-import EditChapter from './Teacher/EditChapter'
-import EditCourse from './Teacher/EditCourse'
-import TeacherSkillCourses from './Teacher/TeacherSkillCourses'
 import UserLogout from './User/UserLogout'
 import EnrolledStudents from './Teacher/EnrolledStudents'
 import Search from './Search'
 import StudyMaterial from './Teacher/StudyMaterial'
-import AddStudyMaterial from './Teacher/AddStudyMaterial'
 import StudyStudentMaterial from './User/StudyStudentMaterial'
 import Faq from './Faq'
 import Pages from './Pages'
@@ -46,17 +38,18 @@ import StudentCoursePlayer from './User/StudentCoursePlayer'
 import StudentSubscriptions from './User/StudentSubscriptions'
 
 // Enhanced Teacher Dashboard Components
-import TeacherOverview from './Teacher/NewDashboard/TeacherOverview'
-import TeacherStudents from './Teacher/NewDashboard/TeacherStudents'
-import TeacherLessonLibrary from './Teacher/NewDashboard/TeacherLessonLibrary'
-import TeacherUploadLesson from './Teacher/NewDashboard/TeacherUploadLesson'
-import TeacherProgress from './Teacher/NewDashboard/TeacherProgress'
+import TeacherOverview from './Teacher/TeacherOverview'
+import TeacherStudents from './Teacher/TeacherStudents'
+import TeacherLessonLibrary from './Teacher/TeacherLessonLibrary'
+import TeacherProgress from './Teacher/TeacherProgress'
+import TeacherCourseManagement from './Teacher/TeacherCourseManagement'
 
 // Admin Components
 import AdminLogin from './Admin/AdminLogin'
 import AdminLogout from './Admin/AdminLogout'
 import AdminLayout from './Admin/AdminLayout'
 import AdminDashboard from './Admin/AdminDashboard'
+import TeacherLayout from './Teacher/TeacherLayout'
 import UsersManagement from './Admin/UsersManagement'
 import ManageSchools from './Admin/ManageSchools'
 import ManageTeachers from './Admin/ManageTeachers'
@@ -95,8 +88,8 @@ const MainContent = () => {
                                   location.pathname.startsWith('/teacher-overview') ||
                                   location.pathname.startsWith('/teacher-students') ||
                                   location.pathname.startsWith('/teacher-lesson-library') ||
-                                  location.pathname.startsWith('/teacher-upload-lesson') ||
                                   location.pathname.startsWith('/teacher-progress') ||
+                                  location.pathname.startsWith('/teacher-course-management') ||
                                   location.pathname.startsWith('/teacher-change-password') ||
                                   location.pathname.startsWith('/teacher-profile-setting') ||
                                   location.pathname.startsWith('/teacher-my-course') ||
@@ -136,32 +129,50 @@ const MainContent = () => {
           <Route path='/teacher-logout' element={<TeacherLogout />}/>
           <Route path='/user-logout' element={<UserLogout />}/>
           <Route path='/teacher-register' element={<TeacherRegister />}/>
-          <Route path='/teacher-dashboard' element={<TeacherDashboard />}/>
+          
+          {/* Teacher Dashboard with Nested Routes (persistent sidebar) */}
+          <Route path='/teacher-dashboard' element={<TeacherLayout />}>
+            <Route index element={<TeacherDashboard />}/>
+          </Route>
+          <Route path='/teacher' element={<TeacherLayout />}>
+            <Route path='profile-setting' element={<TeacherProfileSetting />}/>
+            <Route path='my-course' element={<TeacherMyCourses />}/>
+          </Route>
+          <Route path='/teacher-my-course' element={<TeacherLayout />}>
+            <Route index element={<TeacherMyCourses />}/>
+          </Route>
+          <Route path='/teacher-profile-setting' element={<TeacherLayout />}>
+            <Route index element={<TeacherProfileSetting />}/>
+          </Route>
+          <Route path='/my-users' element={<TeacherLayout />}>
+            <Route index element={<MyUsers />}/>
+          </Route>
           
           {/* Enhanced Teacher Dashboard Routes */}
-          <Route path='/teacher-overview' element={<TeacherOverview />}/>
-          <Route path='/teacher-students' element={<TeacherStudents />}/>
-          <Route path='/teacher-lesson-library' element={<TeacherLessonLibrary />}/>
-          <Route path='/teacher-upload-lesson' element={<TeacherUploadLesson />}/>
-          <Route path='/teacher-progress' element={<TeacherProgress />}/>
-          
-          <Route path='/teacher-change-password' element={<TeacherChangePassword  />}/>
-          <Route path='/teacher-profile-setting' element={<TeacherProfileSetting  />}/>
-          <Route path='/teacher-my-course' element={<TeacherMyCourses  />}/>
-          <Route path='/add-course' element={<AddCourse  />}/>
-          <Route path='/add-chapter/:course_id' element={<AddChapter  />}/>
-          <Route path='/my-users' element={<MyUsers  />}/>
+          <Route path='/teacher-overview' element={<TeacherLayout />}>
+            <Route index element={<TeacherOverview />}/>
+          </Route>
+          <Route path='/teacher-students' element={<TeacherLayout />}>
+            <Route index element={<TeacherStudents />}/>
+          </Route>
+          <Route path='/teacher-lesson-library' element={<TeacherLayout />}>
+            <Route index element={<TeacherLessonLibrary />}/>
+          </Route>
+          <Route path='/teacher-progress' element={<TeacherLayout />}>
+            <Route index element={<TeacherProgress />}/>
+          </Route>
+          <Route path='/teacher-course-management' element={<TeacherLayout />}>
+            <Route index element={<TeacherCourseManagement />}/>
+          </Route>
+          <Route path='/teacher-course-management/:course_id' element={<TeacherLayout />}>
+            <Route index element={<TeacherCourseManagement />}/>
+          </Route>
           <Route path='/teacher-detail/:teacher_id' element={<TeacherDetail  />}/>
-          <Route path='/all-chapters/:course_id' element={<AllChapters  />}/>
           <Route path='/study-material/:course_id' element={<StudyMaterial  />}/>
-          <Route path='/edit-chapter/:chapter_id' element={<EditChapter  />}/>
-          <Route path='/edit-course/:course_id' element={<EditCourse  />}/>
           <Route path='/all-courses' element={<AllCourses  />}/>\
-          <Route path='/popular-courses' element={<PopularCourses  />}/>
-          <Route path='/teacher-skill-courses/:skill_name/:teacher_id' element={<TeacherSkillCourses />}/>   
+          <Route path='/popular-courses' element={<PopularCourses  />}/> 
           <Route path='/enrolled-students/:course_id' element={<EnrolledStudents  />}/>
           <Route path='/search/:searchstring' element={<Search  />}/>
-          <Route path='/add-study/:course_id' element={<AddStudyMaterial  />}/>
           <Route path='/user/study-material/:course_id' element={<StudyStudentMaterial  />}/>
           <Route path='/faq' element={<Faq />}/>
           <Route path='/page/:page_id/:page_slug' element={<Pages />}/>
@@ -190,7 +201,7 @@ const MainContent = () => {
             <Route path='audit-logs' element={<AuditLogsDashboard />}/>
           </Route>
       </Routes>
-      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && !(isTeacherDashboardRoute && teacherLoginStatus === 'true') && <Footer />}
     </>
   )
 }

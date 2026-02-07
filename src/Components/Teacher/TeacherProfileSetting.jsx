@@ -1,4 +1,3 @@
-import TeacherSidebar from './TeacherSidebar'
 import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
@@ -119,13 +118,8 @@ const TeacherProfileSetting = () => {
     }
 
   return (
-    <div className='container mt-4'>
-        <div className='row'>
-            <aside className='col-md-3'>
-                <TeacherSidebar />
-            </aside>
-            <section className='col-md-9'>
-                <div className='card'>
+    <>
+        <div className='card'>
                     <h5 className='card-header'>
                     <i class="bi bi-person-lines-fill"></i> Profile Settings
                     </h5>
@@ -200,9 +194,7 @@ const TeacherProfileSetting = () => {
                         <button onClick={submitForm} className='btn btn-primary'>Update</button>
                     </div>
                 </div>
-            </section>
-        </div>
-    </div>
+    </>
   )
 }
 

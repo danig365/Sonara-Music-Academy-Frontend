@@ -1,12 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import TeacherSidebar from './TeacherSidebar'
-import StudentLessonBookings from './StudentLessonBookings'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+import './TeacherDashboard.css'
 
 import { API_BASE_URL } from '../../config';
 
@@ -21,8 +18,8 @@ const TeacherDashboard = () => {
     window.scrollTo(0, 0)
   }, []) 
   
-  const [dashbarData,setDashbarData]=useState([])
-  const teacherId=localStorage.getItem('teacherId')
+  const [dashbarData, setDashbarData] = useState([])
+  const teacherId = localStorage.getItem('teacherId')
 
   useEffect(()=>{
     try{
@@ -36,50 +33,51 @@ const TeacherDashboard = () => {
   },[]);
 
   return (
-    <div className='container mt-4'>
-        <div className='row'>
-            <aside className='col-md-3'>
-                <TeacherSidebar />
-            </aside>
-            <section className='col-md-9'>
-                <div className='row mt-3'>
-                  <h4>Dashboard</h4>
-                  <div className='col-md-4 mt-3'>
-                    <div className='card border-primary'>
-                      <h5 className='card-header bg-warning text-white'>Total Courses</h5>
-                      <div className='card-body'>
-                        <h3><Link to="/teacher-my-course" className='text-warning'>{dashbarData.total_teacher_course} <i class="bi bi-journals text-warning"></i></Link></h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='col-md-4 mt-3'>
-                    <div className='card border-primary'>
-                      <h5 className='card-header bg-success text-white'>Total Students</h5>
-                      <div className='card-body'>
-                        <h3><Link to="/my-users" className='text-success'>{dashbarData.total_teacher_students} <i class="bi bi-people-fill"></i></Link></h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='col-md-4 mt-3'>
-                    <div className='card border-primary'>
-                      <h5 className='card-header bg-info text-white'>Total Chapters</h5>
-                      <div className='card-body'>
-                        <h3><Link to="/teacher-my-course">{dashbarData.total_teacher_chapters} <i class="bi bi-stickies-fill"></i></Link></h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+    <div className='teacher-page-wrapper'>
+    <div className='teacher-dashboard-container'>
+      <div className='teacher-dashboard-header mb-4'>
+        <h2 className='dashboard-title'>Dashboard</h2>
+      </div>
 
-                {/* Lesson Bookings Widget */}
-                <div className='row mt-4'>
-                  <div className='col-12'>
-                    <StudentLessonBookings teacherId={teacherId} />
-                  </div>
-                </div>
-            </section>
+      {/* Stats Cards Row */}
+      <div className='stats-grid'>
+        <div className='stat-card'>
+          <div className='stat-icon stat-icon-courses'>
+            <i className="bi bi-journals"></i>
+          </div>
+          <div className='stat-content'>
+            <div className='stat-label'>Total Courses</div>
+            <Link to="/teacher-my-course" className='stat-value'>
+              {dashbarData.total_teacher_course || 0}
+            </Link>
+          </div>
         </div>
 
+        <div className='stat-card'>
+          <div className='stat-icon stat-icon-students'>
+            <i className="bi bi-people-fill"></i>
+          </div>
+          <div className='stat-content'>
+            <div className='stat-label'>Total Students</div>
+            <Link to="/my-users" className='stat-value'>
+              {dashbarData.total_teacher_students || 0}
+            </Link>
+          </div>
+        </div>
 
+        <div className='stat-card'>
+          <div className='stat-icon stat-icon-chapters'>
+            <i className="bi bi-stickies-fill"></i>
+          </div>
+          <div className='stat-content'>
+            <div className='stat-label'>Total Chapters</div>
+            <Link to="/teacher-my-course" className='stat-value'>
+              {dashbarData.total_teacher_chapters || 0}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   )
 }

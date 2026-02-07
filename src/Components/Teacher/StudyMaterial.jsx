@@ -1,5 +1,4 @@
 import React from 'react'
-import TeacherSidebar from './TeacherSidebar'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -69,13 +68,8 @@ const StudyMaterial = () => {
     }
 
   return (
-    <div className='container mt-4'>
-    <div className='row'>
-        <aside className='col-md-3'>
-            <TeacherSidebar />
-        </aside>
-        <section className='col-md-9'>
-            <div className='card'>
+    <>
+    <div className='card'>
                 <h5 className='card-header'> All study Materials ({totalResult}) <Link className='btn btn-success btn-sm float-end ' to={'/add-study/'+course_id}>Add Study Material</Link></h5>
                 <div className='card-body table-responsive'>
                     <table className='table table-bordered'>
@@ -102,9 +96,7 @@ const StudyMaterial = () => {
                     </table>
                 </div>
             </div>
-        </section>
-    </div>
-</div>
+    </>
   )
 }
 

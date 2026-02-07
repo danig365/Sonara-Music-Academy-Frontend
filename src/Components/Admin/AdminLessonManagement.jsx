@@ -8,9 +8,30 @@ import { API_BASE_URL } from '../../config';
 
 const baseUrl = API_BASE_URL;
 
-const AdminLessonManagement = () => {
+/**
+ * AdminLessonManagement - Reusable Course Management Component
+ * 
+ * @param {Object} props
+ * @param {string} props.userType - 'admin' or 'teacher'
+ * @param {number} props.teacherId - Required when userType is 'teacher'
+ * @param {string} props.basePath - Base route path (e.g., '/admin/lesson-management' or '/teacher-course-management')
+ * @param {string} props.pageTitle - Page title to display
+ * @param {boolean} props.showTeacherSelect - Whether to show teacher selection dropdown
+ * @param {boolean} props.showAnalytics - Whether to show analytics button
+ */
+const AdminLessonManagement = ({
+    userType = 'admin',
+    teacherId = null,
+    basePath = '/admin/lesson-management',
+    pageTitle = 'Course Management',
+    showTeacherSelect = true,
+    showAnalytics = true
+}) => {
     const navigate = useNavigate();
     const { course_id } = useParams();
+    
+    // Get teacherId from props or localStorage for teacher context
+    const effectiveTeacherId = teacherId || (userType === 'teacher' ? localStorage.getItem('teacherId') : null);
     
     // State
     const [loading, setLoading] = useState(true);
@@ -165,11 +186,13 @@ const AdminLessonManagement = () => {
     const [selectedTemplate, setSelectedTemplate] = useState(null);
 
     useEffect(() => {
-        document.title = 'Course Management | Admin Dashboard';
+        document.title = `${pageTitle} | ${userType === 'admin' ? 'Admin' : 'Teacher'} Dashboard`;
         fetchCourses();
         fetchCategories();
-        fetchTeachers();
-    }, []);
+        if (showTeacherSelect) {
+            fetchTeachers();
+        }
+    }, [userType, pageTitle, showTeacherSelect]);
 
     useEffect(() => {
         if (course_id) {
@@ -180,7 +203,15 @@ const AdminLessonManagement = () => {
 
     const fetchCourses = async () => {
         try {
-            const response = await axios.get(`${baseUrl}/course/`);
+            let url;
+            if (userType === 'teacher' && effectiveTeacherId) {
+                // For teachers, fetch only their courses
+                url = `${baseUrl}/teacher-course/${effectiveTeacherId}`;
+            } else {
+                // For admin, fetch all courses
+                url = `${baseUrl}/course/`;
+            }
+            const response = await axios.get(url);
             setCourses(response.data.results || response.data);
         } catch (error) {
             console.error('Error fetching courses:', error);
@@ -243,7 +274,7 @@ const AdminLessonManagement = () => {
 
     const handleCourseSelect = (courseId) => {
         setSelectedCourse(courseId);
-        navigate(`/admin/lesson-management/${courseId}`);
+        navigate(`${basePath}/${courseId}`);
         fetchCourseStructure(courseId);
     };
 
@@ -353,7 +384,8 @@ const AdminLessonManagement = () => {
             Swal.fire('Error', 'Category name is required', 'error');
             return;
         }
-        if (!courseFormData.teacher) {
+        // Only require teacher selection for admin context
+        if (showTeacherSelect && !courseFormData.teacher) {
             Swal.fire('Error', 'Please select an instructor', 'error');
             return;
         }
@@ -372,7 +404,9 @@ const AdminLessonManagement = () => {
             submitData.append('title', courseFormData.title);
             submitData.append('description', courseFormData.description);
             submitData.append('category_name', courseFormData.category.trim());
-            submitData.append('teacher', courseFormData.teacher);
+            // For teacher context, auto-assign the teacher ID
+            const teacherIdToUse = userType === 'teacher' ? effectiveTeacherId : courseFormData.teacher;
+            submitData.append('teacher', teacherIdToUse);
             submitData.append('techs', courseFormData.techs);
             if (courseFormData.featured_img) {
                 submitData.append('featured_img', courseFormData.featured_img);
@@ -380,6 +414,7 @@ const AdminLessonManagement = () => {
 
             // Log the data being sent
             console.log('=== COURSE FORM SUBMISSION ===');
+            console.log('User Type:', userType);
             console.log('Form Data:', courseFormData);
             console.log('FormData entries:');
             for (let [key, value] of submitData.entries()) {
@@ -615,6 +650,13 @@ const AdminLessonManagement = () => {
 
     const handleLessonSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate file for new lessons
+        if (!editingLesson && !lessonFormData.file) {
+            Swal.fire('Error', 'Please select a file to upload', 'error');
+            return;
+        }
+        
         setUploading(true);
         setUploadProgress(0);
         try {
@@ -631,6 +673,12 @@ const AdminLessonManagement = () => {
             }
             if (lessonFormData.duration_seconds) {
                 formData.append('duration_seconds', lessonFormData.duration_seconds);
+            }
+
+            console.log('=== LESSON FORM SUBMISSION ===');
+            console.log('FormData entries:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`  ${key}:`, value instanceof File ? `File(${value.name})` : value);
             }
 
             const config = {
@@ -652,8 +700,20 @@ const AdminLessonManagement = () => {
             setUploadProgress(0);
             fetchCourseStructure(selectedCourse);
         } catch (error) {
-            console.error('Error saving lesson:', error);
-            Swal.fire('Error', 'Failed to save lesson', 'error');
+            console.error('=== ERROR SAVING LESSON ===');
+            console.error('Error:', error);
+            console.error('Response data:', error.response?.data);
+            console.error('Response status:', error.response?.status);
+            
+            const errorMsg = error.response?.data?.detail || 
+                            (error.response?.data && typeof error.response.data === 'object' 
+                                ? Object.entries(error.response.data)
+                                    .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
+                                    .join('\n')
+                                : error.message) || 
+                            'Failed to save lesson';
+            
+            Swal.fire('Error', errorMsg, 'error');
         } finally {
             setUploading(false);
             setUploadProgress(0);
@@ -957,10 +1017,13 @@ const AdminLessonManagement = () => {
                                 <div>
                                     <h2 style={{ color: '#1a2332', fontWeight: 700, fontSize: '28px', letterSpacing: '-0.5px', marginBottom: '4px' }}>
                                         <i className="bi bi-collection-play me-2" style={{ color: '#4285f4' }}></i>
-                                        Course Management
+                                        {pageTitle}
                                     </h2>
                                     <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: 0 }}>
-                                        Create courses, add modules, and manage lessons - all in one place
+                                        {userType === 'teacher' 
+                                            ? 'Create and manage your courses, modules, and lessons'
+                                            : 'Create courses, add modules, and manage lessons - all in one place'
+                                        }
                                     </p>
                                 </div>
                                 <button
@@ -1095,14 +1158,16 @@ const AdminLessonManagement = () => {
                                                             {course.category?.title || 'Uncategorized'}
                                                         </span>
                                                         <div className="d-flex gap-1" onClick={e => e.stopPropagation()}>
-                                                            <button
-                                                                className="btn btn-sm"
-                                                                onClick={(e) => { e.stopPropagation(); navigate(`/admin/course-analytics/${course.id}`); }}
-                                                                title="View Analytics"
-                                                                style={{ background: '#f0fdf4', color: '#16a34a', border: 'none', borderRadius: '6px', padding: '4px 8px' }}
-                                                            >
-                                                                <i className="bi bi-graph-up"></i>
-                                                            </button>
+                                                            {showAnalytics && (
+                                                                <button
+                                                                    className="btn btn-sm"
+                                                                    onClick={(e) => { e.stopPropagation(); navigate(`/admin/course-analytics/${course.id}`); }}
+                                                                    title="View Analytics"
+                                                                    style={{ background: '#f0fdf4', color: '#16a34a', border: 'none', borderRadius: '6px', padding: '4px 8px' }}
+                                                                >
+                                                                    <i className="bi bi-graph-up"></i>
+                                                                </button>
+                                                            )}
                                                             <button
                                                                 className="btn btn-sm"
                                                                 onClick={(e) => { e.stopPropagation(); openEditCourseModal(course); }}
@@ -1191,7 +1256,7 @@ const AdminLessonManagement = () => {
                                         onClick={() => {
                                             setSelectedCourse(null);
                                             setCourseData(null);
-                                            navigate('/admin/lesson-management');
+                                            navigate(basePath);
                                         }}
                                         style={{ background: '#f3f4f6', color: '#374151', border: 'none', borderRadius: '8px', padding: '10px 16px' }}
                                     >
@@ -1449,25 +1514,27 @@ const AdminLessonManagement = () => {
                                                 style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px' }}
                                             />
                                         </div>
-                                        <div className="col-md-6">
-                                            <label className="form-label" style={{ fontWeight: 500, color: '#374151' }}>
-                                                Instructor <span style={{ color: '#ef4444' }}>*</span>
-                                            </label>
-                                            <select
-                                                className="form-select"
-                                                name="teacher"
-                                                value={courseFormData.teacher}
-                                                onChange={handleCourseInputChange}
-                                                required
-                                                style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px' }}
-                                            >
-                                                <option value="">Select Instructor</option>
-                                                {teachers.map(teacher => (
-                                                    <option key={teacher.id} value={teacher.id}>{teacher.full_name}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="col-md-6">
+                                        {showTeacherSelect && (
+                                            <div className="col-md-6">
+                                                <label className="form-label" style={{ fontWeight: 500, color: '#374151' }}>
+                                                    Instructor <span style={{ color: '#ef4444' }}>*</span>
+                                                </label>
+                                                <select
+                                                    className="form-select"
+                                                    name="teacher"
+                                                    value={courseFormData.teacher}
+                                                    onChange={handleCourseInputChange}
+                                                    required
+                                                    style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px' }}
+                                                >
+                                                    <option value="">Select Instructor</option>
+                                                    {teachers.map(teacher => (
+                                                        <option key={teacher.id} value={teacher.id}>{teacher.full_name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        )}
+                                        <div className={showTeacherSelect ? "col-md-6" : "col-12"}>
                                             <label className="form-label" style={{ fontWeight: 500, color: '#374151' }}>Technologies/Topics</label>
                                             <input
                                                 type="text"

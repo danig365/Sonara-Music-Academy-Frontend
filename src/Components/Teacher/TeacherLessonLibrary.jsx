@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import TeacherSidebarNew from './TeacherSidebarNew'
 import './teacherDashboard.css'
 
-import { API_BASE_URL } from '../../../config';
+import { API_BASE_URL } from '../../config';
 
 const baseUrl = API_BASE_URL;
 
@@ -153,23 +152,18 @@ const TeacherLessonLibrary = () => {
 
   if (loading) {
     return (
-      <div className='d-flex'>
-        <TeacherSidebarNew />
-        <div className='teacher-main-content'>
-          <div className='loading-container'>
-            <div className='loading-spinner'></div>
-          </div>
+      <>
+        <div className='loading-container'>
+          <div className='loading-spinner'></div>
         </div>
-      </div>
+      </>
     )
   }
 
   return (
-    <div className='d-flex'>
-      <TeacherSidebarNew />
-      <div className='teacher-main-content'>
-        {/* Header */}
-        <div className='dashboard-header'>
+    <>
+      {/* Header */}
+      <div className='dashboard-header'>
           <div className='header-title'>
             <h1>Lesson Library</h1>
             <p className='header-subtitle'>Manage and organize your educational content.</p>
@@ -189,9 +183,9 @@ const TeacherLessonLibrary = () => {
                 <i className="bi bi-list"></i> List
               </button>
             </div>
-            <Link to='/teacher-upload-lesson' className='btn-primary-custom'>
+            <Link to='/teacher-course-management' className='btn-primary-custom'>
               <i className="bi bi-cloud-arrow-up"></i>
-              Upload New
+              Manage Courses
             </Link>
           </div>
         </div>
@@ -335,15 +329,14 @@ const TeacherLessonLibrary = () => {
           <div className='content-card text-center py-5'>
             <i className="bi bi-collection-play display-4 text-muted"></i>
             <p className='text-muted mt-3'>No lessons found matching your criteria.</p>
-            <Link to='/teacher-upload-lesson' className='btn-primary-custom mt-3'>
+            <Link to='/teacher-course-management' className='btn-primary-custom mt-3'>
               <i className="bi bi-plus-lg"></i>
-              Create Your First Lesson
+              Create Your First Course
             </Link>
           </div>
         )}
-      </div>
-    </div>
-  )
-}
+      </>
+    )
+  }
 
 export default TeacherLessonLibrary

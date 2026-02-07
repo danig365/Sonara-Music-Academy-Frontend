@@ -42,6 +42,11 @@ const TeacherLogin = () => {
                 if(res.data.bool==true){
                     localStorage.setItem('teacherLoginStatus',true);
                     localStorage.setItem('teacherId',res.data.teacher_id);
+                    localStorage.setItem('teacherName', res.data.teacher_name);
+                    localStorage.setItem('teacherEmail', res.data.teacher_email);
+                    localStorage.setItem('teacherQualification', res.data.teacher_qualification);
+                    localStorage.setItem('teacherMobile', res.data.teacher_mobile);
+                    localStorage.setItem('teacherProfileImg', res.data.teacher_profile_img || '');
                     window.location.href='/teacher-dashboard';
                 }else{
                   if(res.status==200 || res.status==201){

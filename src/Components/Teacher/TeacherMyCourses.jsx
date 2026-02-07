@@ -1,11 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import TeacherSidebar from './TeacherSidebar'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import './course.css'
+import './TeacherPageLayout.css'
 
 import { API_BASE_URL } from '../../config';
 
@@ -67,15 +66,10 @@ const TeacherMyCourses = () => {
         window.scrollTo(0, 0)
       }, [])
   return (
-    <div className='container mt-4'>
-        <div className='row'>
-            <aside className='col-md-3'>
-                <TeacherSidebar />
-            </aside>
-            <section className='col-md-9'>
-                <div className='card'>
-                    <h5 className='card-header'><i class="bi bi-journals"></i> My Courses</h5>
-                    <div className='card-body' class="table-responsive">
+    <>
+        <div className='card'>
+                    <h5 className='card-header'><i className="bi bi-journals"></i> My Courses</h5>
+                    <div className='card-body table-responsive'>
                         <table className='table table-striped table-hover'>
                             <thead>
                                 <tr>
@@ -112,10 +106,7 @@ const TeacherMyCourses = () => {
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </section>
-        </div>
-    </div>
+                </div></>
   )
 }
 

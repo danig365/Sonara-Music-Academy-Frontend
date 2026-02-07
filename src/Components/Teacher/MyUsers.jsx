@@ -1,4 +1,3 @@
-import TeacherSidebar from './TeacherSidebar'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
@@ -31,14 +30,7 @@ const MyUsers = () => {
 
   return (
     <>
-    
-    <div className='container mt-4'>
-        <div className='row'>
-            <aside className='col-md-3'>
-                <TeacherSidebar />
-            </aside>
-            <section className='col-md-9'>
-                <div className='card'>
+    <div className='card'>
                     <h5 className='card-header'><i class="bi bi-people-fill"> </i>All Enrolled List
                     <button type="button" className="btn btn-primary btn-sm float-end" data-bs-toggle="modal" data-bs-target="#groupMsgModal">
                         Send Messages
@@ -71,9 +63,6 @@ const MyUsers = () => {
                         </table>
                     </div>
                 </div>
-            </section>
-        </div>
-    </div>
     </>
   )
 }

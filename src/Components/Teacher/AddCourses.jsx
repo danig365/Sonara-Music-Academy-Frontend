@@ -1,5 +1,4 @@
 import React from 'react'
-import TeacherSidebar from './TeacherSidebar'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
@@ -73,13 +72,8 @@ const AddCourses = () => {
       };
 
   return (
-    <div className='container mt-4'>
-    <div className='row'>
-        <aside className='col-md-3'>
-            <TeacherSidebar />
-        </aside>
-        <section className='col-md-9'>
-            <div className='card'>
+    <>
+    <div className='card'>
                 <h3 className='card-header'><i class="bi bi-plus-square"></i> Add Course</h3>
                 <div className='card-body'>
                 <div className="mb-3">
@@ -107,9 +101,7 @@ const AddCourses = () => {
                     <button type="submit" onClick={formSubmit} className="btn btn-primary">Submit</button>
                 </div>
             </div>
-        </section>
-    </div>
-  </div>
+    </>
   )
 }
 

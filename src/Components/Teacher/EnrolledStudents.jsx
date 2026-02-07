@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import TeacherSidebar from './TeacherSidebar'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
@@ -43,13 +42,8 @@ const EnrolledStudents = () => {
       },[]);
 
   return (
-        <div className='container mt-4'>
-        <div className='row'>
-            <aside className='col-md-3'>
-                <TeacherSidebar />
-            </aside>
-            <section className='col-md-9'>
-                <div className='card'>
+    <>
+        <div className='card'>
                     <h5 className='card-header'><i class="bi bi-people-fill"></i> Enrolled List</h5>
                     <div className='card-body' class="table-responsive">
                         <table className='table table-striped table-hover'>
@@ -74,9 +68,7 @@ const EnrolledStudents = () => {
                         </table>
                     </div>
                 </div>
-            </section>
-        </div>
-    </div>
+    </>
   )
 }
 

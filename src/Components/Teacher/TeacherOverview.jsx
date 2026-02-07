@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import TeacherSidebarNew from './TeacherSidebarNew'
 import './teacherDashboard.css'
 
-import { API_BASE_URL } from '../../../config';
+import { API_BASE_URL } from '../../config';
 
 const baseUrl = API_BASE_URL;
 
@@ -73,23 +72,18 @@ const TeacherOverview = () => {
 
   if (loading) {
     return (
-      <div className='d-flex'>
-        <TeacherSidebarNew />
-        <div className='teacher-main-content'>
-          <div className='loading-container'>
-            <div className='loading-spinner'></div>
-          </div>
+      <>
+        <div className='loading-container'>
+          <div className='loading-spinner'></div>
         </div>
-      </div>
+      </>
     )
   }
 
   return (
-    <div className='d-flex'>
-      <TeacherSidebarNew />
-      <div className='teacher-main-content'>
-        {/* Header */}
-        <div className='dashboard-header'>
+    <>
+      {/* Header */}
+      <div className='dashboard-header'>
           <div className='header-title'>
             <h1>Dashboard Overview</h1>
             <p className='header-subtitle'>Welcome back, {teacherName}. Here's what's happening today.</p>
@@ -99,9 +93,9 @@ const TeacherOverview = () => {
               <i className="bi bi-people"></i>
               View Students
             </Link>
-            <Link to='/teacher-upload-lesson' className='btn-primary-custom'>
-              <i className="bi bi-cloud-arrow-up"></i>
-              Upload Lesson
+            <Link to='/teacher-course-management' className='btn-primary-custom'>
+              <i className="bi bi-books"></i>
+              Manage Courses
             </Link>
           </div>
         </div>
@@ -273,9 +267,8 @@ const TeacherOverview = () => {
             <button className='btn-view-schedule'>View Full Schedule</button>
           </div>
         </div>
-      </div>
-    </div>
-  )
-}
+      </>
+    )
+  }
 
 export default TeacherOverview

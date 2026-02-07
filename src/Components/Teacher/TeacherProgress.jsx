@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import TeacherSidebarNew from './TeacherSidebarNew'
 import './teacherDashboard.css'
 
-import { API_BASE_URL } from '../../../config';
+import { API_BASE_URL } from '../../config';
 
 const baseUrl = API_BASE_URL;
 
@@ -93,23 +92,18 @@ const TeacherProgress = () => {
 
   if (loading) {
     return (
-      <div className='d-flex'>
-        <TeacherSidebarNew />
-        <div className='teacher-main-content'>
-          <div className='loading-container'>
-            <div className='loading-spinner'></div>
-          </div>
+      <>
+        <div className='loading-container'>
+          <div className='loading-spinner'></div>
         </div>
-      </div>
+      </>
     )
   }
 
   return (
-    <div className='d-flex'>
-      <TeacherSidebarNew />
-      <div className='teacher-main-content'>
-        {/* Header */}
-        <div className='dashboard-header'>
+    <>
+      {/* Header */}
+      <div className='dashboard-header'>
           <div className='header-title'>
             <h1>Progress Analytics</h1>
             <p className='header-subtitle'>Monitor student performance and track learning outcomes.</p>
@@ -375,9 +369,8 @@ const TeacherProgress = () => {
             </table>
           </div>
         </div>
-      </div>
-    </div>
-  )
-}
+      </>
+    )
+  }
 
 export default TeacherProgress
