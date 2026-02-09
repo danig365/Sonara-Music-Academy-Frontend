@@ -1064,11 +1064,13 @@ const AdminLessonManagement = ({
                                     <h3>{categories.length}</h3>
                                     <p>Categories</p>
                                 </div>
+                                {userType !== 'teacher' && (
                                 <div className="stat-card">
                                     <i className="bi bi-person-circle" style={{ color: '#ff6b6b' }}></i>
                                     <h3>{teachers.length}</h3>
                                     <p>Instructors</p>
                                 </div>
+                                )}
                             </div>
 
                             {/* Search & Filter */}

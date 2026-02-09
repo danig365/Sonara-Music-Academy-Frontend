@@ -130,9 +130,9 @@ const MainContent = () => {
           <Route path='/user-logout' element={<UserLogout />}/>
           <Route path='/teacher-register' element={<TeacherRegister />}/>
           
-          {/* Teacher Dashboard with Nested Routes (persistent sidebar) */}
+          {/* Teacher Dashboard - redirects to overview */}
           <Route path='/teacher-dashboard' element={<TeacherLayout />}>
-            <Route index element={<TeacherDashboard />}/>
+            <Route index element={<TeacherOverview />}/>
           </Route>
           <Route path='/teacher' element={<TeacherLayout />}>
             <Route path='profile-setting' element={<TeacherProfileSetting />}/>

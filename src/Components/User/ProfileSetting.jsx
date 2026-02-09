@@ -83,11 +83,11 @@ const ProfileSetting = () => {
 
     const submitForm = () => {
         const studentFormData = new FormData()
-        studentFormData.append("fullname", studentData.fullname)
-        studentFormData.append("email", studentData.email)
-        studentFormData.append("username", studentData.username)
-        studentFormData.append("interseted_categories", studentData.interseted_categories)
-        if (studentData.p_img !== '') {
+        studentFormData.append("fullname", studentData.fullname || '')
+        studentFormData.append("email", studentData.email || '')
+        studentFormData.append("username", studentData.username || '')
+        studentFormData.append("interseted_categories", studentData.interseted_categories || '')
+        if (studentData.p_img && studentData.p_img !== '') {
             studentFormData.append('profile_img', studentData.p_img, studentData.p_img.name)
         }
 
@@ -97,7 +97,7 @@ const ProfileSetting = () => {
                     'content-type': 'multipart/form-data'
                 }
             }).then((response) => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     Swal.fire({
                         title: 'Profile Updated Successfully',
                         icon: 'success',
@@ -107,6 +107,8 @@ const ProfileSetting = () => {
                         timerProgressBar: true,
                         showConfirmButton: false
                     })
+                    // Dispatch storage event to notify sidebar of changes
+                    window.dispatchEvent(new Event('storage'))
                 }
             })
         } catch (error) {

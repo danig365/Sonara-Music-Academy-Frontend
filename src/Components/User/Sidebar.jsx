@@ -25,7 +25,7 @@ const Sidebar = ({ isOpen = false, setIsOpen = null, isMobile = false }) => {
     window.scrollTo(0, 0)
   }, [])
 
-  // Fetch student data
+  // Fetch student data from API to get the latest profile image
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
@@ -41,6 +41,9 @@ const Sidebar = ({ isOpen = false, setIsOpen = null, isMobile = false }) => {
     };
     if (studentId) {
       fetchStudentData();
+      // Refresh data every 5 seconds to catch updates from settings page
+      const interval = setInterval(fetchStudentData, 5000);
+      return () => clearInterval(interval);
     }
   }, [studentId]);
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import axios from 'axios'
+import { API_BASE_URL } from '../../config'
 
 const TeacherSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, onNavigate = null }) => {
   const location = useLocation();
@@ -13,14 +15,60 @@ const TeacherSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, on
   const [teacherProfileImg, setTeacherProfileImg] = useState(null);
   const [teacherId, setTeacherId] = useState(null);
 
-  // Load teacher data from localStorage
+  // Load teacher data from localStorage first
   useEffect(() => {
-    setTeacherName(localStorage.getItem('teacherName'));
-    setTeacherEmail(localStorage.getItem('teacherEmail'));
-    setTeacherQualification(localStorage.getItem('teacherQualification'));
-    setTeacherProfileImg(localStorage.getItem('teacherProfileImg'));
     setTeacherId(localStorage.getItem('teacherId'));
   }, []);
+
+  // Fetch latest teacher data from backend
+  useEffect(() => {
+    if (teacherId) {
+      const fetchTeacherData = async () => {
+        try {
+          const response = await axios.get(`${API_BASE_URL}/teacher/${teacherId}`);
+          setTeacherName(response.data.full_name);
+          setTeacherEmail(response.data.email);
+          setTeacherQualification(response.data.qualification);
+          if (response.data.profile_img) {
+            setTeacherProfileImg(response.data.profile_img);
+          }
+        } catch (error) {
+          console.log('Error fetching teacher data:', error);
+          // Fallback to localStorage if API fails
+          setTeacherName(localStorage.getItem('teacherName'));
+          setTeacherEmail(localStorage.getItem('teacherEmail'));
+          setTeacherQualification(localStorage.getItem('teacherQualification'));
+          setTeacherProfileImg(localStorage.getItem('teacherProfileImg'));
+        }
+      };
+      fetchTeacherData();
+    }
+  }, [teacherId]);
+
+  // Listen for storage changes (when updated from settings)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      if (teacherId) {
+        const fetchTeacherData = async () => {
+          try {
+            const response = await axios.get(`${API_BASE_URL}/teacher/${teacherId}`);
+            setTeacherName(response.data.full_name);
+            setTeacherEmail(response.data.email);
+            setTeacherQualification(response.data.qualification);
+            if (response.data.profile_img) {
+              setTeacherProfileImg(response.data.profile_img);
+            }
+          } catch (error) {
+            console.log('Error fetching teacher data:', error);
+          }
+        };
+        fetchTeacherData();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [teacherId]);
 
   useEffect(()=>{
     document.title='LMS | Menu'
@@ -86,19 +134,19 @@ const TeacherSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, on
             onClick={(e) => handleNavClick(e, '/teacher-overview')}
             className="text-decoration-none d-flex align-items-center px-4 py-3 position-relative"
             style={{ 
-              color: isActive('/teacher-overview') ? '#fff' : '#8b92a7',
-              backgroundColor: isActive('/teacher-overview') ? 'rgba(66, 133, 244, 0.15)' : 'transparent',
-              borderLeft: isActive('/teacher-overview') ? '3px solid #4285f4' : '3px solid transparent',
+              color: isActive('/teacher-overview') || isActive('/teacher-dashboard') ? '#fff' : '#8b92a7',
+              backgroundColor: isActive('/teacher-overview') || isActive('/teacher-dashboard') ? 'rgba(66, 133, 244, 0.15)' : 'transparent',
+              borderLeft: isActive('/teacher-overview') || isActive('/teacher-dashboard') ? '3px solid #4285f4' : '3px solid transparent',
               transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              if (!isActive('/teacher-overview')) {
+              if (!isActive('/teacher-overview') && !isActive('/teacher-dashboard')) {
                 e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
                 e.currentTarget.style.color = '#fff';
               }
             }}
             onMouseLeave={(e) => {
-              if (!isActive('/teacher-overview')) {
+              if (!isActive('/teacher-overview') && !isActive('/teacher-dashboard')) {
                 e.currentTarget.style.backgroundColor = 'transparent';
                 e.currentTarget.style.color = '#8b92a7';
               }
@@ -212,7 +260,7 @@ const TeacherSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, on
               }
             }}
           >
-            <i className="bi bi-graph-up-arrow me-3" style={{ fontSize: '18px' }}></i>
+            <i className="bi bi-bar-chart me-3" style={{ fontSize: '18px' }}></i>
             <span style={{ fontSize: '14px' }}>Progress</span>
           </Link>
 
@@ -255,7 +303,8 @@ const TeacherSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, on
                      width: '40px', 
                      height: '40px', 
                      objectFit: 'cover',
-                     border: '2px solid rgba(66, 133, 244, 0.3)'
+                     border: '2px solid rgba(66, 133, 244, 0.3)',
+                     flexShrink: 0
                    }}
               />
             ) : (
@@ -264,7 +313,8 @@ const TeacherSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, on
                      width: '40px', 
                      height: '40px', 
                      background: 'linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%)',
-                     fontSize: '16px'
+                     fontSize: '16px',
+                     flexShrink: 0
                    }}>
                 {teacherName ? teacherName.substring(0, 2).toUpperCase() : 'TC'}
               </div>
@@ -274,7 +324,7 @@ const TeacherSidebar = ({ isOpen = false, setIsOpen = null, isMobile = false, on
                 {teacherName || teacherEmail?.split('@')[0] || 'Teacher'}
               </div>
               <div style={{ fontSize: '11px', color: '#6b7280', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {teacherQualification || teacherEmail || 'Educator'}
+                {teacherEmail || 'educator@email.com'}
               </div>
             </div>
           </div>

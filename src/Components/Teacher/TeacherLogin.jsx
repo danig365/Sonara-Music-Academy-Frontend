@@ -47,7 +47,7 @@ const TeacherLogin = () => {
                     localStorage.setItem('teacherQualification', res.data.teacher_qualification);
                     localStorage.setItem('teacherMobile', res.data.teacher_mobile);
                     localStorage.setItem('teacherProfileImg', res.data.teacher_profile_img || '');
-                    window.location.href='/teacher-dashboard';
+                    window.location.href='/teacher-overview';
                 }else{
                   if(res.status==200 || res.status==201){
                     Swal.fire({

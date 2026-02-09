@@ -54,7 +54,7 @@ const TeacherProfileSetting = () => {
         }catch(error){
             console.log(error);
         }
-      },[]);
+      },[teacherId]);
 
     const handleChange=(event)=>{
         setTeacherData({
@@ -72,19 +72,18 @@ const TeacherProfileSetting = () => {
 
     const submitForm=()=>{
         const teacherFormData=new FormData();
-        teacherFormData.append("full_name",teacherData.full_name)
-        teacherFormData.append("email",teacherData.email)
-        teacherFormData.append("qualification",teacherData.qualification)
-        teacherFormData.append("mobile_no",teacherData.mobile_no)
-        teacherFormData.append("skills",teacherData.skills)
-        teacherFormData.append("face_url",teacherData.face_url)
-        teacherFormData.append("insta_url",teacherData.insta_url)
-        teacherFormData.append("twit_url",teacherData.twit_url)
-        teacherFormData.append("web_url",teacherData.web_url)
-        teacherFormData.append("you_url",teacherData.you_url)
-        teacherFormData.append("skills",teacherData.skills)
+        teacherFormData.append("full_name",teacherData.full_name || '')
+        teacherFormData.append("email",teacherData.email || '')
+        teacherFormData.append("qualification",teacherData.qualification || '')
+        teacherFormData.append("mobile_no",teacherData.mobile_no || '')
+        teacherFormData.append("skills",teacherData.skills || '')
+        teacherFormData.append("face_url",teacherData.face_url || '')
+        teacherFormData.append("insta_url",teacherData.insta_url || '')
+        teacherFormData.append("twit_url",teacherData.twit_url || '')
+        teacherFormData.append("web_url",teacherData.web_url || '')
+        teacherFormData.append("you_url",teacherData.you_url || '')
 
-        if(teacherData.p_img!==''){
+        if(teacherData.p_img && teacherData.p_img !== ''){
             teacherFormData.append('profile_img',teacherData.p_img,teacherData.p_img.name);
         }
 
@@ -94,7 +93,11 @@ const TeacherProfileSetting = () => {
                         'content-type':'multipart/form-data'
                     }
                 }).then((response)=>{
-                    if(response.status==200){
+                    if(response.status===200){
+                        // Update localStorage with new profile image URL
+                        if(response.data.profile_img){
+                            localStorage.setItem('teacherProfileImg', response.data.profile_img);
+                        }
                         Swal.fire({
                             title:'Profile Updated Successfully',
                             icon:'success',
@@ -104,6 +107,8 @@ const TeacherProfileSetting = () => {
                             timerProgressBar: true,
                             showConfirmButton: false
                         });
+                        // Dispatch storage event to notify sidebar of changes
+                        window.dispatchEvent(new Event('storage'));
                     }
                     })
         }catch(error){
@@ -113,7 +118,7 @@ const TeacherProfileSetting = () => {
     }
 
     const teacherLoginStatus=localStorage.getItem('teacherLoginStatus')
-    if(teacherLoginStatus!='true'){
+    if(teacherLoginStatus!=='true'){
         window.location.href='/teacher-login';
     }
 
