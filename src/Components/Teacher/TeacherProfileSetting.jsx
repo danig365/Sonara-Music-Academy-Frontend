@@ -43,11 +43,11 @@ const TeacherProfileSetting = () => {
                 skills:res.data.skills,
                 profile_img:res.data.profile_img,
                 p_img:'',
-                face_url:res.data.face_url,
-                insta_url:res.data.insta_url,
-                twit_url:res.data.twit_url,
-                web_url:res.data.web_url,
-                you_url:res.data.you_url,
+                face_url:res.data.face_url || '',
+                insta_url:res.data.insta_url || '',
+                twit_url:res.data.twit_url || '',
+                web_url:res.data.web_url || '',
+                you_url:res.data.you_url || '',
 
               });
             });

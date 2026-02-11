@@ -61,6 +61,18 @@ import CourseAnalytics from './Admin/CourseAnalytics'
 import SubscriptionsManagement from './Admin/SubscriptionsManagement'
 import AuditLogsDashboard from './Admin/AuditLogsDashboard'
 
+// School Components
+import SchoolLogin from './School/SchoolLogin'
+import SchoolLogout from './School/SchoolLogout'
+import SchoolLayout from './School/SchoolLayout'
+import SchoolDashboard from './School/SchoolDashboard'
+import SchoolTeachers from './School/SchoolTeachers'
+import SchoolStudents from './School/SchoolStudents'
+import SchoolGroupClasses from './School/SchoolGroupClasses'
+import SchoolLessonAssignments from './School/SchoolLessonAssignments'
+import SchoolProgress from './School/SchoolProgress'
+import SchoolSettings from './School/SchoolSettings'
+
 const Main = () => {
   return (
       <BrowserRouter>
@@ -72,8 +84,10 @@ const Main = () => {
 const MainContent = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isSchoolRoute = location.pathname.startsWith('/school');
   const studentLoginStatus = localStorage.getItem('studentLoginStatus');
   const teacherLoginStatus = localStorage.getItem('teacherLoginStatus');
+  const schoolLoginStatus = localStorage.getItem('schoolLoginStatus');
   const isStudentDashboardRoute = location.pathname.startsWith('/user-dashboard') || 
                                    location.pathname.startsWith('/my-courses') ||
                                    location.pathname.startsWith('/my-teachers') ||
@@ -99,9 +113,13 @@ const MainContent = () => {
                                   location.pathname.startsWith('/add-question') ||
                                   location.pathname.startsWith('/my-users');
   const isCourseDetailRoute = location.pathname.startsWith('/detail/');
+  const isSchoolDashboardRoute = location.pathname.startsWith('/school-dashboard') ||
+                                  location.pathname.startsWith('/school/');
 
   const shouldHideHeader = isAdminRoute || 
+                          isSchoolRoute ||
                           isCourseDetailRoute ||
+                          isSchoolDashboardRoute ||
                           (isStudentDashboardRoute && studentLoginStatus === 'true') ||
                           (isTeacherDashboardRoute && teacherLoginStatus === 'true');
 
@@ -169,7 +187,7 @@ const MainContent = () => {
           </Route>
           <Route path='/teacher-detail/:teacher_id' element={<TeacherDetail  />}/>
           <Route path='/study-material/:course_id' element={<StudyMaterial  />}/>
-          <Route path='/all-courses' element={<AllCourses  />}/>\
+          <Route path='/all-courses' element={<AllCourses  />}/>
           <Route path='/popular-courses' element={<PopularCourses  />}/> 
           <Route path='/enrolled-students/:course_id' element={<EnrolledStudents  />}/>
           <Route path='/search/:searchstring' element={<Search  />}/>
@@ -200,8 +218,25 @@ const MainContent = () => {
             <Route path='subscriptions' element={<SubscriptionsManagement />}/>
             <Route path='audit-logs' element={<AuditLogsDashboard />}/>
           </Route>
+
+          {/* School Routes */}
+          <Route path='/school-login' element={<SchoolLogin />}/>
+          <Route path='/school-logout' element={<SchoolLogout />}/>
+          
+          {/* School Dashboard with Nested Routes (persistent sidebar) */}
+          <Route path='/school-dashboard' element={<SchoolLayout />}>
+            <Route index element={<SchoolDashboard />}/>
+          </Route>
+          <Route path='/school' element={<SchoolLayout />}>
+            <Route path='teachers' element={<SchoolTeachers />}/>
+            <Route path='students' element={<SchoolStudents />}/>
+            <Route path='group-classes' element={<SchoolGroupClasses />}/>
+            <Route path='lesson-assignments' element={<SchoolLessonAssignments />}/>
+            <Route path='progress' element={<SchoolProgress />}/>
+            <Route path='settings' element={<SchoolSettings />}/>
+          </Route>
       </Routes>
-      {!isAdminRoute && !(isTeacherDashboardRoute && teacherLoginStatus === 'true') && <Footer />}
+      {!isAdminRoute && !isSchoolRoute && !isSchoolDashboardRoute && !(isTeacherDashboardRoute && teacherLoginStatus === 'true') && <Footer />}
     </>
   )
 }
