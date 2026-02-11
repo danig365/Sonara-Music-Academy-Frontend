@@ -7,6 +7,7 @@ import './teacherDashboard.css'
 import { API_BASE_URL } from '../../config';
 
 const baseUrl = API_BASE_URL;
+const mediaUrl = API_BASE_URL.replace('/api', ''); // Extract base domain from API URL
 
 const TeacherStudents = () => {
   const [loading, setLoading] = useState(true)
@@ -755,7 +756,7 @@ const TeacherStudents = () => {
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', border: '1px solid #e2e8f0', borderRadius: 10, marginBottom: 10, background: course.is_enrolled ? '#f0fdf4' : '#fff' }}>
                       <div className='d-flex align-items-center gap-3' style={{ flex: 1, minWidth: 0 }}>
                         {course.featured_img ? (
-                          <img src={`${baseUrl}${course.featured_img}`} alt="" style={{ width: 48, height: 36, borderRadius: 6, objectFit: 'cover' }} />
+                          <img src={`${mediaUrl}${course.featured_img}`} alt="" style={{ width: 48, height: 36, borderRadius: 6, objectFit: 'cover' }} />
                         ) : (
                           <div style={{ width: 48, height: 36, borderRadius: 6, background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <i className="bi bi-journal text-muted"></i>

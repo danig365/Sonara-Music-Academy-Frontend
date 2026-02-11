@@ -6,6 +6,7 @@ import './teacherDashboard.css'
 import { API_BASE_URL } from '../../config';
 
 const baseUrl = API_BASE_URL;
+const mediaUrl = API_BASE_URL.replace('/api', ''); // Extract base domain from API URL
 
 const TeacherOverview = () => {
   const [loading, setLoading] = useState(true)
@@ -42,6 +43,8 @@ const TeacherOverview = () => {
       comment: 'bi-chat-dots',
       download: 'bi-download',
       calendar: 'bi-calendar-check',
+      trophy: 'bi-trophy-fill',
+      'person-plus': 'bi-person-plus-fill',
       default: 'bi-circle'
     }
     return icons[type] || icons.default
@@ -55,6 +58,8 @@ const TeacherOverview = () => {
       document: { bg: '#f3e8ff', color: '#9333ea' },
       download: { bg: '#e0f2fe', color: '#0284c7' },
       calendar: { bg: '#fce7f3', color: '#db2777' },
+      trophy: { bg: '#fef9c3', color: '#ca8a04' },
+      'person-plus': { bg: '#dbeafe', color: '#2563eb' },
     }
     return colors[type] || { bg: '#f1f5f9', color: '#64748b' }
   }
@@ -67,6 +72,8 @@ const TeacherOverview = () => {
       comment_added: 'commented on',
       material_downloaded: 'downloaded material from',
       session_attended: 'attended session',
+      course_completed: 'completed course',
+      enrolled: 'enrolled in',
     }
     return verbs[type] || type
   }
@@ -211,7 +218,7 @@ const TeacherOverview = () => {
                 <div style={{ padding: '16px 20px' }}>
                   <div className='d-flex align-items-start gap-3'>
                     {course.featured_img ? (
-                      <img src={`${baseUrl}${course.featured_img}`} alt=""
+                      <img src={`${mediaUrl}${course.featured_img}`} alt=""
                         style={{ width: 48, height: 36, borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
                     ) : (
                       <div style={{ width: 48, height: 36, borderRadius: 6, background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -334,7 +341,7 @@ const TeacherOverview = () => {
                     borderBottom: idx < data.recent_enrollments.length - 1 ? '1px solid #f1f5f9' : 'none'
                   }}>
                     {enroll.student_profile_img ? (
-                      <img src={`${baseUrl}${enroll.student_profile_img}`} alt=""
+                      <img src={`${mediaUrl}${enroll.student_profile_img}`} alt=""
                         style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
                     ) : (
                       <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: 13, color: '#64748b' }}>
