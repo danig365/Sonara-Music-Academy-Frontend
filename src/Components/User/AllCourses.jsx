@@ -43,7 +43,7 @@ const AllCourses = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    document.title = 'LMS | All Courses'
+    document.title = 'Sonara Music Academy | All Courses'
     fetchData(baseUrl)
   }, [])
 
@@ -134,11 +134,11 @@ const AllCourses = () => {
           {/* Header */}
           <div className="page-header">
             <h2>
-              <i className="bi bi-collection me-2"></i>
+              <i className="bi bi-music-note-list me-2"></i>
               All Courses
             </h2>
             <p>
-              Explore our collection of courses and start learning today
+              Discover your next musical journey — explore our full catalogue
             </p>
           </div>
 
@@ -155,7 +155,7 @@ const AllCourses = () => {
                     />
                   ) : (
                     <div className="course-placeholder">
-                      <i className="bi bi-music-note-beamed"></i>
+                      <i className="bi bi-music-note-beamed" aria-hidden="true"></i>
                     </div>
                   )}
                 </Link>
@@ -175,13 +175,13 @@ const AllCourses = () => {
                   <div className="course-meta">
                     {course.teacher && (
                           <span className="meta-badge teacher">
-                            <i className="bi bi-person"></i>
+                            <i className="bi bi-person-badge" aria-hidden="true"></i>
                             {course.teacher?.full_name || 'Instructor'}
                           </span>
                         )}
                         {course.category && (
                           <span className="meta-badge category">
-                            <i className="bi bi-folder"></i>
+                            <i className="bi bi-tag" aria-hidden="true"></i>
                             {course.category?.title}
                           </span>
                         )}
@@ -201,9 +201,13 @@ const AllCourses = () => {
 
                       {/* Footer Button */}
                       <div className="course-footer">
-                        <Link to={`/detail/${course.id}`} className="view-course-btn">
+                        <Link 
+                          to={`/detail/${course.id}`} 
+                          className="view-course-btn"
+                          aria-label={`View ${course.title}`}
+                        >
                           View Course
-                          <i className="bi bi-arrow-right"></i>
+                          <i className="bi bi-arrow-right" aria-hidden="true"></i>
                         </Link>
                       </div>
                     </div>
@@ -211,9 +215,9 @@ const AllCourses = () => {
                 )) : (
                   <div style={{ gridColumn: '1 / -1' }}>
                     <div className="empty-state">
-                      <i className="bi bi-inbox"></i>
-                      <h5>No Courses Available</h5>
-                      <p>Check back later for new courses</p>
+                      <i className="bi bi-music-note-beamed" aria-hidden="true"></i>
+                      <h5>No Courses Available Yet</h5>
+                      <p>New music courses are on the way — check back soon!</p>
                     </div>
                   </div>
                 )}

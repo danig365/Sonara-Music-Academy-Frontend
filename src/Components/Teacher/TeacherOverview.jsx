@@ -100,21 +100,118 @@ const TeacherOverview = () => {
   return (
     <>
       {/* Header */}
-      <div className='dashboard-header'>
-        <div className='header-title'>
-          <h1>Dashboard Overview</h1>
-          <p className='header-subtitle'>Welcome back, {data.teacher_name}. Here's your teaching summary.</p>
+      <div style={{
+        marginBottom: '48px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: '24px',
+        flexWrap: 'wrap'
+      }}>
+        <div>
+          <h1 style={{
+            fontSize: 'clamp(28px, 5vw, 42px)',
+            fontWeight: 700,
+            color: '#1a1a1a',
+            marginBottom: '12px',
+            letterSpacing: '-0.5px'
+          }}>Dashboard Overview</h1>
+          <p style={{
+            fontSize: '15px',
+            color: '#4b5563',
+            margin: 0,
+            fontWeight: 400
+          }}>Welcome back, {data.teacher_name}. Here's your teaching summary.</p>
         </div>
-        <div className='header-actions'>
-          <button className='btn-secondary-custom' onClick={fetchDashboardData}>
+        <div style={{
+          display: 'flex',
+          gap: '12px',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-end'
+        }}>
+          <button 
+            onClick={fetchDashboardData}
+            style={{
+              padding: '12px 20px',
+              background: 'white',
+              color: '#667eea',
+              border: '2px solid #667eea',
+              borderRadius: '10px',
+              fontSize: '15px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={e => {
+              e.target.style.background = '#f8f9ff';
+              e.target.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={e => {
+              e.target.style.background = 'white';
+              e.target.style.transform = 'translateY(0)';
+            }}
+          >
             <i className="bi bi-arrow-clockwise"></i>
             Refresh
           </button>
-          <Link to='/teacher-students' className='btn-secondary-custom' style={{ textDecoration: 'none' }}>
+          <Link to='/teacher-students' style={{
+            padding: '12px 20px',
+            background: 'white',
+            color: '#667eea',
+            border: '2px solid #667eea',
+            borderRadius: '10px',
+            fontSize: '15px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            textDecoration: 'none',
+            whiteSpace: 'nowrap'
+          }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = '#f8f9ff';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'white';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
             <i className="bi bi-people"></i>
             View Students
           </Link>
-          <Link to='/teacher-course-management' className='btn-primary-custom' style={{ textDecoration: 'none' }}>
+          <Link to='/teacher-course-management' style={{
+            padding: '12px 20px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '10px',
+            fontSize: '15px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            textDecoration: 'none',
+            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
+            whiteSpace: 'nowrap'
+          }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(102, 126, 234, 0.5)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+            }}
+          >
             <i className="bi bi-journal-richtext"></i>
             Manage Courses
           </Link>
@@ -122,125 +219,384 @@ const TeacherOverview = () => {
       </div>
 
       {/* Metrics Cards */}
-      <div className='metrics-row'>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '24px',
+        marginBottom: '48px'
+      }}>
         {/* Total Students */}
-        <div className='metric-card'>
-          <div className='metric-icon' style={{ background: '#dbeafe', color: '#3b82f6' }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          padding: '32px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          cursor: 'default'
+        }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-8px)';
+            e.currentTarget.style.boxShadow = '0 12px 24px rgba(102, 126, 234, 0.2)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+          }}
+        >
+          <div style={{
+            width: '64px',
+            height: '64px',
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '20px',
+            fontSize: '28px',
+            color: '#667eea'
+          }}>
             <i className="bi bi-people-fill"></i>
           </div>
-          <div className='metric-content'>
-            <div className='metric-label'>Total Students</div>
-            <div className='metric-value'>{data.total_students}</div>
-            {data.new_students_this_month > 0 && (
-              <div className='metric-trend up'>
-                <i className="bi bi-arrow-up"></i>
-                {data.new_students_this_month} new this month
-              </div>
-            )}
-          </div>
+          <div style={{ fontSize: '13px', color: '#6b7280', fontWeight: 500, marginBottom: '8px' }}>Total Students</div>
+          <div style={{
+            fontSize: 'clamp(24px, 4vw, 32px)',
+            fontWeight: 700,
+            color: '#1a1a1a',
+            marginBottom: '12px',
+            letterSpacing: '-0.5px'
+          }}>{data.total_students}</div>
+          {data.new_students_this_month > 0 && (
+            <div style={{
+              fontSize: '13px',
+              color: '#10b981',
+              fontWeight: 500,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
+              <i className="bi bi-arrow-up"></i>
+              {data.new_students_this_month} new this month
+            </div>
+          )}
         </div>
 
         {/* Total Courses */}
-        <div className='metric-card'>
-          <div className='metric-icon' style={{ background: '#fef3c7', color: '#d97706' }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          padding: '32px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          cursor: 'default'
+        }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-8px)';
+            e.currentTarget.style.boxShadow = '0 12px 24px rgba(102, 126, 234, 0.2)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+          }}
+        >
+          <div style={{
+            width: '64px',
+            height: '64px',
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '20px',
+            fontSize: '28px',
+            color: '#667eea'
+          }}>
             <i className="bi bi-journal-richtext"></i>
           </div>
-          <div className='metric-content'>
-            <div className='metric-label'>My Courses</div>
-            <div className='metric-value'>{data.total_courses}</div>
-            <div className='metric-trend' style={{ color: '#64748b' }}>
-              {data.total_chapters} chapter{data.total_chapters !== 1 ? 's' : ''} · {data.total_lessons} lesson{data.total_lessons !== 1 ? 's' : ''}
-            </div>
+          <div style={{ fontSize: '13px', color: '#6b7280', fontWeight: 500, marginBottom: '8px' }}>My Courses</div>
+          <div style={{
+            fontSize: 'clamp(24px, 4vw, 32px)',
+            fontWeight: 700,
+            color: '#1a1a1a',
+            marginBottom: '12px',
+            letterSpacing: '-0.5px'
+          }}>{data.total_courses}</div>
+          <div style={{ fontSize: '13px', color: '#4b5563', fontWeight: 400 }}>
+            {data.total_chapters} chapter{data.total_chapters !== 1 ? 's' : ''} · {data.total_lessons} lesson{data.total_lessons !== 1 ? 's' : ''}
           </div>
         </div>
 
         {/* Enrollments */}
-        <div className='metric-card'>
-          <div className='metric-icon' style={{ background: '#dcfce7', color: '#22c55e' }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          padding: '32px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          cursor: 'default'
+        }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-8px)';
+            e.currentTarget.style.boxShadow = '0 12px 24px rgba(102, 126, 234, 0.2)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+          }}
+        >
+          <div style={{
+            width: '64px',
+            height: '64px',
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '20px',
+            fontSize: '28px',
+            color: '#667eea'
+          }}>
             <i className="bi bi-person-check-fill"></i>
           </div>
-          <div className='metric-content'>
-            <div className='metric-label'>Enrollments</div>
-            <div className='metric-value'>{data.total_enrollments}</div>
-            {data.new_enrollments_this_week > 0 ? (
-              <div className='metric-trend up'>
-                <i className="bi bi-arrow-up"></i>
-                {data.new_enrollments_this_week} this week
-              </div>
-            ) : (
-              <div className='metric-trend' style={{ color: '#64748b' }}>
-                {data.active_enrollments} active
-              </div>
-            )}
-          </div>
+          <div style={{ fontSize: '13px', color: '#6b7280', fontWeight: 500, marginBottom: '8px' }}>Enrollments</div>
+          <div style={{
+            fontSize: 'clamp(24px, 4vw, 32px)',
+            fontWeight: 700,
+            color: '#1a1a1a',
+            marginBottom: '12px',
+            letterSpacing: '-0.5px'
+          }}>{data.total_enrollments}</div>
+          {data.new_enrollments_this_week > 0 ? (
+            <div style={{
+              fontSize: '13px',
+              color: '#10b981',
+              fontWeight: 500,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
+              <i className="bi bi-arrow-up"></i>
+              {data.new_enrollments_this_week} this week
+            </div>
+          ) : (
+            <div style={{ fontSize: '13px', color: '#4b5563', fontWeight: 400 }}>
+              {data.active_enrollments} active
+            </div>
+          )}
         </div>
 
         {/* Completion Rate */}
-        <div className='metric-card'>
-          <div className='metric-icon' style={{ background: '#fce7f3', color: '#ec4899' }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          padding: '32px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          cursor: 'default'
+        }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-8px)';
+            e.currentTarget.style.boxShadow = '0 12px 24px rgba(102, 126, 234, 0.2)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+          }}
+        >
+          <div style={{
+            width: '64px',
+            height: '64px',
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '20px',
+            fontSize: '28px',
+            color: '#667eea'
+          }}>
             <i className="bi bi-trophy-fill"></i>
           </div>
-          <div className='metric-content'>
-            <div className='metric-label'>Completion Rate</div>
-            <div className='metric-value'>
-              {data.total_enrollments > 0 ? `${data.completion_rate}%` : '—'}
-            </div>
-            <div className='metric-trend' style={{ color: '#64748b' }}>
-              {data.completed_courses} of {data.total_enrollments} completed
-            </div>
+          <div style={{ fontSize: '13px', color: '#6b7280', fontWeight: 500, marginBottom: '8px' }}>Completion Rate</div>
+          <div style={{
+            fontSize: 'clamp(24px, 4vw, 32px)',
+            fontWeight: 700,
+            color: '#1a1a1a',
+            marginBottom: '12px',
+            letterSpacing: '-0.5px'
+          }}>
+            {data.total_enrollments > 0 ? `${data.completion_rate}%` : '—'}
+          </div>
+          <div style={{ fontSize: '13px', color: '#4b5563', fontWeight: 400 }}>
+            {data.completed_courses} of {data.total_enrollments} completed
           </div>
         </div>
       </div>
 
       {/* My Courses Section */}
       {data.courses && data.courses.length > 0 && (
-        <div className='content-card' style={{ marginBottom: 24 }}>
-          <div className='content-card-header'>
-            <h2 className='content-card-title'>My Courses</h2>
-            <Link to='/teacher-course-management' className='view-all-link'>Manage All</Link>
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          padding: '32px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+          marginBottom: '48px'
+        }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '32px',
+            flexWrap: 'wrap',
+            gap: '16px'
+          }}>
+            <h2 style={{
+              fontSize: 'clamp(24px, 4vw, 32px)',
+              fontWeight: 700,
+              color: '#1a1a1a',
+              margin: 0,
+              letterSpacing: '-0.5px'
+            }}>My Courses</h2>
+            <Link to='/teacher-course-management' style={{
+              fontSize: '15px',
+              fontWeight: 600,
+              color: '#667eea',
+              textDecoration: 'none',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+              onMouseEnter={e => {
+                e.currentTarget.style.color = '#764ba2';
+                e.currentTarget.style.transform = 'translateX(4px)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.color = '#667eea';
+                e.currentTarget.style.transform = 'translateX(0)';
+              }}
+            >
+              Manage All
+              <i className="bi bi-arrow-right"></i>
+            </Link>
           </div>
-          <div className='d-flex flex-wrap gap-3'>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gap: '24px'
+          }}>
             {data.courses.map(course => (
               <div key={course.id}
                 style={{
-                  flex: '1 1 280px', maxWidth: 360,
-                  border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden',
-                  background: '#fff', transition: 'box-shadow 0.2s'
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  background: '#ffffff',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default'
                 }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(102, 126, 234, 0.15)';
+                  e.currentTarget.style.borderColor = '#667eea';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = '#e5e7eb';
+                }}
               >
-                <div style={{ height: 6, background: course.total_enrolled > 0 ? '#3b82f6' : '#e2e8f0' }}></div>
-                <div style={{ padding: '16px 20px' }}>
-                  <div className='d-flex align-items-start gap-3'>
+                <div style={{
+                  height: '6px',
+                  background: course.total_enrolled > 0 
+                    ? 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)' 
+                    : '#e5e7eb'
+                }}></div>
+                <div style={{ padding: '20px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '16px',
+                    marginBottom: '16px'
+                  }}>
                     {course.featured_img ? (
                       <img src={`${mediaUrl}${course.featured_img}`} alt=""
-                        style={{ width: 48, height: 36, borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
+                        style={{
+                          width: '56px',
+                          height: '42px',
+                          borderRadius: '12px',
+                          objectFit: 'cover',
+                          flexShrink: 0,
+                          border: '1px solid #e5e7eb'
+                        }} />
                     ) : (
-                      <div style={{ width: 48, height: 36, borderRadius: 6, background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <i className="bi bi-journal text-muted"></i>
+                      <div style={{
+                        width: '56px',
+                        height: '42px',
+                        borderRadius: '12px',
+                        background: '#f5f7fa',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        color: '#6b7280',
+                        fontSize: '18px'
+                      }}>
+                        <i className="bi bi-journal"></i>
                       </div>
                     )}
                     <div style={{ minWidth: 0, flex: 1 }}>
-                      <h6 className='mb-1' style={{ fontSize: 14, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <h6 style={{
+                        fontSize: '15px',
+                        fontWeight: 600,
+                        color: '#1a1a1a',
+                        margin: '0 0 8px 0',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
                         {course.title}
                       </h6>
-                      <div className='d-flex gap-3 text-muted' style={{ fontSize: 12 }}>
-                        <span><i className="bi bi-people me-1"></i>{course.total_enrolled} enrolled</span>
-                        <span><i className="bi bi-collection me-1"></i>{course.chapter_count} ch · {course.lesson_count} lessons</span>
+                      <div style={{
+                        display: 'flex',
+                        gap: '16px',
+                        fontSize: '13px',
+                        color: '#6b7280',
+                        fontWeight: 400
+                      }}>
+                        <span><i className="bi bi-people me-1" style={{ marginRight: '4px' }}></i>{course.total_enrolled} enrolled</span>
+                        <span><i className="bi bi-collection me-1" style={{ marginRight: '4px' }}></i>{course.chapter_count} ch · {course.lesson_count} lessons</span>
                       </div>
                     </div>
                   </div>
                   {course.total_enrolled > 0 && (
-                    <div className='mt-2'>
-                      <div className='d-flex justify-content-between' style={{ fontSize: 11, color: '#64748b', marginBottom: 4 }}>
+                    <div>
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        fontSize: '12px',
+                        color: '#6b7280',
+                        fontWeight: 500,
+                        marginBottom: '8px'
+                      }}>
                         <span>Avg student progress</span>
                         <span>{course.avg_progress}%</span>
                       </div>
-                      <div style={{ height: 4, background: '#e2e8f0', borderRadius: 2 }}>
+                      <div style={{
+                        height: '6px',
+                        background: '#e5e7eb',
+                        borderRadius: '3px',
+                        overflow: 'hidden'
+                      }}>
                         <div style={{
-                          width: `${course.avg_progress}%`, height: '100%', borderRadius: 2,
-                          background: course.avg_progress >= 70 ? '#22c55e' : course.avg_progress >= 40 ? '#f59e0b' : '#3b82f6'
+                          width: `${course.avg_progress}%`,
+                          height: '100%',
+                          background: course.avg_progress >= 70 
+                            ? '#10b981' 
+                            : course.avg_progress >= 40 
+                              ? '#f59e0b' 
+                              : 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+                          borderRadius: '3px',
+                          transition: 'width 0.3s ease'
                         }}></div>
                       </div>
                     </div>
@@ -253,107 +609,305 @@ const TeacherOverview = () => {
       )}
 
       {/* Content Row: Activities + Sessions */}
-      <div className='content-row'>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+        gap: '32px',
+        marginBottom: '48px'
+      }}>
         {/* Recent Activity */}
-        <div className='content-card'>
-          <div className='content-card-header'>
-            <h2 className='content-card-title'>Recent Activity</h2>
-          </div>
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          padding: '32px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+        }}>
+          <h2 style={{
+            fontSize: 'clamp(20px, 3vw, 24px)',
+            fontWeight: 700,
+            color: '#1a1a1a',
+            margin: '0 0 28px 0',
+            letterSpacing: '-0.5px'
+          }}>Recent Activity</h2>
           {data.recent_activities && data.recent_activities.length > 0 ? (
-            <ul className='activity-list'>
-              {data.recent_activities.map((activity) => {
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {data.recent_activities.map((activity, idx) => {
                 const ac = getActivityColor(activity.icon_type)
                 return (
-                  <li key={activity.id} className='activity-item'>
-                    <div className='activity-icon' style={{ background: ac.bg, color: ac.color }}>
+                  <li key={activity.id} style={{
+                    display: 'flex',
+                    gap: '16px',
+                    padding: '16px 0',
+                    borderBottom: idx < data.recent_activities.length - 1 ? '1px solid #e5e7eb' : 'none'
+                  }}>
+                    <div style={{
+                      width: '48px',
+                      height: '48px',
+                      minWidth: 0,
+                      flexShrink: 0,
+                      borderRadius: '12px',
+                      background: ac.bg,
+                      color: ac.color,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '20px'
+                    }}>
                       <i className={`bi ${getActivityIcon(activity.icon_type)}`}></i>
                     </div>
-                    <div className='activity-content'>
-                      <p className='activity-text'>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <p style={{
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        color: '#1a1a1a',
+                        margin: '0 0 4px 0',
+                        lineHeight: '1.5'
+                      }}>
                         <strong>{activity.student_name}</strong> {getActivityVerb(activity.activity_type)}{' '}
                         {activity.target_id ? (
-                          <Link to={`/detail/${activity.target_id}`} className='activity-link'>
+                          <Link to={`/detail/${activity.target_id}`} style={{
+                            color: '#667eea',
+                            textDecoration: 'none',
+                            fontWeight: 600,
+                            transition: 'all 0.2s ease'
+                          }}
+                            onMouseEnter={e => {
+                              e.currentTarget.style.color = '#764ba2';
+                              e.currentTarget.style.textDecoration = 'underline';
+                            }}
+                            onMouseLeave={e => {
+                              e.currentTarget.style.color = '#667eea';
+                              e.currentTarget.style.textDecoration = 'none';
+                            }}
+                          >
                             {activity.target_name}
                           </Link>
                         ) : (
-                          <span className='activity-link'>{activity.target_name}</span>
+                          <span style={{ color: '#667eea', fontWeight: 600 }}>{activity.target_name}</span>
                         )}
                       </p>
-                      <span className='activity-time'>{activity.time_ago}</span>
+                      <span style={{
+                        fontSize: '12px',
+                        color: '#6b7280',
+                        fontWeight: 400
+                      }}>{activity.time_ago}</span>
                     </div>
                   </li>
                 )
               })}
             </ul>
           ) : (
-            <div className='d-flex flex-column align-items-center justify-content-center py-5'>
-              <i className="bi bi-clock-history display-4" style={{ color: '#cbd5e1' }}></i>
-              <p className='text-muted mt-3 mb-0'>No recent activity yet</p>
-              <p className='text-muted small'>Activity will appear here when students interact with your courses.</p>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingTop: '40px',
+              paddingBottom: '40px'
+            }}>
+              <i className="bi bi-clock-history" style={{
+                fontSize: '48px',
+                color: '#cbd5e1',
+                marginBottom: '16px'
+              }}></i>
+              <p style={{ color: '#6b7280', margin: '0 0 8px 0', fontSize: '15px', fontWeight: 500 }}>
+                No recent activity yet
+              </p>
+              <p style={{
+                color: '#6b7280',
+                margin: 0,
+                fontSize: '13px',
+                fontWeight: 400,
+                textAlign: 'center'
+              }}>
+                Activity will appear here when students interact with your courses.
+              </p>
             </div>
           )}
         </div>
 
         {/* Right Column: Sessions + Enrollments */}
-        <div className='d-flex flex-column gap-4'>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '32px'
+        }}>
           {/* Upcoming Sessions */}
-          <div className='content-card'>
-            <div className='content-card-header'>
-              <h2 className='content-card-title'>Upcoming Sessions</h2>
-            </div>
+          <div style={{
+            background: 'white',
+            borderRadius: '16px',
+            padding: '32px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+          }}>
+            <h2 style={{
+              fontSize: 'clamp(20px, 3vw, 24px)',
+              fontWeight: 700,
+              color: '#1a1a1a',
+              margin: '0 0 28px 0',
+              letterSpacing: '-0.5px'
+            }}>Upcoming Sessions</h2>
             {data.upcoming_sessions && data.upcoming_sessions.length > 0 ? (
-              <ul className='session-list'>
-                {data.upcoming_sessions.map((session) => (
-                  <li key={session.id} className='session-item'>
-                    <span className='session-time'>{session.scheduled_time}</span>
-                    <div className='session-info'>
-                      <div className='session-student'>{session.student_name}</div>
-                      <div className='session-topic'>{session.title}</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {data.upcoming_sessions.map((session, idx) => (
+                  <li key={session.id} style={{
+                    display: 'flex',
+                    gap: '16px',
+                    padding: '16px 0',
+                    borderBottom: idx < data.upcoming_sessions.length - 1 ? '1px solid #e5e7eb' : 'none',
+                    alignItems: 'center'
+                  }}>
+                    <div style={{
+                      minWidth: '56px',
+                      fontSize: '13px',
+                      fontWeight: 600,
+                      color: '#667eea',
+                      textAlign: 'center'
+                    }}>{session.scheduled_time}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: '#1a1a1a',
+                        marginBottom: '4px'
+                      }}>{session.student_name}</div>
+                      <div style={{
+                        fontSize: '13px',
+                        color: '#6b7280',
+                        fontWeight: 400,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>{session.title}</div>
                     </div>
-                    <span className={`session-status ${session.status}`}>
+                    <span style={{
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      padding: '6px 12px',
+                      borderRadius: '8px',
+                      background: session.status === 'scheduled' 
+                        ? '#e3f2fd' 
+                        : session.status === 'completed'
+                          ? '#d4edda'
+                          : '#f8d7da',
+                      color: session.status === 'scheduled' 
+                        ? '#1976d2' 
+                        : session.status === 'completed'
+                          ? '#10b981'
+                          : '#ef4444',
+                      whiteSpace: 'nowrap'
+                    }}>
                       {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
                     </span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <div className='d-flex flex-column align-items-center justify-content-center py-4'>
-                <i className="bi bi-calendar2-x display-5" style={{ color: '#cbd5e1' }}></i>
-                <p className='text-muted mt-2 mb-0 small'>No upcoming sessions</p>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingTop: '40px',
+                paddingBottom: '40px'
+              }}>
+                <i className="bi bi-calendar2-x" style={{
+                  fontSize: '48px',
+                  color: '#cbd5e1',
+                  marginBottom: '12px'
+                }}></i>
+                <p style={{
+                  color: '#6b7280',
+                  margin: 0,
+                  fontSize: '13px',
+                  fontWeight: 400,
+                  textAlign: 'center'
+                }}>No upcoming sessions</p>
               </div>
             )}
           </div>
 
           {/* Recent Enrollments */}
-          <div className='content-card'>
-            <div className='content-card-header'>
-              <h2 className='content-card-title'>Recent Enrollments</h2>
-            </div>
+          <div style={{
+            background: 'white',
+            borderRadius: '16px',
+            padding: '32px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
+          }}>
+            <h2 style={{
+              fontSize: 'clamp(20px, 3vw, 24px)',
+              fontWeight: 700,
+              color: '#1a1a1a',
+              margin: '0 0 28px 0',
+              letterSpacing: '-0.5px'
+            }}>Recent Enrollments</h2>
             {data.recent_enrollments && data.recent_enrollments.length > 0 ? (
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {data.recent_enrollments.map((enroll, idx) => (
                   <li key={idx} style={{
-                    display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0',
-                    borderBottom: idx < data.recent_enrollments.length - 1 ? '1px solid #f1f5f9' : 'none'
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                    padding: '16px 0',
+                    borderBottom: idx < data.recent_enrollments.length - 1 ? '1px solid #e5e7eb' : 'none'
                   }}>
                     {enroll.student_profile_img ? (
                       <img src={`${mediaUrl}${enroll.student_profile_img}`} alt=""
-                        style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          flexShrink: 0,
+                          border: '2px solid #e5e7eb'
+                        }} />
                     ) : (
-                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: 13, color: '#64748b' }}>
+                      <div style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 600,
+                        fontSize: '14px',
+                        color: 'white',
+                        flexShrink: 0
+                      }}>
                         {(enroll.student_name || '?').charAt(0).toUpperCase()}
                       </div>
                     )}
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 500 }}>{enroll.student_name}</div>
-                      <div className='text-muted' style={{ fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        enrolled in <strong>{enroll.course_title}</strong>
+                      <div style={{
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: '#1a1a1a',
+                        marginBottom: '4px'
+                      }}>{enroll.student_name}</div>
+                      <div style={{
+                        fontSize: '13px',
+                        color: '#6b7280',
+                        fontWeight: 400,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        enrolled in <strong style={{ color: '#1a1a1a' }}>{enroll.course_title}</strong>
                       </div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
+                    <div style={{
+                      textAlign: 'right',
+                      minWidth: '52px',
+                      flexShrink: 0
+                    }}>
                       <div style={{
-                        fontSize: 12, fontWeight: 600,
-                        color: enroll.progress_percent >= 70 ? '#16a34a' : enroll.progress_percent >= 30 ? '#d97706' : '#3b82f6'
+                        fontSize: '13px',
+                        fontWeight: 700,
+                        color: enroll.progress_percent >= 70 
+                          ? '#10b981' 
+                          : enroll.progress_percent >= 30 
+                            ? '#f59e0b' 
+                            : '#667eea'
                       }}>
                         {enroll.progress_percent}%
                       </div>
@@ -362,9 +916,26 @@ const TeacherOverview = () => {
                 ))}
               </ul>
             ) : (
-              <div className='d-flex flex-column align-items-center justify-content-center py-4'>
-                <i className="bi bi-person-plus display-5" style={{ color: '#cbd5e1' }}></i>
-                <p className='text-muted mt-2 mb-0 small'>No enrollments yet</p>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingTop: '40px',
+                paddingBottom: '40px'
+              }}>
+                <i className="bi bi-person-plus" style={{
+                  fontSize: '48px',
+                  color: '#cbd5e1',
+                  marginBottom: '12px'
+                }}></i>
+                <p style={{
+                  color: '#6b7280',
+                  margin: 0,
+                  fontSize: '13px',
+                  fontWeight: 400,
+                  textAlign: 'center'
+                }}>No enrollments yet</p>
               </div>
             )}
           </div>
@@ -373,21 +944,99 @@ const TeacherOverview = () => {
 
       {/* Empty State — show when teacher has no courses at all */}
       {data.total_courses === 0 && (
-        <div className='content-card' style={{ marginTop: 24 }}>
-          <div className='d-flex flex-column align-items-center justify-content-center py-5'>
-            <i className="bi bi-rocket-takeoff display-3" style={{ color: '#3b82f6' }}></i>
-            <h4 className='mt-3 mb-2'>Get Started!</h4>
-            <p className='text-muted mb-4 text-center' style={{ maxWidth: 400 }}>
-              Create your first course and start sharing your musical knowledge with students.
-            </p>
-            <div className='d-flex gap-3'>
-              <Link to='/teacher-course-management' className='btn-primary-custom' style={{ textDecoration: 'none' }}>
-                <i className="bi bi-plus-lg me-2"></i>Create a Course
-              </Link>
-              <Link to='/teacher-students' className='btn-secondary-custom' style={{ textDecoration: 'none' }}>
-                <i className="bi bi-people me-2"></i>Add Students
-              </Link>
-            </div>
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          padding: '60px 32px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <div style={{
+            fontSize: '56px',
+            color: '#667eea',
+            marginBottom: '24px'
+          }}>
+            <i className="bi bi-rocket-takeoff"></i>
+          </div>
+          <h4 style={{
+            fontSize: 'clamp(24px, 4vw, 32px)',
+            fontWeight: 700,
+            color: '#1a1a1a',
+            margin: '0 0 12px 0',
+            letterSpacing: '-0.5px'
+          }}>Get Started!</h4>
+          <p style={{
+            color: '#4b5563',
+            margin: '0 0 32px 0',
+            textAlign: 'center',
+            maxWidth: '400px',
+            fontSize: '15px',
+            lineHeight: '1.6'
+          }}>
+            Create your first course and start sharing your musical knowledge with students.
+          </p>
+          <div style={{
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'center',
+            flexWrap: 'wrap'
+          }}>
+            <Link to='/teacher-course-management' style={{
+              padding: '12px 28px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '10px',
+              fontSize: '15px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              textDecoration: 'none',
+              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)'
+            }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(102, 126, 234, 0.5)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+              }}
+            >
+              <i className="bi bi-plus-lg"></i>Create a Course
+            </Link>
+            <Link to='/teacher-students' style={{
+              padding: '12px 28px',
+              background: 'white',
+              color: '#667eea',
+              border: '2px solid #667eea',
+              borderRadius: '10px',
+              fontSize: '15px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              textDecoration: 'none'
+            }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = '#f8f9ff';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = 'white';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <i className="bi bi-people"></i>Add Students
+            </Link>
           </div>
         </div>
       )}

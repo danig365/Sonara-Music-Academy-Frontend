@@ -41,7 +41,7 @@ const MyProgress = () => {
     }, []);
 
     useEffect(() => {
-        document.title = 'LMS | My Progress';
+        document.title = 'Sonara Music Academy | My Progress';
     }, []);
 
     useEffect(() => {
@@ -122,9 +122,9 @@ const MyProgress = () => {
                     <button 
                         className="sidebar-toggle"
                         onClick={() => setSidebarOpen(!sidebarOpen)}
-                        aria-label="Toggle sidebar"
+                        aria-label="Toggle navigation menu"
                     >
-                        <i className="bi bi-list"></i>
+                        <i className="bi bi-list" aria-hidden="true"></i>
                     </button>
                     <div className="logo-mini">Sonara Music Academy</div>
                 </div>
@@ -134,17 +134,17 @@ const MyProgress = () => {
                     <div className="progress-header">
                         <div>
                             <h2>
-                                <i className="bi bi-graph-up me-2"></i>
+                                <i className="bi bi-music-note-beamed me-2" aria-hidden="true"></i>
                                 My Learning Progress
                             </h2>
-                            <p>Track your course completion and learning time</p>
+                            <p>Track your course completion and practice time</p>
                         </div>
                         <button
                             onClick={handleRefresh}
                             disabled={refreshing}
                             className="refresh-btn"
                         >
-                            <i className={`bi bi-arrow-clockwise ${refreshing ? 'spin' : ''}`}></i>
+                            <i className={`bi bi-arrow-clockwise ${refreshing ? 'spin' : ''}`} aria-hidden="true"></i>
                             Refresh
                         </button>
                     </div>
@@ -153,7 +153,7 @@ const MyProgress = () => {
                     <div className="stats-grid">
                         <div className="stat-card">
                             <div className="stat-icon" style={{ backgroundColor: '#eff6ff' }}>
-                                <i className="bi bi-book" style={{ color: '#4285f4' }}></i>
+                                <i className="bi bi-music-note-list" style={{ color: '#3b82f6' }} aria-hidden="true"></i>
                             </div>
                             <div className="stat-content">
                                 <h4>{stats.total}</h4>
@@ -162,8 +162,8 @@ const MyProgress = () => {
                         </div>
 
                         <div className="stat-card">
-                            <div className="stat-icon" style={{ backgroundColor: '#f0fdf4' }}>
-                                <i className="bi bi-check-circle" style={{ color: '#10b981' }}></i>
+                            <div className="stat-icon" style={{ backgroundColor: '#ecfdf5' }}>
+                                <i className="bi bi-check-circle-fill" style={{ color: '#10b981' }} aria-hidden="true"></i>
                             </div>
                             <div className="stat-content">
                                 <h4>{stats.completed}</h4>
@@ -173,17 +173,17 @@ const MyProgress = () => {
 
                         <div className="stat-card">
                             <div className="stat-icon" style={{ backgroundColor: '#fffbeb' }}>
-                                <i className="bi bi-clock" style={{ color: '#f59e0b' }}></i>
+                                <i className="bi bi-clock-history" style={{ color: '#f59e0b' }} aria-hidden="true"></i>
                             </div>
                             <div className="stat-content">
                                 <h4>{formatTime(stats.totalTime)}</h4>
-                                <p>Time Spent</p>
+                                <p>Practice Time</p>
                             </div>
                         </div>
 
                         <div className="stat-card">
                             <div className="stat-icon" style={{ backgroundColor: '#f0f9ff' }}>
-                                <i className="bi bi-percent" style={{ color: '#0ea5e9' }}></i>
+                                <i className="bi bi-trophy" style={{ color: '#06b6d4' }} aria-hidden="true"></i>
                             </div>
                             <div className="stat-content">
                                 <h4>{stats.avgProgress}%</h4>
@@ -227,7 +227,7 @@ const MyProgress = () => {
                                             />
                                         ) : (
                                             <div className="course-placeholder">
-                                                <i className="bi bi-book"></i>
+                                                <i className="bi bi-music-note-beamed" aria-hidden="true"></i>
                                             </div>
                                         )}
 
@@ -241,7 +241,7 @@ const MyProgress = () => {
                                                 </Link>
                                             </h5>
                                             <p>
-                                                <i className="bi bi-person me-1"></i>
+                                                <i className="bi bi-person-badge me-1" aria-hidden="true"></i>
                                                 {cp.course?.teacher?.full_name}
                                             </p>
                                         </div>
@@ -264,7 +264,7 @@ const MyProgress = () => {
                                         {/* Time */}
                                         <div className="time-display">
                                             <p>
-                                                <i className="bi bi-clock me-1"></i>
+                                                <i className="bi bi-clock-history me-1" aria-hidden="true"></i>
                                                 {cp.time_spent_formatted || formatTime(cp.total_time_spent_seconds)}
                                             </p>
                                         </div>
@@ -272,15 +272,16 @@ const MyProgress = () => {
                                         {/* Action */}
                                         <div className="action-button">
                                             {cp.is_completed ? (
-                                                <span className="action-btn completed">
-                                                    <i className="bi bi-check-lg"></i>
+                                                <span className="action-btn completed" aria-label="Course completed">
+                                                    <i className="bi bi-check-lg" aria-hidden="true"></i>
                                                 </span>
                                             ) : (
                                                 <Link 
                                                     to={`/detail/${cp.course?.id}`}
                                                     className="action-btn continue"
+                                                    aria-label={`Continue ${cp.course?.title}`}
                                                 >
-                                                    <i className="bi bi-play-fill"></i>
+                                                    <i className="bi bi-play-fill" aria-hidden="true"></i>
                                                 </Link>
                                             )}
                                         </div>
@@ -290,18 +291,19 @@ const MyProgress = () => {
                         </div>
                     ) : (
                         <div className="empty-state">
-                            <i className="bi bi-graph-up"></i>
+                            <i className="bi bi-music-note-beamed" aria-hidden="true"></i>
                             <h5>No courses found</h5>
                             <p>
                                 {filter === 'all' 
-                                    ? 'You have not enrolled in any courses yet.' 
-                                    : `No courses found with status: ${filter}`}
+                                    ? 'Start your musical journey — enroll in a course today!' 
+                                    : `No courses match the "${filter}" filter.`}
                             </p>
                             <Link 
                                 to="/all-courses"
                                 className="browse-btn"
                             >
-                                Browse Courses
+                                <i className="bi bi-search me-1" aria-hidden="true"></i>
+                                Explore Courses
                             </Link>
                         </div>
                     )}

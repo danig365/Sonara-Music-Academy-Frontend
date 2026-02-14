@@ -451,7 +451,7 @@ const StudentSubscriptions = () => {
                 <div className="content-wrapper">
                     <div className="student-subscriptions">
             <h2 className="mb-4 subscription-header">
-                <i className="bi bi-credit-card-2-front me-2"></i>
+                <i className="bi bi-music-note-list me-2" aria-hidden="true"></i>
                 Subscribe to Plans
             </h2>
 
@@ -462,7 +462,7 @@ const StudentSubscriptions = () => {
                         className={`nav-link ${activeTab === 'plans' ? 'active' : ''}`}
                         onClick={() => setActiveTab('plans')}
                     >
-                        <i className="bi bi-box me-2"></i>Available Plans
+                        <i className="bi bi-music-note-beamed me-2" aria-hidden="true"></i>Available Plans
                     </button>
                 </li>
                 <li className="nav-item" role="presentation">
@@ -470,7 +470,7 @@ const StudentSubscriptions = () => {
                         className={`nav-link ${activeTab === 'my-subscriptions' ? 'active' : ''}`}
                         onClick={() => setActiveTab('my-subscriptions')}
                     >
-                        <i className="bi bi-check-circle me-2"></i>My Subscriptions
+                        <i className="bi bi-check-circle-fill me-2" aria-hidden="true"></i>My Subscriptions
                     </button>
                 </li>
             </ul>
@@ -523,22 +523,22 @@ const StudentSubscriptions = () => {
 
                                 <ul className="plan-features">
                                     <li className="feature">
-                                        <i className="bi bi-check-circle-fill text-success me-2"></i>
+                                        <i className="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i>
                                         Max {plan.max_courses} Courses
                                     </li>
                                     <li className="feature">
-                                        <i className="bi bi-check-circle-fill text-success me-2"></i>
+                                        <i className="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i>
                                         Max {plan.max_lessons} Lessons
                                     </li>
                                     {plan.lessons_per_week && (
                                         <li className="feature">
-                                            <i className="bi bi-check-circle-fill text-success me-2"></i>
+                                            <i className="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i>
                                             {plan.lessons_per_week} Lessons/Week
                                         </li>
                                     )}
                                     {plan.allowed_teachers && plan.allowed_teachers.length > 0 && (
                                         <li className="feature">
-                                            <i className="bi bi-person-check-fill text-info me-2"></i>
+                                            <i className="bi bi-person-check-fill text-info me-2" aria-hidden="true"></i>
                                             <div style={{ marginLeft: '-0.5rem' }}>
                                                 <div style={{ fontWeight: 500, marginBottom: '6px' }}>Instructors: <span style={{ fontWeight: 400, color: '#64748b', fontSize: '0.9em' }}>({plan.allowed_teachers.length})</span></div>
                                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
@@ -563,31 +563,31 @@ const StudentSubscriptions = () => {
                                     {/* Access Control Features */}
                                     {plan.can_access_premium_courses && (
                                         <li className="feature">
-                                            <i className="bi bi-star-fill text-warning me-2"></i>
+                                            <i className="bi bi-star-fill text-warning me-2" aria-hidden="true"></i>
                                             Premium Course Access
                                         </li>
                                     )}
                                     {plan.can_download_content && (
                                         <li className="feature">
-                                            <i className="bi bi-download text-primary me-2"></i>
+                                            <i className="bi bi-download text-primary me-2" aria-hidden="true"></i>
                                             Download Content
                                         </li>
                                     )}
                                     {plan.can_access_live_sessions && (
                                         <li className="feature">
-                                            <i className="bi bi-camera-video-fill text-danger me-2"></i>
+                                            <i className="bi bi-camera-video-fill text-danger me-2" aria-hidden="true"></i>
                                             Live Sessions
                                         </li>
                                     )}
                                     {plan.priority_support && (
                                         <li className="feature">
-                                            <i className="bi bi-headset text-info me-2"></i>
+                                            <i className="bi bi-headset text-info me-2" aria-hidden="true"></i>
                                             Priority Support
                                         </li>
                                     )}
                                     {plan.features_list && plan.features_list.map((feature, idx) => (
                                         <li key={idx} className="feature">
-                                            <i className="bi bi-check-circle-fill text-success me-2"></i>
+                                            <i className="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i>
                                             {feature}
                                         </li>
                                     ))}
@@ -670,7 +670,7 @@ const StudentSubscriptions = () => {
                                                     sub.status === 'pending' ? 'warning' :
                                                     'danger'
                                                 }`} style={{ fontSize: '12px', padding: '6px 12px' }}>
-                                                    {sub.status === 'active' && <i className="bi bi-check-circle me-1"></i>}
+                                                    {sub.status === 'active' && <i className="bi bi-check-circle me-1" aria-hidden="true"></i>}
                                                     {sub.status.charAt(0).toUpperCase() + sub.status.slice(1)}
                                                 </span>
                                             </div>

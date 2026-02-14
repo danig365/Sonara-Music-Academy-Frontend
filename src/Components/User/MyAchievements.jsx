@@ -41,7 +41,7 @@ const MyAchievements = () => {
 
     useEffect(() => {
         if (studentLoginStatus === 'true') {
-            document.title = 'LMS | My Achievements';
+            document.title = 'Sonara Music Academy | My Achievements';
             fetchAchievements();
         }
     }, [studentLoginStatus]);
@@ -109,9 +109,9 @@ const MyAchievements = () => {
                     <button 
                         className="sidebar-toggle"
                         onClick={() => setSidebarOpen(!sidebarOpen)}
-                        aria-label="Toggle sidebar"
+                        aria-label="Toggle navigation menu"
                     >
-                        <i className="bi bi-list"></i>
+                        <i className="bi bi-list" aria-hidden="true"></i>
                     </button>
                     <div className="logo-mini">Sonara Music Academy</div>
                 </div>
@@ -120,7 +120,7 @@ const MyAchievements = () => {
                     {/* Header */}
                     <div className="achievements-header">
                         <h2>
-                            <i className="bi bi-trophy-fill text-warning me-2"></i>
+                            <i className="bi bi-trophy-fill me-2" aria-hidden="true"></i>
                             My Achievements
                         </h2>
                         <span className="achievements-badge">
@@ -150,7 +150,7 @@ const MyAchievements = () => {
 
                     {/* Earned Achievements */}
                     <h5 className="section-title">
-                        <i className="bi bi-check-circle-fill" style={{ color: '#10b981' }}></i>
+                        <i className="bi bi-check-circle-fill" style={{ color: '#10b981' }} aria-hidden="true"></i>
                         Earned Achievements
                     </h5>
                     {loading ? (
@@ -168,14 +168,14 @@ const MyAchievements = () => {
                                             {achievement?.icon ? (
                                                 <img src={achievement.icon} alt={achievement.name} />
                                             ) : (
-                                                <i className={`bi ${getAchievementTypeIcon(achievement?.achievement_type)}`}></i>
+                                                <i className={`bi ${getAchievementTypeIcon(achievement?.achievement_type)}`} aria-hidden="true"></i>
                                             )}
                                         </div>
                                         <h6 className="achievement-name">{achievement?.name}</h6>
                                         <p className="achievement-desc">{achievement?.description}</p>
                                         <div className="achievement-meta">
                                             <span className="achievement-badge">
-                                                <i className="bi bi-star-fill me-1"></i>
+                                                <i className="bi bi-star-fill me-1" aria-hidden="true"></i>
                                                 {achievement?.points} pts
                                             </span>
                                             <small className="achievement-meta-text">
@@ -188,14 +188,14 @@ const MyAchievements = () => {
                         </div>
                     ) : (
                         <div className="alert-info">
-                            <i className="bi bi-info-circle me-2"></i>
-                            Start learning to earn your first achievement!
+                            <i className="bi bi-music-note-beamed me-2" aria-hidden="true"></i>
+                            Start your musical journey to earn your first achievement!
                         </div>
                     )}
 
                     {/* Locked Achievements */}
                     <h5 className="section-title">
-                        <i className="bi bi-lock-fill" style={{ color: '#9ca3af' }}></i>
+                        <i className="bi bi-lock-fill" style={{ color: '#9ca3af' }} aria-hidden="true"></i>
                         Locked Achievements
                     </h5>
                     <div className="achievements-grid">
@@ -204,21 +204,13 @@ const MyAchievements = () => {
                             .map((achievement, index) => (
                                 <div key={index} className="achievement-card locked">
                                     <div className="achievement-icon-wrapper locked">
-                                        <i className={`bi ${getAchievementTypeIcon(achievement.achievement_type)}`}></i>
+                                        <i className={`bi ${getAchievementTypeIcon(achievement.achievement_type)}`} aria-hidden="true"></i>
                                     </div>
                                     <h6 className="achievement-name">{achievement.name}</h6>
                                     <p className="achievement-desc">{achievement.description}</p>
                                     <div className="achievement-meta">
-                                        <span style={{
-                                            display: 'inline-block',
-                                            background: '#e5e7eb',
-                                            color: '#6b7280',
-                                            padding: '0.35rem 0.75rem',
-                                            borderRadius: '12px',
-                                            fontSize: '0.75rem',
-                                            fontWeight: '500'
-                                        }}>
-                                            <i className="bi bi-star me-1"></i>
+                                        <span className="achievement-badge-locked">
+                                            <i className="bi bi-star me-1" aria-hidden="true"></i>
                                             {achievement.points} pts
                                         </span>
                                         <small className="achievement-meta-text">

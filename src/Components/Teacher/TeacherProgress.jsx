@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import LoadingSpinner from '../LoadingSpinner'
-import './teacherDashboard.css'
 
 import { API_BASE_URL } from '../../config';
 
@@ -158,12 +157,57 @@ const TeacherProgress = () => {
   // Error state with retry
   if (error) {
     return (
-      <div className='d-flex flex-column align-items-center justify-content-center' style={{ minHeight: 400 }}>
-        <i className="bi bi-exclamation-triangle display-3 text-warning mb-3"></i>
-        <h4 className='mb-2'>Something went wrong</h4>
-        <p className='text-muted mb-4'>{error}</p>
-        <button className='btn-primary-custom' onClick={fetchProgressData}>
-          <i className="bi bi-arrow-clockwise me-2"></i>Try Again
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '400px'
+      }}>
+        <i className="bi bi-exclamation-triangle" style={{
+          fontSize: '64px',
+          color: '#f59e0b',
+          marginBottom: '16px'
+        }}></i>
+        <h4 style={{
+          fontSize: '20px',
+          fontWeight: 600,
+          color: '#1a1a1a',
+          margin: '0 0 8px 0'
+        }}>Something went wrong</h4>
+        <p style={{
+          fontSize: '14px',
+          color: '#6b7280',
+          margin: '0 0 24px 0'
+        }}>{error}</p>
+        <button 
+          onClick={fetchProgressData}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '10px 20px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            border: 'none',
+            borderRadius: '12px',
+            color: '#fff',
+            fontWeight: 600,
+            fontSize: '14px',
+            cursor: 'pointer',
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            transform: 'translateY(0)',
+            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = '0 8px 20px rgba(102, 126, 234, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+          }}
+        >
+          <i className="bi bi-arrow-clockwise"></i>Try Again
         </button>
       </div>
     )
@@ -173,21 +217,80 @@ const TeacherProgress = () => {
   if (!progressData || progressData.total_students === 0) {
     return (
       <>
-        <div className='dashboard-header'>
-          <div className='header-title'>
-            <h1>Progress Analytics</h1>
-            <p className='header-subtitle'>Monitor student performance and track learning outcomes.</p>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          marginBottom: '32px'
+        }}>
+          <div>
+            <h1 style={{
+              fontSize: 'clamp(28px, 5vw, 42px)',
+              fontWeight: 700,
+              color: '#1a1a1a',
+              margin: '0 0 8px 0',
+              letterSpacing: '-0.5px'
+            }}>Progress Analytics</h1>
+            <p style={{
+              fontSize: '16px',
+              color: '#4b5563',
+              margin: '0',
+              fontWeight: 400
+            }}>Monitor student performance and track learning outcomes.</p>
           </div>
         </div>
-        <div className='content-card'>
-          <div className='d-flex flex-column align-items-center justify-content-center py-5'>
-            <i className="bi bi-people display-3 text-muted mb-3"></i>
-            <h4 className='mb-2'>No Students Yet</h4>
-            <p className='text-muted mb-4'>Once you have students assigned, their progress will appear here.</p>
-            <Link to='/teacher-students' className='btn-primary-custom'>
-              <i className="bi bi-person-plus me-2"></i>Manage Students
-            </Link>
-          </div>
+        <div style={{
+          background: '#fff',
+          borderRadius: '16px',
+          padding: '60px 40px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+          textAlign: 'center'
+        }}>
+          <i className="bi bi-people" style={{
+            fontSize: '64px',
+            color: '#d1d5db',
+            display: 'block',
+            marginBottom: '16px'
+          }}></i>
+          <h4 style={{
+            fontSize: '20px',
+            fontWeight: 600,
+            color: '#1a1a1a',
+            margin: '0 0 8px 0'
+          }}>No Students Yet</h4>
+          <p style={{
+            fontSize: '14px',
+            color: '#6b7280',
+            margin: '0 0 24px 0'
+          }}>Once you have students assigned, their progress will appear here.</p>
+          <Link to='/teacher-students' style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '10px 20px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            border: 'none',
+            borderRadius: '12px',
+            color: '#fff',
+            fontWeight: 600,
+            fontSize: '14px',
+            textDecoration: 'none',
+            cursor: 'pointer',
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            transform: 'translateY(0)',
+            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = '0 8px 20px rgba(102, 126, 234, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+          }}
+          >
+            <i className="bi bi-person-plus"></i>Manage Students
+          </Link>
         </div>
       </>
     )
@@ -196,72 +299,123 @@ const TeacherProgress = () => {
   return (
     <>
       {/* Header */}
-      <div className='dashboard-header'>
-        <div className='header-title'>
-          <h1>Progress Analytics</h1>
-          <p className='header-subtitle'>Monitor student performance and track learning outcomes.</p>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: '32px',
+        flexWrap: 'wrap',
+        gap: '24px'
+      }}>
+        <div>
+          <h1 style={{
+            fontSize: 'clamp(28px, 5vw, 42px)',
+            fontWeight: 700,
+            color: '#1a1a1a',
+            margin: '0 0 8px 0',
+            letterSpacing: '-0.5px'
+          }}>Progress Analytics</h1>
+          <p style={{
+            fontSize: '16px',
+            color: '#4b5563',
+            margin: '0',
+            fontWeight: 400
+          }}>Monitor student performance and track learning outcomes.</p>
         </div>
-        <div className='header-actions'>
-          <button className='btn-secondary-custom' onClick={fetchProgressData}>
-            <i className="bi bi-arrow-clockwise me-1"></i>
-            Refresh
-          </button>
-        </div>
+        <button 
+          onClick={fetchProgressData}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '10px 20px',
+            background: '#fff',
+            border: '1.5px solid #e5e7eb',
+            borderRadius: '12px',
+            color: '#4b5563',
+            fontWeight: 600,
+            fontSize: '14px',
+            cursor: 'pointer',
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#f5f7fa';
+            e.currentTarget.style.borderColor = '#cbd5e1';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = '#fff';
+            e.currentTarget.style.borderColor = '#e5e7eb';
+          }}
+        >
+          <i className="bi bi-arrow-clockwise"></i>
+          Refresh
+        </button>
       </div>
 
       {/* Tab Navigation */}
-      <div className='d-flex gap-2 mb-4'>
+      <div style={{
+        display: 'flex',
+        gap: '12px',
+        marginBottom: '24px',
+        flexWrap: 'wrap'
+      }}>
         <button 
-          className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
           style={{
-            padding: '8px 20px',
-            borderRadius: 8,
-            border: activeTab === 'overview' ? '2px solid #3b82f6' : '2px solid #e2e8f0',
-            background: activeTab === 'overview' ? '#eff6ff' : '#fff',
-            color: activeTab === 'overview' ? '#3b82f6' : '#64748b',
-            fontWeight: 600,
-            fontSize: 14,
+            padding: '10px 20px',
+            borderRadius: '12px',
+            border: activeTab === 'overview' ? '2px solid #667eea' : '2px solid #e5e7eb',
+            background: activeTab === 'overview' ? '#f0f4f8' : '#fff',
+            color: activeTab === 'overview' ? '#667eea' : '#6b7280',
+            fontWeight: activeTab === 'overview' ? 600 : 500,
+            fontSize: '14px',
             cursor: 'pointer',
-            transition: 'all 0.2s'
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
           }}
         >
-          <i className="bi bi-grid-3x3-gap me-2"></i>Overview
+          <i className="bi bi-grid-3x3-gap"></i>Overview
         </button>
         <button 
-          className={`tab-btn ${activeTab === 'students' ? 'active' : ''}`}
           onClick={() => setActiveTab('students')}
           style={{
-            padding: '8px 20px',
-            borderRadius: 8,
-            border: activeTab === 'students' ? '2px solid #3b82f6' : '2px solid #e2e8f0',
-            background: activeTab === 'students' ? '#eff6ff' : '#fff',
-            color: activeTab === 'students' ? '#3b82f6' : '#64748b',
-            fontWeight: 600,
-            fontSize: 14,
+            padding: '10px 20px',
+            borderRadius: '12px',
+            border: activeTab === 'students' ? '2px solid #667eea' : '2px solid #e5e7eb',
+            background: activeTab === 'students' ? '#f0f4f8' : '#fff',
+            color: activeTab === 'students' ? '#667eea' : '#6b7280',
+            fontWeight: activeTab === 'students' ? 600 : 500,
+            fontSize: '14px',
             cursor: 'pointer',
-            transition: 'all 0.2s'
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
           }}
         >
-          <i className="bi bi-people me-2"></i>Students ({progressData.total_students})
+          <i className="bi bi-people"></i>Students ({progressData.total_students})
         </button>
         {progressData.course_stats && progressData.course_stats.length > 0 && (
           <button 
-            className={`tab-btn ${activeTab === 'courses' ? 'active' : ''}`}
             onClick={() => setActiveTab('courses')}
             style={{
-              padding: '8px 20px',
-              borderRadius: 8,
-              border: activeTab === 'courses' ? '2px solid #3b82f6' : '2px solid #e2e8f0',
-              background: activeTab === 'courses' ? '#eff6ff' : '#fff',
-              color: activeTab === 'courses' ? '#3b82f6' : '#64748b',
-              fontWeight: 600,
-              fontSize: 14,
+              padding: '10px 20px',
+              borderRadius: '12px',
+              border: activeTab === 'courses' ? '2px solid #667eea' : '2px solid #e5e7eb',
+              background: activeTab === 'courses' ? '#f0f4f8' : '#fff',
+              color: activeTab === 'courses' ? '#667eea' : '#6b7280',
+              fontWeight: activeTab === 'courses' ? 600 : 500,
+              fontSize: '14px',
               cursor: 'pointer',
-              transition: 'all 0.2s'
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           >
-            <i className="bi bi-journal-bookmark me-2"></i>Courses ({progressData.course_stats.length})
+            <i className="bi bi-journal-bookmark"></i>Courses ({progressData.course_stats.length})
           </button>
         )}
       </div>
@@ -270,55 +424,243 @@ const TeacherProgress = () => {
       {activeTab === 'overview' && (
         <>
           {/* Metrics Row */}
-          <div className='metrics-row'>
-            <div className='metric-card'>
-              <div className='metric-icon' style={{ background: '#dbeafe', color: '#3b82f6' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '24px',
+            marginBottom: '32px'
+          }}>
+            {/* Overall Progress */}
+            <div style={{
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '20px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '16px',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.12)';
+              e.currentTarget.style.transform = 'translateY(-8px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+            >
+              <div style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '24px',
+                background: 'rgba(102, 126, 234, 0.15)',
+                color: '#667eea',
+                flexShrink: 0
+              }}>
                 <i className="bi bi-graph-up"></i>
               </div>
-              <div className='metric-content'>
-                <div className='metric-label'>Overall Progress</div>
-                <div className='metric-value'>{progressData.overall_progress}%</div>
-                <div className='metric-trend up'>
+              <div style={{ flex: 1 }}>
+                <div style={{
+                  fontSize: '13px',
+                  color: '#4b5563',
+                  marginBottom: '4px',
+                  fontWeight: 500
+                }}>Overall Progress</div>
+                <div style={{
+                  fontSize: 'clamp(24px, 8vw, 32px)',
+                  fontWeight: 700,
+                  color: '#1a1a1a',
+                  lineHeight: 1,
+                  marginBottom: '8px'
+                }}>{progressData.overall_progress}%</div>
+                <div style={{
+                  fontSize: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  color: '#10b981',
+                  fontWeight: 500
+                }}>
                   <i className="bi bi-arrow-up"></i>
                   Class average
                 </div>
               </div>
             </div>
 
-            <div className='metric-card'>
-              <div className='metric-icon' style={{ background: '#dcfce7', color: '#22c55e' }}>
+            {/* Completion Rate */}
+            <div style={{
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '20px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '16px',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.12)';
+              e.currentTarget.style.transform = 'translateY(-8px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+            >
+              <div style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '24px',
+                background: 'rgba(16, 185, 129, 0.15)',
+                color: '#10b981',
+                flexShrink: 0
+              }}>
                 <i className="bi bi-check2-circle"></i>
               </div>
-              <div className='metric-content'>
-                <div className='metric-label'>Completion Rate</div>
-                <div className='metric-value'>{progressData.completion_rate}%</div>
-                <div className='metric-trend up'>
+              <div style={{ flex: 1 }}>
+                <div style={{
+                  fontSize: '13px',
+                  color: '#4b5563',
+                  marginBottom: '4px',
+                  fontWeight: 500
+                }}>Completion Rate</div>
+                <div style={{
+                  fontSize: 'clamp(24px, 8vw, 32px)',
+                  fontWeight: 700,
+                  color: '#1a1a1a',
+                  lineHeight: 1,
+                  marginBottom: '8px'
+                }}>{progressData.completion_rate}%</div>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#4b5563',
+                  fontWeight: 500
+                }}>
                   Lessons completed
                 </div>
               </div>
             </div>
 
-            <div className='metric-card'>
-              <div className='metric-icon' style={{ background: '#fef3c7', color: '#f59e0b' }}>
+            {/* Total Students */}
+            <div style={{
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '20px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '16px',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.12)';
+              e.currentTarget.style.transform = 'translateY(-8px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+            >
+              <div style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '24px',
+                background: 'rgba(249, 158, 11, 0.15)',
+                color: '#f59e0b',
+                flexShrink: 0
+              }}>
                 <i className="bi bi-people-fill"></i>
               </div>
-              <div className='metric-content'>
-                <div className='metric-label'>Total Students</div>
-                <div className='metric-value'>{progressData.total_students}</div>
-                <div className='metric-trend'>
+              <div style={{ flex: 1 }}>
+                <div style={{
+                  fontSize: '13px',
+                  color: '#4b5563',
+                  marginBottom: '4px',
+                  fontWeight: 500
+                }}>Total Students</div>
+                <div style={{
+                  fontSize: 'clamp(24px, 8vw, 32px)',
+                  fontWeight: 700,
+                  color: '#1a1a1a',
+                  lineHeight: 1,
+                  marginBottom: '8px'
+                }}>{progressData.total_students}</div>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#4b5563',
+                  fontWeight: 500
+                }}>
                   {progressData.total_enrollments || 0} enrollments
                 </div>
               </div>
             </div>
 
-            <div className='metric-card'>
-              <div className='metric-icon' style={{ background: '#fce7f3', color: '#ec4899' }}>
+            {/* Active Lessons */}
+            <div style={{
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '20px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '16px',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.12)';
+              e.currentTarget.style.transform = 'translateY(-8px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+            >
+              <div style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '24px',
+                background: 'rgba(236, 72, 153, 0.15)',
+                color: '#ec4899',
+                flexShrink: 0
+              }}>
                 <i className="bi bi-collection"></i>
               </div>
-              <div className='metric-content'>
-                <div className='metric-label'>Active Lessons</div>
-                <div className='metric-value'>{progressData.total_lessons}</div>
-                <div className='metric-trend'>
+              <div style={{ flex: 1 }}>
+                <div style={{
+                  fontSize: '13px',
+                  color: '#4b5563',
+                  marginBottom: '4px',
+                  fontWeight: 500
+                }}>Active Lessons</div>
+                <div style={{
+                  fontSize: 'clamp(24px, 8vw, 32px)',
+                  fontWeight: 700,
+                  color: '#1a1a1a',
+                  lineHeight: 1,
+                  marginBottom: '8px'
+                }}>{progressData.total_lessons}</div>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#4b5563',
+                  fontWeight: 500
+                }}>
                   {progressData.total_completed_courses || 0} courses completed
                 </div>
               </div>
@@ -326,106 +668,201 @@ const TeacherProgress = () => {
           </div>
 
           {/* Content Row */}
-          <div className='row g-4 mb-4'>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '24px',
+            marginBottom: '24px'
+          }}>
             {/* Progress Distribution */}
-            <div className='col-md-4'>
-              <div className='content-card h-100'>
-                <div className='content-card-header'>
-                  <h2 className='content-card-title'>
-                    <i className="bi bi-pie-chart me-2" style={{ color: '#3b82f6' }}></i>
-                    Progress Distribution
-                  </h2>
+            <div style={{
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '24px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                marginBottom: '20px',
+                paddingBottom: '16px',
+                borderBottom: '1px solid #f5f7fa'
+              }}>
+                <h2 style={{
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  color: '#1a1a1a',
+                  margin: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <i className="bi bi-pie-chart" style={{ color: '#667eea', fontSize: '18px' }}></i>
+                  Progress Distribution
+                </h2>
+              </div>
+              <div>
+                {/* Visual distribution bar */}
+                <div style={{
+                  display: 'flex',
+                  height: '12px',
+                  borderRadius: '6px',
+                  overflow: 'hidden',
+                  marginBottom: '24px'
+                }}>
+                  {progressData.total_students > 0 && (
+                    <>
+                      <div style={{ width: `${(progressData.progress_distribution.excellent / progressData.total_students) * 100}%`, background: '#10b981', transition: 'width 0.3s ease' }}></div>
+                      <div style={{ width: `${(progressData.progress_distribution.good / progressData.total_students) * 100}%`, background: '#667eea', transition: 'width 0.3s ease' }}></div>
+                      <div style={{ width: `${(progressData.progress_distribution.average / progressData.total_students) * 100}%`, background: '#f59e0b', transition: 'width 0.3s ease' }}></div>
+                      <div style={{ width: `${(progressData.progress_distribution.needs_improvement / progressData.total_students) * 100}%`, background: '#ef4444', transition: 'width 0.3s ease' }}></div>
+                    </>
+                  )}
                 </div>
-                <div className='mt-4'>
-                  {/* Visual distribution bar */}
-                  <div className='d-flex mb-4' style={{ height: 12, borderRadius: 6, overflow: 'hidden' }}>
-                    {progressData.total_students > 0 && (
-                      <>
-                        <div style={{ width: `${(progressData.progress_distribution.excellent / progressData.total_students) * 100}%`, background: '#22c55e' }}></div>
-                        <div style={{ width: `${(progressData.progress_distribution.good / progressData.total_students) * 100}%`, background: '#3b82f6' }}></div>
-                        <div style={{ width: `${(progressData.progress_distribution.average / progressData.total_students) * 100}%`, background: '#f59e0b' }}></div>
-                        <div style={{ width: `${(progressData.progress_distribution.needs_improvement / progressData.total_students) * 100}%`, background: '#ef4444' }}></div>
-                      </>
-                    )}
-                  </div>
 
-                  <div className='d-flex align-items-center mb-3'>
-                    <div className='me-3' style={{ width: 12, height: 12, borderRadius: '50%', background: '#22c55e' }}></div>
-                    <div className='flex-grow-1'>Excellent (80%+)</div>
-                    <strong className='me-2'>{progressData.progress_distribution.excellent}</strong>
-                    <span className='text-muted small'>
-                      ({progressData.total_students > 0 ? Math.round((progressData.progress_distribution.excellent / progressData.total_students) * 100) : 0}%)
+                {/* Distribution items */}
+                {[
+                  { label: 'Excellent (80%+)', color: '#10b981', value: progressData.progress_distribution.excellent },
+                  { label: 'Good (60-79%)', color: '#667eea', value: progressData.progress_distribution.good },
+                  { label: 'Average (40-59%)', color: '#f59e0b', value: progressData.progress_distribution.average },
+                  { label: 'Needs Help (<40%)', color: '#ef4444', value: progressData.progress_distribution.needs_improvement }
+                ].map((item, idx) => (
+                  <div key={idx} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '12px',
+                    paddingBottom: '12px',
+                    borderBottom: idx < 3 ? '1px solid #f5f7fa' : 'none'
+                  }}>
+                    <div style={{
+                      width: '12px',
+                      height: '12px',
+                      borderRadius: '50%',
+                      background: item.color,
+                      marginRight: '12px',
+                      flexShrink: 0
+                    }}></div>
+                    <div style={{
+                      flex: 1,
+                      fontSize: '14px',
+                      color: '#4b5563',
+                      fontWeight: 500
+                    }}>{item.label}</div>
+                    <strong style={{
+                      fontSize: '14px',
+                      color: '#1a1a1a',
+                      marginRight: '8px',
+                      minWidth: '30px',
+                      textAlign: 'right'
+                    }}>{item.value}</strong>
+                    <span style={{
+                      fontSize: '12px',
+                      color: '#6b7280',
+                      minWidth: '50px',
+                      textAlign: 'right'
+                    }}>
+                      ({progressData.total_students > 0 ? Math.round((item.value / progressData.total_students) * 100) : 0}%)
                     </span>
                   </div>
-                  <div className='d-flex align-items-center mb-3'>
-                    <div className='me-3' style={{ width: 12, height: 12, borderRadius: '50%', background: '#3b82f6' }}></div>
-                    <div className='flex-grow-1'>Good (60-79%)</div>
-                    <strong className='me-2'>{progressData.progress_distribution.good}</strong>
-                    <span className='text-muted small'>
-                      ({progressData.total_students > 0 ? Math.round((progressData.progress_distribution.good / progressData.total_students) * 100) : 0}%)
-                    </span>
-                  </div>
-                  <div className='d-flex align-items-center mb-3'>
-                    <div className='me-3' style={{ width: 12, height: 12, borderRadius: '50%', background: '#f59e0b' }}></div>
-                    <div className='flex-grow-1'>Average (40-59%)</div>
-                    <strong className='me-2'>{progressData.progress_distribution.average}</strong>
-                    <span className='text-muted small'>
-                      ({progressData.total_students > 0 ? Math.round((progressData.progress_distribution.average / progressData.total_students) * 100) : 0}%)
-                    </span>
-                  </div>
-                  <div className='d-flex align-items-center'>
-                    <div className='me-3' style={{ width: 12, height: 12, borderRadius: '50%', background: '#ef4444' }}></div>
-                    <div className='flex-grow-1'>Needs Help (&lt;40%)</div>
-                    <strong className='me-2'>{progressData.progress_distribution.needs_improvement}</strong>
-                    <span className='text-muted small'>
-                      ({progressData.total_students > 0 ? Math.round((progressData.progress_distribution.needs_improvement / progressData.total_students) * 100) : 0}%)
-                    </span>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* Weekly Activity Chart */}
-            <div className='col-md-8'>
-              <div className='content-card h-100'>
-                <div className='content-card-header'>
-                  <h2 className='content-card-title'>
-                    <i className="bi bi-bar-chart me-2" style={{ color: '#3b82f6' }}></i>
-                    Weekly Activity
-                  </h2>
-                  <span className='text-muted small'>Last 7 days</span>
-                </div>
-                <div className='d-flex align-items-end justify-content-between mt-4' style={{ height: 160 }}>
-                  {progressData.weekly_activity.map((day, index) => {
-                    const height = (day.activities / getMaxActivity()) * 130
-                    const isToday = index === progressData.weekly_activity.length - 1
-                    return (
-                      <div key={index} className='text-center' style={{ flex: 1 }}>
-                        <div 
-                          title={`${day.full_date}: ${day.activities} activities${day.time_minutes ? `, ${day.time_minutes} min` : ''}`}
-                          style={{
-                            width: 40,
-                            height: `${Math.max(height, 4)}px`,
-                            background: isToday
-                              ? 'linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%)'
-                              : 'linear-gradient(180deg, #93c5fd 0%, #60a5fa 100%)',
-                            borderRadius: '6px 6px 0 0',
-                            margin: '0 auto',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            opacity: day.activities === 0 ? 0.3 : 1
-                          }}
-                        ></div>
-                        <div className='text-muted small mt-2' style={{ fontWeight: isToday ? 700 : 400 }}>
-                          {day.date}
-                        </div>
-                        <div className='small' style={{ fontWeight: 600, color: day.activities > 0 ? '#1e293b' : '#94a3b8' }}>
-                          {day.activities}
-                        </div>
+            <div style={{
+              gridColumn: 'span auto',
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '24px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                marginBottom: '20px',
+                paddingBottom: '16px',
+                borderBottom: '1px solid #f5f7fa'
+              }}>
+                <h2 style={{
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  color: '#1a1a1a',
+                  margin: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <i className="bi bi-bar-chart" style={{ color: '#667eea', fontSize: '18px' }}></i>
+                  Weekly Activity
+                </h2>
+                <span style={{
+                  fontSize: '12px',
+                  color: '#6b7280'
+                }}>Last 7 days</span>
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'space-between',
+                height: '160px',
+                gap: '8px'
+              }}>
+                {progressData.weekly_activity.map((day, index) => {
+                  const height = (day.activities / getMaxActivity()) * 130
+                  const isToday = index === progressData.weekly_activity.length - 1
+                  return (
+                    <div key={index} style={{
+                      flex: 1,
+                      textAlign: 'center',
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}>
+                      <div 
+                        title={`${day.full_date}: ${day.activities} activities${day.time_minutes ? `, ${day.time_minutes} min` : ''}`}
+                        style={{
+                          width: '100%',
+                          maxWidth: '40px',
+                          height: `${Math.max(height, 4)}px`,
+                          background: isToday
+                            ? 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)'
+                            : 'linear-gradient(180deg, rgba(102, 126, 234, 0.5) 0%, rgba(102, 126, 234, 0.3) 100%)',
+                          borderRadius: '8px 8px 0 0',
+                          margin: '0 auto',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          opacity: day.activities === 0 ? 0.3 : 1
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scaleY(1.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scaleY(1)';
+                        }}
+                      ></div>
+                      <div style={{
+                        fontSize: '12px',
+                        color: '#6b7280',
+                        marginTop: '8px',
+                        fontWeight: isToday ? 600 : 400
+                      }}>
+                        {day.date}
                       </div>
-                    )
-                  })}
-                </div>
+                      <div style={{
+                        fontSize: '13px',
+                        fontWeight: 600,
+                        color: day.activities > 0 ? '#1a1a1a' : '#94a3b8'
+                      }}>
+                        {day.activities}
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>

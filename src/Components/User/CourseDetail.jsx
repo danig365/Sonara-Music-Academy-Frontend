@@ -35,6 +35,7 @@ const CourseDetail = () => {
     const [isMobile, setIsMobile]=useState(window.innerWidth < 768)
     const [courseAccess, setCourseAccess]=useState({ can_access: true, checking: true })
     const [subscriptionInfo, setSubscriptionInfo]=useState(null)
+    const [loading, setLoading]=useState(true)
     const studentId=localStorage.getItem('studentId')
     const studentLoginStatus = localStorage.getItem('studentLoginStatus')
 
@@ -90,8 +91,12 @@ const CourseDetail = () => {
             if(res.data.course_rating!='' && res.data.course_rating!=null){
               setAvgRating(res.data.course_rating)
             }
+            setLoading(false)
           })
-          .catch((err) => console.error('Error fetching course:', err));
+          .catch((err) => {
+            console.error('Error fetching course:', err)
+            setLoading(false)
+          });
 
           axios.get(baseUrl+'/update-view/'+course_id)
           .then((res) => {
@@ -410,12 +415,43 @@ const CourseDetail = () => {
     
 
     useEffect(()=>{
-      document.title='LMS | Courses Details'
-    })
+      document.title=`Sonara Music Academy | ${courseData.title || 'Course Details'}`
+    }, [courseData.title])
 
   // Don't render if not logged in
   if (studentLoginStatus !== 'true') {
     return <LoadingSpinner fullScreen size="xl" text="Redirecting to login..." />;
+  }
+
+  // Show loading spinner while course data is being fetched
+  if (loading) {
+    return (
+      <div className="course-detail-container">
+        <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} isMobile={isMobile} />
+        <div className="course-detail-content">
+          {isMobile && (
+            <div className="course-mobile-header">
+              <button 
+                className="course-mobile-menu-btn"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                aria-label="Toggle sidebar"
+              >
+                <i className="bi bi-list" aria-hidden="true"></i>
+              </button>
+              <div className="course-mobile-title">Loading Course...</div>
+            </div>
+          )}
+          <div className="course-detail-main" style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '100vh'
+          }}>
+            <LoadingSpinner size="lg" text="Loading course details..." />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -427,8 +463,9 @@ const CourseDetail = () => {
               <button 
                 className="course-mobile-menu-btn"
                 onClick={() => setSidebarOpen(!sidebarOpen)}
+                aria-label="Toggle sidebar"
               >
-                <i className="bi bi-list"></i>
+                <i className="bi bi-list" aria-hidden="true"></i>
               </button>
               <div className="course-mobile-title">{courseData.title}</div>
             </div>
@@ -459,7 +496,7 @@ const CourseDetail = () => {
               to='/my-courses'
               className="course-back-link"
             >
-              <i className="bi bi-arrow-left course-back-icon"></i>
+              <i className="bi bi-arrow-left course-back-icon" aria-hidden="true"></i>
               <span>Back to My Courses</span>
             </Link>
           </div>
@@ -578,12 +615,11 @@ const CourseDetail = () => {
                   {/* Instructor */}
                   <div className="course-meta-item">
                     <p className="course-meta-label">
-                      <i className='bi bi-person'></i>Instructor
+                      <i className='bi bi-person-badge' aria-hidden="true"></i>Instructor
                     </p>
                     <Link 
                       to={`/teacher-detail/${teacherData.id}`}
                       className="course-meta-value"
-                      style={{color: '#1a2332', fontSize: '14px', fontWeight: 600, textDecoration: 'none'}}
                     >
                       {teacherData.full_name}
                     </Link>
@@ -592,7 +628,7 @@ const CourseDetail = () => {
                   {/* Category */}
                   <div className="course-meta-item category">
                     <p className="course-meta-label">
-                      <i className='bi bi-folder'></i>Category
+                      <i className='bi bi-tag' aria-hidden="true"></i>Category
                     </p>
                     <span className="course-meta-value">
                       {courseData.category?.title || 'General'}
@@ -602,7 +638,7 @@ const CourseDetail = () => {
                   {/* Technologies */}
                   <div className="course-meta-item tech">
                     <p className="course-meta-label">
-                      <i className='bi bi-gear'></i>Technologies
+                      <i className='bi bi-tools' aria-hidden="true"></i>Technologies
                     </p>
                     <div className="course-tech-badges">
                       {courseData.techs?.split(',').map((tech, idx) => (
@@ -663,7 +699,7 @@ const CourseDetail = () => {
               {userLoginStatus == 'success' && enrolledStatus=='success' && chapterData.length > 0 && (
                 <div className="course-modules-card">
                   <h3 className="course-card-title">
-                    <i className='bi bi-collection-play course-card-icon'></i>
+                    <i className='bi bi-collection-play course-card-icon' aria-hidden="true"></i>
                     Course Content
                   </h3>
                   <div className="course-modules-list">
@@ -778,16 +814,11 @@ const CourseDetail = () => {
             {/* Right Column - Quick Info */}
             <div style={{width: '100%'}}>
               <div className="course-quick-info-card">
-                <h5 style={{
-                  fontSize: '16px',
-                  fontWeight: 600,
-                  color: '#1a2332',
-                  marginBottom: '16px'
-                }}>
-                  <i className='bi bi-info-circle'></i>Course Info
+                <h5 className="course-quick-info-title">
+                  <i className='bi bi-info-circle' aria-hidden="true"></i>Course Info
                 </h5>
                 
-                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                <div className="course-info-list">
                   <div className="course-info-item">
                     <p className="course-info-label">
                       Level
@@ -838,7 +869,7 @@ const CourseDetail = () => {
         {relatedCourseData.length > 0 && (
           <div className='course-related-section'>
             <h2 className='course-related-title'>
-              <i className='bi bi-lightbulb course-related-icon'></i>
+              <i className='bi bi-music-note-list course-related-icon' aria-hidden="true"></i>
               Related Courses
             </h2>
             

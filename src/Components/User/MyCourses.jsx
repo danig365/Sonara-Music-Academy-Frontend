@@ -112,7 +112,7 @@ const MyCourses = () => {
                     {/* Header */}
                     <div className="page-header"> 
                         <h2>
-                            <i className="bi bi-book me-2" style={{ color: '#3b82f6' }}></i>
+                            <i className="bi bi-music-note-list me-2"></i>
                             My Courses
                         </h2>
                         <p>
@@ -123,9 +123,9 @@ const MyCourses = () => {
                     {/* Courses Grid */}
                     {courseData.length === 0 ? (
                         <div className="empty-state">
-                            <i className="bi bi-inbox"></i>
+                            <i className="bi bi-music-note-beamed"></i>
                             <h5>No Courses Yet</h5>
-                            <p>Start learning by enrolling in courses</p>
+                            <p>Start your musical journey by enrolling in a course</p>
                             <Link 
                                 to="/all-courses" 
                                 className="btn btn-primary"
@@ -150,7 +150,7 @@ const MyCourses = () => {
                                                     className="course-img"
                                                 />
                                             ) : (
-                                                <i className="bi bi-book"></i>
+                                                <i className="bi bi-music-note-beamed"></i>
                                             )}
                                         </div>
                                     </Link>
@@ -207,14 +207,16 @@ const MyCourses = () => {
                                             <Link
                                                 to={`/detail/${enrollment.course.id}`}
                                                 className="btn btn-continue"
+                                                aria-label={`Continue ${enrollment.course.title}`}
                                             >
-                                                <i className="bi bi-play-fill me-1"></i> Continue
+                                                <i className="bi bi-play-circle-fill me-1"></i> Continue
                                             </Link>
                                             <Link
                                                 to={`/user/study-material/${enrollment.course.id}`}
                                                 className="btn btn-materials"
+                                                aria-label={`Study materials for ${enrollment.course.title}`}
                                             >
-                                                <i className="bi bi-file-earmark me-1"></i> Materials
+                                                <i className="bi bi-file-earmark-music me-1"></i> Materials
                                             </Link>
                                         </div>
                                     </div>

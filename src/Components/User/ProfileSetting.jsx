@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import ChangePassword from './ChangePassword'
+import LoadingSpinner from '../LoadingSpinner'
 import './ProfileSetting.css'
 
 import { API_BASE_URL } from '../../config';
@@ -15,6 +16,7 @@ const ProfileSetting = () => {
     const studentLoginStatus = localStorage.getItem('studentLoginStatus')
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+    const [loading, setLoading] = useState(true)
 
     const [studentData, setStudentData] = useState({
         'fullname': '',
@@ -26,7 +28,7 @@ const ProfileSetting = () => {
     });
 
     useEffect(() => {
-        document.title = 'LMS | Settings'
+        document.title = 'Sonara Music Academy | Settings'
     }, [])
 
     // Responsive detection
@@ -61,9 +63,11 @@ const ProfileSetting = () => {
                         profile_img: res.data.profile_img,
                         p_img: ''
                     })
+                    setLoading(false)
                 })
         } catch (error) {
             console.log(error)
+            setLoading(false)
         }
     }, [studentId])
 
@@ -141,18 +145,22 @@ const ProfileSetting = () => {
                     <button 
                         className="sidebar-toggle"
                         onClick={() => setSidebarOpen(!sidebarOpen)}
-                        aria-label="Toggle sidebar"
+                        aria-label="Toggle navigation menu"
                     >
-                        <i className="bi bi-list"></i>
+                        <i className="bi bi-list" aria-hidden="true"></i>
                     </button>
                     <div className="logo-mini">Sonara Music Academy</div>
                 </div>
 
                 <div className="profile-setting-main">
+                    {loading ? (
+                        <LoadingSpinner size="lg" text="Loading your profile..." />
+                    ) : (
+                    <>
                     {/* Header */}
                     <div className="profile-header">
                         <h2>
-                            <i className="bi bi-person-lines-fill"></i>
+                            <i className="bi bi-person-music" aria-hidden="true"></i>
                             Profile Settings
                         </h2>
                         <p>Manage your personal information and preferences</p>
@@ -162,7 +170,7 @@ const ProfileSetting = () => {
                         {/* Profile Form */}
                         <div className="profile-card">
                             <h3>
-                                <i className="bi bi-person-circle"></i>
+                                <i className="bi bi-person-circle" aria-hidden="true"></i>
                                 Personal Information
                             </h3>
 
@@ -188,7 +196,7 @@ const ProfileSetting = () => {
                             {/* Form Fields */}
                             <div className="form-group">
                                 <label>
-                                    <i className='bi bi-person'></i>Full Name
+                                    <i className='bi bi-person' aria-hidden="true"></i>Full Name
                                 </label>
                                 <input  
                                     name='fullname' 
@@ -201,7 +209,7 @@ const ProfileSetting = () => {
 
                             <div className="form-group">
                                 <label>
-                                    <i className='bi bi-envelope'></i>Email
+                                    <i className='bi bi-envelope' aria-hidden="true"></i>Email
                                 </label>
                                 <input 
                                     name='email' 
@@ -214,7 +222,7 @@ const ProfileSetting = () => {
 
                             <div className="form-group">
                                 <label>
-                                    <i className='bi bi-at'></i>Username
+                                    <i className='bi bi-at' aria-hidden="true"></i>Username
                                 </label>
                                 <input 
                                     name='username' 
@@ -227,7 +235,7 @@ const ProfileSetting = () => {
 
                             <div className="form-group">
                                 <label>
-                                    <i className='bi bi-image'></i>Profile Image
+                                    <i className='bi bi-image' aria-hidden="true"></i>Profile Image
                                 </label>
                                 <input 
                                     type="file" 
@@ -240,14 +248,14 @@ const ProfileSetting = () => {
 
                             <div className="form-group">
                                 <label>
-                                    <i className='bi bi-bookmark'></i>Interested Categories
+                                    <i className='bi bi-music-note' aria-hidden="true"></i>Interested Genres
                                 </label>
                                 <textarea 
                                     name='interseted_categories' 
                                     value={studentData.interseted_categories} 
                                     onChange={handleChange} 
                                     className="form-control"
-                                    placeholder="Enter your interested categories (comma separated)"
+                                    placeholder="Enter your favorite genres (comma separated)"
                                 />
                             </div>
 
@@ -255,7 +263,7 @@ const ProfileSetting = () => {
                                 onClick={submitForm} 
                                 className="submit-btn"
                             >
-                                <i className='bi bi-check-lg'></i>Update Profile
+                                <i className='bi bi-check-lg' aria-hidden="true"></i>Update Profile
                             </button>
                         </div>
 
@@ -264,6 +272,8 @@ const ProfileSetting = () => {
                             <ChangePassword />
                         </div>
                     </div>
+                    </>
+                    )}
                 </div>
             </div>
         </div>

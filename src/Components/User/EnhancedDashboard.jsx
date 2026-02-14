@@ -190,8 +190,8 @@ const EnhancedDashboard = () => {
                     <div className="welcome-header game-style">
                         <div className="welcome-content">
                             <div className="welcome-text">
-                                <h2>Welcome Back, Champion! 🎓</h2>
-                                <p>Continue your learning journey today</p>
+                                <h2>Welcome Back, Musician! 🎵</h2>
+                                <p>Keep the rhythm going — your musical journey continues!</p>
                             </div>
                             <div className="level-badge">
                                 <div className="level-icon">
@@ -222,13 +222,13 @@ const EnhancedDashboard = () => {
                         <div className="col-6 col-lg-3">
                             <div className="stat-card stat-card-primary game-card">
                                 <div className="stat-icon-wrapper">
-                                    <i className="bi bi-book-fill"></i>
+                                    <i className="bi bi-music-note-list"></i>
                                 </div>
                                 <div className="stat-content">
                                     <h3>{dashboardData?.enrolled_courses || 0}</h3>
                                     <p>Total Courses</p>
                                 </div>
-                                <Link to="/my-courses" className="stat-link">
+                                <Link to="/my-courses" className="stat-link" aria-label="View all courses">
                                     <i className="bi bi-arrow-right-circle-fill"></i>
                                 </Link>
                             </div>
@@ -256,7 +256,7 @@ const EnhancedDashboard = () => {
                                 </div>
                                 <div className="stat-content">
                                     <h3>{dashboardData?.total_learning_time_formatted || '0m'}</h3>
-                                    <p>Learning Time</p>
+                                    <p>Practice Time</p>
                                 </div>
                                 <span className="stat-badge">This month</span>
                             </div>
@@ -313,7 +313,7 @@ const EnhancedDashboard = () => {
                                 <div className="card border-0 h-100">
                                     <div className="card-header">
                                         <h5 className="mb-0">
-                                            <i className="bi bi-play-circle me-2"></i>
+                                            <i className="bi bi-play-circle-fill me-2"></i>
                                             Continue Learning
                                         </h5>
                                     </div>
