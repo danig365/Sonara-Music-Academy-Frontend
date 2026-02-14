@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../LoadingSpinner';
 
 const SchoolLogout = () => {
     const navigate = useNavigate();
@@ -13,14 +14,7 @@ const SchoolLogout = () => {
         navigate('/school-login');
     }, [navigate]);
 
-    return (
-        <div className="container mt-5 text-center">
-            <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Logging out...</span>
-            </div>
-            <p className="mt-3">Logging out...</p>
-        </div>
-    );
+    return <LoadingSpinner fullScreen size="lg" text="Logging out..." />;
 };
 
 export default SchoolLogout;

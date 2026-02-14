@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from './Sidebar';
+import LoadingSpinner from '../LoadingSpinner';
 import './MyProgress.css';
 
 import { API_BASE_URL } from '../../config';
@@ -211,11 +212,7 @@ const MyProgress = () => {
 
                     {/* Course Progress List */}
                     {loading ? (
-                        <div className="spinner-container">
-                            <div className="spinner-border text-primary" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+                        <LoadingSpinner size="md" text="Loading progress..." />
                     ) : filteredProgress.length > 0 ? (
                         <div className="progress-list">
                             {filteredProgress.map((cp, index) => (

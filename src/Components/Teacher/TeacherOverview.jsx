@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import LoadingSpinner from '../LoadingSpinner'
 import './teacherDashboard.css'
 
 import { API_BASE_URL } from '../../config';
@@ -79,12 +80,7 @@ const TeacherOverview = () => {
   }
 
   if (loading) {
-    return (
-      <div className='loading-container'>
-        <div className='loading-spinner'></div>
-        <p className='text-muted mt-3'>Loading dashboard...</p>
-      </div>
-    )
+    return <LoadingSpinner size="lg" text="Loading dashboard..." />
   }
 
   if (error) {

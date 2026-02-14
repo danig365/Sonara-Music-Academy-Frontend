@@ -51,9 +51,6 @@ import AdminLayout from './Admin/AdminLayout'
 import AdminDashboard from './Admin/AdminDashboard'
 import TeacherLayout from './Teacher/TeacherLayout'
 import UsersManagement from './Admin/UsersManagement'
-import ManageSchools from './Admin/ManageSchools'
-import ManageTeachers from './Admin/ManageTeachers'
-import ManageStudents from './Admin/ManageStudents'
 import ActivityLogs from './Admin/ActivityLogs'
 import AdminSettings from './Admin/AdminSettings'
 import AdminLessonManagement from './Admin/AdminLessonManagement'
@@ -115,11 +112,16 @@ const MainContent = () => {
   const isCourseDetailRoute = location.pathname.startsWith('/detail/');
   const isSchoolDashboardRoute = location.pathname.startsWith('/school-dashboard') ||
                                   location.pathname.startsWith('/school/');
+  
+  const isAdminLoginRoute = location.pathname === '/admin-login';
+  const isSchoolLoginRoute = location.pathname === '/school-login';
+  const isAdminLogoutRoute = location.pathname === '/admin-logout';
+  const isSchoolLogoutRoute = location.pathname === '/school-logout';
 
-  const shouldHideHeader = isAdminRoute || 
-                          isSchoolRoute ||
+  const shouldHideHeader = (isAdminRoute && !isAdminLoginRoute && !isAdminLogoutRoute) || 
+                          (isSchoolRoute && !isSchoolLoginRoute && !isSchoolLogoutRoute) ||
                           isCourseDetailRoute ||
-                          isSchoolDashboardRoute ||
+                          (isSchoolDashboardRoute && !isSchoolLoginRoute) ||
                           (isStudentDashboardRoute && studentLoginStatus === 'true') ||
                           (isTeacherDashboardRoute && teacherLoginStatus === 'true');
 
@@ -207,9 +209,6 @@ const MainContent = () => {
           </Route>
           <Route path='/admin' element={<AdminLayout />}>
             <Route path='users-management' element={<UsersManagement />}/>
-            <Route path='schools' element={<ManageSchools />}/>
-            <Route path='manage-teachers' element={<ManageTeachers />}/>
-            <Route path='manage-students' element={<ManageStudents />}/>
             <Route path='activity-logs' element={<ActivityLogs />}/>
             <Route path='settings' element={<AdminSettings />}/>
             <Route path='lesson-management' element={<AdminLessonManagement />}/>

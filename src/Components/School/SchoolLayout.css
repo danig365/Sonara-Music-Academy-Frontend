@@ -17,6 +17,9 @@
     z-index: 1000;
     overflow-y: auto;
     overflow-x: hidden;
+    background: linear-gradient(180deg, #f8f9fb 0%, #f1f5f9 100%);
+    border-right: 1px solid rgba(59, 130, 246, 0.1);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
 }
 
 .school-main-content {
@@ -38,15 +41,16 @@
     left: 0;
     right: 0;
     height: 60px;
-    background: #0f1624;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
     z-index: 1200;
     align-items: center;
     padding: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
 }
 
 .school-mobile-title {
-    color: #fff;
+    color: #1a2332;
     font-size: 18px;
     font-weight: 600;
     margin-left: 16px;
@@ -58,20 +62,22 @@
     height: 60px;
     background: transparent;
     border: none;
-    color: #fff;
+    color: #3b82f6;
     font-size: 24px;
     cursor: pointer;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    border-radius: 0;
+    border-radius: 8px;
     outline: none;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
+    margin-right: 8px;
 }
 
 .school-sidebar-toggle:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(59, 130, 246, 0.08);
+    color: #2563eb;
 }
 
 .school-sidebar-toggle:active {
@@ -79,7 +85,7 @@
 }
 
 .school-sidebar-toggle i {
-    color: #fff;
+    color: #3b82f6;
     font-size: 24px;
     display: block;
     pointer-events: none;

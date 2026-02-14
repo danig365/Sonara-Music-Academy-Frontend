@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 import './SchoolDashboard.css';
 
 import { API_BASE_URL } from '../../config';
@@ -61,10 +62,8 @@ const SchoolTeachers = () => {
 
     if (loading) {
         return (
-            <div className="text-center mt-5">
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+            <div className="school-loading-wrapper">
+                <LoadingSpinner size="lg" text="Loading teachers..." />
             </div>
         );
     }

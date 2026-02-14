@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import LoadingSpinner from '../LoadingSpinner'
 import './AllCourses.css'
 
 import { API_BASE_URL } from '../../config';
@@ -71,6 +72,33 @@ const AllCourses = () => {
     return null
   }
 
+  if (loading) {
+    return (
+      <div className="all-courses-container">
+        <Sidebar 
+          isOpen={sidebarOpen} 
+          setIsOpen={setSidebarOpen} 
+          isMobile={isMobile}
+        />
+        <div className="all-courses-content">
+          <div className="mobile-header">
+            <button 
+              className="sidebar-toggle"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              aria-label="Toggle sidebar"
+            >
+              <i className="bi bi-list"></i>
+            </button>
+            <div className="logo-mini">Sonara Music Academy</div>
+          </div>
+          <div className="all-courses-main">
+            <LoadingSpinner size="lg" text="Loading courses..." />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="all-courses-container">
       {/* Sidebar */}
@@ -114,46 +142,38 @@ const AllCourses = () => {
             </p>
           </div>
 
-          {loading ? (
-            <div className="spinner-container">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className="courses-grid">
-                {courseData && courseData.length > 0 ? courseData.map((course, index) => (
-                  <div className="course-card" key={index}>
-                    {/* Course Image */}
-                    <Link to={`/detail/${course.id}`} className="course-image-wrapper">
-                      {course.featured_img ? (
-                        <img 
-                          src={course.featured_img} 
-                          className="course-image" 
-                          alt={course.title}
-                        />
-                      ) : (
-                        <div className="course-placeholder">
-                          <i className="bi bi-music-note-beamed"></i>
-                        </div>
-                      )}
+          <div className="courses-grid">
+            {courseData && courseData.length > 0 ? courseData.map((course, index) => (
+              <div className="course-card" key={index}>
+                {/* Course Image */}
+                <Link to={`/detail/${course.id}`} className="course-image-wrapper">
+                  {course.featured_img ? (
+                    <img 
+                      src={course.featured_img} 
+                      className="course-image" 
+                      alt={course.title}
+                    />
+                  ) : (
+                    <div className="course-placeholder">
+                      <i className="bi bi-music-note-beamed"></i>
+                    </div>
+                  )}
+                </Link>
+
+                {/* Course Info */}
+                <div className="course-body">
+                  <h5 className="course-title">
+                    <Link to={`/detail/${course.id}`} className='text-decoration-none' style={{color: 'inherit'}}>
+                      {course.title}
                     </Link>
+                  </h5>
+                  <p className="course-description">
+                    {course.description?.substring(0, 80)}...
+                  </p>
 
-                    {/* Course Info */}
-                    <div className="course-body">
-                      <h5 className="course-title">
-                        <Link to={`/detail/${course.id}`} className='text-decoration-none' style={{color: 'inherit'}}>
-                          {course.title}
-                        </Link>
-                      </h5>
-                      <p className="course-description">
-                        {course.description?.substring(0, 80)}...
-                      </p>
-
-                      {/* Course Meta */}
-                      <div className="course-meta">
-                        {course.teacher && (
+                  {/* Course Meta */}
+                  <div className="course-meta">
+                    {course.teacher && (
                           <span className="meta-badge teacher">
                             <i className="bi bi-person"></i>
                             {course.teacher?.full_name || 'Instructor'}
@@ -229,8 +249,6 @@ const AllCourses = () => {
                   </ul>
                 </nav>
               )}
-            </>
-          )}
         </div>
       </div>
     </div>

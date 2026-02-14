@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 import './AchievementBadges.css';
 
 import { API_BASE_URL } from '../../config';
@@ -79,9 +80,7 @@ const AchievementBadges = ({ studentId, compact = false }) => {
     if (loading) {
         return (
             <div className="achievement-badges-card loading">
-                <div className="spinner-border spinner-border-sm text-warning" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+                <LoadingSpinner size="sm" />
             </div>
         );
     }

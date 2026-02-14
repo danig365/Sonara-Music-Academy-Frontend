@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Sidebar from './Sidebar';
+import LoadingSpinner from '../LoadingSpinner';
 import './StudentCoursePlayer.css';
 import { checkLessonAccess, recordLessonAccess, getStudentSubscription, formatAccessLevel } from '../../services/subscriptionService';
 
@@ -574,12 +575,7 @@ const StudentCoursePlayer = () => {
     };
 
     if (loading) {
-        return (
-            <div className="course-player-loading">
-                <div className="loading-spinner"></div>
-                <p style={{marginTop: '16px', fontSize: '16px'}}>Loading course content...</p>
-            </div>
-        );
+        return <LoadingSpinner fullScreen size="xl" text="Loading course content..." />;
     }
 
     // Check for subscription access denial

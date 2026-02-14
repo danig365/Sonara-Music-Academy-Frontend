@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 import './StreakCalendar.css';
 
 import { API_BASE_URL } from '../../config';
@@ -129,9 +130,7 @@ const StreakCalendar = ({ studentId }) => {
     if (loading) {
         return (
             <div className="streak-calendar-card loading">
-                <div className="spinner-border spinner-border-sm text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+                <LoadingSpinner size="sm" />
             </div>
         );
     }

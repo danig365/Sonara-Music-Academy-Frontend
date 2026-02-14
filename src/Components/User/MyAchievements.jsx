@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from './Sidebar';
+import LoadingSpinner from '../LoadingSpinner';
 import './MyAchievements.css';
 
 import { API_BASE_URL } from '../../config';
@@ -153,11 +154,7 @@ const MyAchievements = () => {
                         Earned Achievements
                     </h5>
                     {loading ? (
-                        <div className="spinner-container">
-                            <div className="spinner-border text-primary" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+                        <LoadingSpinner size="md" text="Loading achievements..." />
                     ) : achievements.length > 0 ? (
                         <div className="achievements-grid">
                             {achievements.map((item, index) => {

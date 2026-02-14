@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 import './CourseDetail.css'
 import Sidebar from './Sidebar';
+import LoadingSpinner from '../LoadingSpinner';
 import { checkCourseAccess, enrollWithSubscription, getStudentSubscription, formatAccessLevel, getAccessLevelColor } from '../../services/subscriptionService';
 
 import { API_BASE_URL, SITE_URL } from '../../config';
@@ -414,19 +415,7 @@ const CourseDetail = () => {
 
   // Don't render if not logged in
   if (studentLoginStatus !== 'true') {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#f8f9fa'
-      }}>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Redirecting to login...</span>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner fullScreen size="xl" text="Redirecting to login..." />;
   }
 
   return (

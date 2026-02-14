@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
+import LoadingSpinner from '../LoadingSpinner';
 import AuditSummary from './AuditSummary';
 import UploadLogsTable from './UploadLogsTable';
 import PaymentLogsTable from './PaymentLogsTable';
@@ -119,10 +120,7 @@ const AuditLogsDashboard = () => {
       {/* Loading State */}
       {loading && (
         <div className="text-center py-5">
-          <div className="spinner-border text-primary me-2" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <span>Loading audit logs data...</span>
+          <LoadingSpinner size="md" text="Loading audit logs data..." />
         </div>
       )}
 

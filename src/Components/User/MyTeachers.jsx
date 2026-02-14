@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 
 import { API_BASE_URL } from '../../config';
 
@@ -45,13 +46,11 @@ const MyTeachers = () => {
 
     if (loading) {
         return (
-            <div style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+            <div className="dashboard-container">
                 <Sidebar />
-                <div style={{ marginLeft: '250px', padding: '2rem', minHeight: '100vh' }}>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
+                <div className="dashboard-content">
+                    <div className="dashboard-main">
+                        <LoadingSpinner size="lg" text="Loading teachers..." />
                     </div>
                 </div>
             </div>
@@ -59,9 +58,10 @@ const MyTeachers = () => {
     }
 
     return (
-        <div style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+        <div className="dashboard-container">
             <Sidebar />
-            <div style={{ marginLeft: '250px', padding: '2rem', minHeight: '100vh' }}>
+            <div className="dashboard-content">
+                <div className="dashboard-main">
                 {/* Header */}
                 <div className="mb-4">
                     <h2 style={{
@@ -230,6 +230,7 @@ const MyTeachers = () => {
                         ))}
                     </div>
                 )}
+                </div>
             </div>
         </div>
     );

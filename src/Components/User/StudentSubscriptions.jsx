@@ -5,6 +5,7 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Sidebar from './Sidebar';
+import LoadingSpinner from '../LoadingSpinner';
 import './StudentSubscriptions.css';
 import { API_BASE_URL, SITE_URL } from '../../config';
 import { getStudentSubscription, getSubscriptionUsage, getAssignedTeacher, getPlanTeachers, formatAccessLevel, getAccessLevelColor, clearSubscriptionCache } from '../../services/subscriptionService';
@@ -401,10 +402,8 @@ const StudentSubscriptions = () => {
                             <i className="bi bi-list"></i>
                         </button>
                     </div>
-                    <div className="container mt-5 text-center">
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
+                    <div className="dashboard-main">
+                        <LoadingSpinner size="lg" text="Loading subscriptions..." />
                     </div>
                 </div>
             </div>

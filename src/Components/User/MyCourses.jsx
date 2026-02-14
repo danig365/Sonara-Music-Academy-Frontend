@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 import './MyCourses.css';
 
 import { API_BASE_URL } from '../../config';
@@ -75,11 +76,7 @@ const MyCourses = () => {
                         <div className="logo-mini">Sonara Music Academy</div>
                     </div>
                     <div className="dashboard-main">
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-                            <div className="spinner-border text-primary" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+                        <LoadingSpinner size="lg" text="Loading your courses..." />
                     </div>
                 </div>
             </div>

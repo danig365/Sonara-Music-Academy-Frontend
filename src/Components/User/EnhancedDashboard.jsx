@@ -7,6 +7,7 @@ import StreakCalendar from './StreakCalendar';
 import AchievementBadges from './AchievementBadges';
 import RecentBookings from './RecentBookings';
 import SubscriptionStatusCard from './SubscriptionStatusCard';
+import LoadingSpinner from '../LoadingSpinner';
 import './EnhancedDashboard.css';
 
 import { API_BASE_URL, SITE_URL } from '../../config';
@@ -151,10 +152,8 @@ const EnhancedDashboard = () => {
                         </button>
                         <div className="logo-mini">Sonara Music Academy</div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
+                    <div className="dashboard-main">
+                        <LoadingSpinner size="lg" text="Loading dashboard..." />
                     </div>
                 </div>
             </div>

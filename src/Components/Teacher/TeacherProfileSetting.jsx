@@ -3,12 +3,15 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
+import LoadingSpinner from '../LoadingSpinner'
 
 import { API_BASE_URL } from '../../config';
 
 const baseUrl = API_BASE_URL;
 
 const TeacherProfileSetting = () => {
+    const [loading, setLoading] = useState(true);
+    
     useEffect(()=>{
         document.title='LMS | Settings'
       })
@@ -50,9 +53,15 @@ const TeacherProfileSetting = () => {
                 you_url:res.data.you_url || '',
 
               });
+              setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
             });
         }catch(error){
             console.log(error);
+            setLoading(false);
         }
       },[teacherId]);
 
@@ -120,6 +129,10 @@ const TeacherProfileSetting = () => {
     const teacherLoginStatus=localStorage.getItem('teacherLoginStatus')
     if(teacherLoginStatus!=='true'){
         window.location.href='/teacher-login';
+    }
+
+    if (loading) {
+        return <LoadingSpinner size="lg" text="Loading profile settings..." />;
     }
 
   return (

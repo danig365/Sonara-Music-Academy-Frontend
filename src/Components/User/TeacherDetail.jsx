@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 
 import { API_BASE_URL } from '../../config';
 
@@ -51,13 +52,7 @@ const TeacherDetail = () => {
 
     // Loading state - show spinner while fetching
     if (loading && studentLoginStatus === 'true') {
-        return (
-            <div style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        );
+        return <LoadingSpinner fullScreen size="xl" text="Loading teacher profile..." />;
     }
 
     // Not authenticated - don't render anything (redirect happens in useEffect)

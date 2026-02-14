@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import LoadingSpinner from '../LoadingSpinner'
 import './teacherDashboard.css'
 
 import { API_BASE_URL } from '../../config';
@@ -151,12 +152,7 @@ const TeacherProgress = () => {
 
   // Loading state
   if (loading) {
-    return (
-      <div className='loading-container'>
-        <div className='loading-spinner'></div>
-        <p className='text-muted mt-3'>Loading progress analytics...</p>
-      </div>
-    )
+    return <LoadingSpinner size="lg" text="Loading progress analytics..." />
   }
 
   // Error state with retry

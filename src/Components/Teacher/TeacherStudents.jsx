@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import LoadingSpinner from '../LoadingSpinner'
 import './teacherDashboard.css'
 
 import { API_BASE_URL } from '../../config';
@@ -318,12 +319,7 @@ const TeacherStudents = () => {
 
   // Loading
   if (loading) {
-    return (
-      <div className='loading-container'>
-        <div className='loading-spinner'></div>
-        <p className='text-muted mt-3'>Loading students...</p>
-      </div>
-    )
+    return <LoadingSpinner size="lg" text="Loading students..." />
   }
 
   return (
@@ -738,8 +734,7 @@ const TeacherStudents = () => {
             <div className='modal-body-custom'>
               {loadingCourses ? (
                 <div className='text-center py-4'>
-                  <div className='loading-spinner' style={{ width: 32, height: 32 }}></div>
-                  <p className='text-muted mt-2'>Loading courses...</p>
+                  <LoadingSpinner size="sm" text="Loading courses..." />
                 </div>
               ) : teacherCourses.length === 0 ? (
                 <div className='text-center py-4'>

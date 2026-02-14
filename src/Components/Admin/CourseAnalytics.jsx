@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 import './CourseAnalytics.css';
 
 import { API_BASE_URL } from '../../config';
@@ -150,11 +151,8 @@ const CourseAnalytics = () => {
 
     if (loading) {
         return (
-            <div className="analytics-loading">
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-                <p>Loading analytics...</p>
+            <div className="admin-loading-wrapper">
+                <LoadingSpinner size="lg" text="Loading analytics..." />
             </div>
         );
     }

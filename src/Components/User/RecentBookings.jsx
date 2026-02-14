@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 import { API_BASE_URL } from '../../config';
 
 const RecentBookings = ({ studentId }) => {
@@ -25,9 +26,7 @@ const RecentBookings = ({ studentId }) => {
         return (
             <div className="card border-0 h-100">
                 <div className="card-body text-center">
-                    <div className="spinner-border spinner-border-sm text-primary" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
+                    <LoadingSpinner size="sm" />
                 </div>
             </div>
         );

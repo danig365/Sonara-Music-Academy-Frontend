@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
+import LoadingSpinner from '../LoadingSpinner';
 import Swal from 'sweetalert2';
 
 const UploadLogsTable = () => {
@@ -195,9 +196,7 @@ const UploadLogsTable = () => {
       {/* Loading State */}
       {loading && (
         <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+          <LoadingSpinner size="md" text="Loading upload logs..." />
         </div>
       )}
 

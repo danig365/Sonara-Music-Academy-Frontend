@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 import './SubscriptionsManagement.css';
 import { API_BASE_URL, SITE_URL } from '../../config';
 
@@ -451,10 +452,8 @@ Weekly Lessons: ${subscription.current_week_lessons || 0} / ${subscription.plan_
 
     if (loading) {
         return (
-            <div className="container mt-5 text-center">
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+            <div className="admin-loading-wrapper">
+                <LoadingSpinner size="lg" text="Loading subscriptions..." />
             </div>
         );
     }

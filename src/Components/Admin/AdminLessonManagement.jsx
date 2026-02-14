@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import LoadingSpinner from '../LoadingSpinner';
 import './AdminLessonManagement.css';
 
 import { API_BASE_URL } from '../../config';
@@ -998,10 +999,8 @@ const AdminLessonManagement = ({
 
     if (loading && !courses.length && !courseData) {
         return (
-            <div className="admin-dashboard-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+            <div className="admin-loading-wrapper">
+                <LoadingSpinner size="lg" text="Loading courses..." />
             </div>
         );
     }
@@ -2340,9 +2339,7 @@ const AdminLessonManagement = ({
                                 {/* Downloadables List */}
                                 {loadingDownloadables ? (
                                     <div className="text-center py-5">
-                                        <div className="spinner-border text-primary" role="status">
-                                            <span className="visually-hidden">Loading...</span>
-                                        </div>
+                                        <LoadingSpinner size="sm" text="Loading downloadables..." />
                                     </div>
                                 ) : downloadables.length > 0 ? (
                                     <div className="list-group">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getStudentSubscription, formatAccessLevel, getAccessLevelColor } from '../../services/subscriptionService';
+import LoadingSpinner from '../LoadingSpinner';
 import './SubscriptionStatusCard.css';
 
 const SubscriptionStatusCard = ({ studentId, compact = false }) => {
@@ -31,9 +32,7 @@ const SubscriptionStatusCard = ({ studentId, compact = false }) => {
         return (
             <div className={`subscription-status-card ${compact ? 'compact' : ''}`}>
                 <div className="subscription-loading">
-                    <div className="spinner-border spinner-border-sm" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
+                    <LoadingSpinner size="sm" />
                 </div>
             </div>
         );

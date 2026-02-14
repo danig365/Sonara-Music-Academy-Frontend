@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LoadingSpinner from '../LoadingSpinner';
 import './UsersManagement.css';
 
 import { API_BASE_URL } from '../../config';
@@ -47,6 +48,18 @@ const UsersManagement = () => {
         max_students: 100,
         max_courses: 50
     });
+
+    // Manage Members State
+    const [showMembersModal, setShowMembersModal] = useState(false);
+    const [membersSchool, setMembersSchool] = useState(null);
+    const [schoolTeachers, setSchoolTeachers] = useState([]);
+    const [schoolStudents, setSchoolStudents] = useState([]);
+    const [allTeachers, setAllTeachers] = useState([]);
+    const [allStudents, setAllStudents] = useState([]);
+    const [selectedTeacherId, setSelectedTeacherId] = useState('');
+    const [selectedStudentId, setSelectedStudentId] = useState('');
+    const [membersLoading, setMembersLoading] = useState(false);
+    const [membersMsg, setMembersMsg] = useState('');
 
     // Students Modal State
     const [showStudentModal, setShowStudentModal] = useState(false);
@@ -465,6 +478,109 @@ const UsersManagement = () => {
         });
     };
 
+    // ===== Manage Members Functions =====
+    const openMembersModal = async (school) => {
+        setMembersSchool(school);
+        setShowMembersModal(true);
+        setMembersLoading(true);
+        setMembersMsg('');
+        setSelectedTeacherId('');
+        setSelectedStudentId('');
+        try {
+            const [stRes, ssRes, allTRes, allSRes] = await Promise.all([
+                axios.get(`${baseUrl}/schools/${school.id}/teachers/`),
+                axios.get(`${baseUrl}/schools/${school.id}/students/`),
+                axios.get(`${baseUrl}/teacher/`),
+                axios.get(`${baseUrl}/student/`),
+            ]);
+            setSchoolTeachers(stRes.data);
+            setSchoolStudents(ssRes.data);
+            setAllTeachers(allTRes.data);
+            setAllStudents(allSRes.data);
+        } catch (error) {
+            console.error('Error fetching members:', error);
+        } finally {
+            setMembersLoading(false);
+        }
+    };
+
+    const closeMembersModal = () => {
+        setShowMembersModal(false);
+        setMembersSchool(null);
+        setSchoolTeachers([]);
+        setSchoolStudents([]);
+        fetchSchools();
+    };
+
+    const addTeacherToSchool = async () => {
+        if (!selectedTeacherId || !membersSchool) return;
+        try {
+            await axios.post(`${baseUrl}/schools/${membersSchool.id}/teachers/`, {
+                school: membersSchool.id,
+                teacher: selectedTeacherId,
+            });
+            setSelectedTeacherId('');
+            setMembersMsg('Teacher assigned successfully!');
+            const res = await axios.get(`${baseUrl}/schools/${membersSchool.id}/teachers/`);
+            setSchoolTeachers(res.data);
+            setTimeout(() => setMembersMsg(''), 3000);
+        } catch (error) {
+            const errData = error.response?.data;
+            const errMsg = errData ? (typeof errData === 'object' ? Object.values(errData).flat().join(' ') : String(errData)) : 'Failed to assign teacher';
+            setMembersMsg(errMsg);
+            setTimeout(() => setMembersMsg(''), 3000);
+        }
+    };
+
+    const removeTeacherFromSchool = async (recordId) => {
+        if (!window.confirm('Remove this teacher from the school?')) return;
+        try {
+            await axios.delete(`${baseUrl}/school-teachers/${recordId}/`);
+            setSchoolTeachers(schoolTeachers.filter(t => t.id !== recordId));
+            setMembersMsg('Teacher removed');
+            setTimeout(() => setMembersMsg(''), 3000);
+        } catch (error) {
+            console.error('Error removing teacher:', error);
+        }
+    };
+
+    const addStudentToSchool = async () => {
+        if (!selectedStudentId || !membersSchool) return;
+        try {
+            await axios.post(`${baseUrl}/schools/${membersSchool.id}/students/`, {
+                school: membersSchool.id,
+                student: selectedStudentId,
+            });
+            setSelectedStudentId('');
+            setMembersMsg('Student assigned successfully!');
+            const res = await axios.get(`${baseUrl}/schools/${membersSchool.id}/students/`);
+            setSchoolStudents(res.data);
+            setTimeout(() => setMembersMsg(''), 3000);
+        } catch (error) {
+            const errData = error.response?.data;
+            const errMsg = errData ? (typeof errData === 'object' ? Object.values(errData).flat().join(' ') : String(errData)) : 'Failed to assign student';
+            setMembersMsg(errMsg);
+            setTimeout(() => setMembersMsg(''), 3000);
+        }
+    };
+
+    const removeStudentFromSchool = async (recordId) => {
+        if (!window.confirm('Remove this student from the school?')) return;
+        try {
+            await axios.delete(`${baseUrl}/school-students/${recordId}/`);
+            setSchoolStudents(schoolStudents.filter(s => s.id !== recordId));
+            setMembersMsg('Student removed');
+            setTimeout(() => setMembersMsg(''), 3000);
+        } catch (error) {
+            console.error('Error removing student:', error);
+        }
+    };
+
+    const assignedTeacherIds = schoolTeachers.map(st => st.teacher?.id || st.teacher);
+    const assignedStudentIds = schoolStudents.map(ss => ss.student?.id || ss.student);
+    const availableTeachers = allTeachers.filter(t => !assignedTeacherIds.includes(t.id));
+    const availableStudents = allStudents.filter(s => !assignedStudentIds.includes(s.id));
+
     const getStatusBadge = (status) => {
         const badges = {
             active: 'bg-success',
@@ -477,10 +593,8 @@ const UsersManagement = () => {
 
     if (loading && students.length === 0 && teachers.length === 0 && schools.length === 0) {
         return (
-            <div className="container mt-5 text-center">
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+            <div className="admin-loading-wrapper">
+                <LoadingSpinner size="lg" text="Loading users..." />
             </div>
         );
     }
@@ -852,14 +966,23 @@ const UsersManagement = () => {
                                                             </TableCell>
                                                             <TableCell label="Actions">
                                                                 <button
+                                                                    className="btn btn-sm btn-info me-2"
+                                                                    onClick={() => openMembersModal(school)}
+                                                                    title="Manage Members"
+                                                                >
+                                                                    <i className="bi bi-people"></i>
+                                                                </button>
+                                                                <button
                                                                     className="btn btn-sm btn-warning me-2"
                                                                     onClick={() => handleEditSchool(school)}
+                                                                    title="Edit"
                                                                 >
                                                                     <i className="bi bi-pencil"></i>
                                                                 </button>
                                                                 <button
                                                                     className="btn btn-sm btn-danger"
                                                                     onClick={() => handleDeleteSchool(school.id)}
+                                                                    title="Delete"
                                                                 >
                                                                     <i className="bi bi-trash"></i>
                                                                 </button>
@@ -1228,6 +1351,225 @@ const UsersManagement = () => {
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Manage Members Modal */}
+            {showMembersModal && membersSchool && (
+                <div className="modal d-block" tabIndex="-1" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)'}}>
+                    <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                        <div className="modal-content" style={{borderRadius: '12px', overflow: 'hidden', border: 'none', boxShadow: '0 20px 60px rgba(0,0,0,0.3)'}}>
+                            {/* Header */}
+                            <div className="modal-header py-3 px-4" style={{background: '#1e293b', borderBottom: 'none'}}>
+                                <div className="d-flex align-items-center">
+                                    <div style={{
+                                        width: '38px', height: '38px', borderRadius: '10px',
+                                        background: 'rgba(99, 102, 241, 0.2)', display: 'flex',
+                                        alignItems: 'center', justifyContent: 'center', marginRight: '12px'
+                                    }}>
+                                        <i className="bi bi-building" style={{color: '#818cf8', fontSize: '18px'}}></i>
+                                    </div>
+                                    <div>
+                                        <h6 className="mb-0" style={{color: '#fff', fontWeight: 600, fontSize: '16px'}}>Manage Members</h6>
+                                        <small style={{color: '#94a3b8', fontSize: '12px'}}>{membersSchool.name}</small>
+                                    </div>
+                                </div>
+                                <button type="button" className="btn-close btn-close-white" onClick={closeMembersModal} style={{opacity: 0.6}}></button>
+                            </div>
+
+                            {/* Body */}
+                            <div className="modal-body p-4" style={{background: '#f8fafc', maxHeight: '65vh', overflowY: 'auto'}}>
+                                {membersMsg && (
+                                    <div className="alert alert-info py-2 px-3 d-flex align-items-center" style={{borderRadius: '8px', fontSize: '13px', border: 'none', background: '#e0f2fe', color: '#0369a1'}}>
+                                        <i className="bi bi-info-circle me-2"></i>{membersMsg}
+                                    </div>
+                                )}
+                                {membersLoading ? (
+                                    <div className="text-center py-5">
+                                        <LoadingSpinner size="sm" text="Loading members..." />
+                                    </div>
+                                ) : (
+                                    <div className="row g-4">
+                                        {/* Teachers Section */}
+                                        <div className="col-md-6">
+                                            <div style={{background: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0', overflow: 'hidden'}}>
+                                                <div className="px-3 py-2 d-flex align-items-center justify-content-between" style={{background: '#f1f5f9', borderBottom: '1px solid #e2e8f0'}}>
+                                                    <div className="d-flex align-items-center">
+                                                        <i className="bi bi-person-workspace me-2" style={{color: '#6366f1'}}></i>
+                                                        <span style={{fontWeight: 600, fontSize: '14px', color: '#334155'}}>Teachers</span>
+                                                    </div>
+                                                    <span className="badge" style={{background: '#6366f1', fontSize: '11px', padding: '4px 10px', borderRadius: '20px'}}>{schoolTeachers.length}</span>
+                                                </div>
+                                                <div className="p-3">
+                                                    <div className="d-flex gap-2 mb-3">
+                                                        <select
+                                                            className="form-select form-select-sm"
+                                                            value={selectedTeacherId}
+                                                            onChange={(e) => setSelectedTeacherId(e.target.value)}
+                                                            style={{borderRadius: '8px', fontSize: '13px', border: '1px solid #cbd5e1'}}
+                                                        >
+                                                            <option value="">Select teacher...</option>
+                                                            {availableTeachers.map(t => (
+                                                                <option key={t.id} value={t.id}>
+                                                                    {t.full_name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                        <button
+                                                            className="btn btn-sm px-3"
+                                                            onClick={addTeacherToSchool}
+                                                            disabled={!selectedTeacherId}
+                                                            style={{borderRadius: '8px', background: '#6366f1', color: '#fff', border: 'none', whiteSpace: 'nowrap', fontSize: '13px'}}
+                                                        >
+                                                            <i className="bi bi-plus-lg me-1"></i>Add
+                                                        </button>
+                                                    </div>
+                                                    {availableTeachers.length === 0 && allTeachers.length > 0 && (
+                                                        <div className="text-center py-1 mb-2">
+                                                            <small style={{color: '#94a3b8', fontSize: '12px'}}>All teachers assigned</small>
+                                                        </div>
+                                                    )}
+                                                    <div style={{maxHeight: '240px', overflowY: 'auto'}}>
+                                                        {schoolTeachers.length > 0 ? (
+                                                            schoolTeachers.map(st => (
+                                                                <div key={st.id} className="d-flex align-items-center justify-content-between p-2 mb-2" style={{background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9'}}>
+                                                                    <div className="d-flex align-items-center">
+                                                                        <div style={{
+                                                                            width: '32px', height: '32px', borderRadius: '50%',
+                                                                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                                            marginRight: '10px', flexShrink: 0
+                                                                        }}>
+                                                                            <span style={{color: '#fff', fontSize: '12px', fontWeight: 600}}>
+                                                                                {(st.teacher?.full_name || 'T').charAt(0).toUpperCase()}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div style={{fontSize: '13px', fontWeight: 500, color: '#1e293b', lineHeight: 1.3}}>
+                                                                                {st.teacher?.full_name || 'Teacher'}
+                                                                            </div>
+                                                                            <div style={{fontSize: '11px', color: '#94a3b8'}}>{st.teacher?.email}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button
+                                                                        className="btn btn-sm p-0 d-flex align-items-center justify-content-center"
+                                                                        onClick={() => removeTeacherFromSchool(st.id)}
+                                                                        title="Remove teacher"
+                                                                        style={{width: '28px', height: '28px', borderRadius: '6px', border: '1px solid #fecaca', background: '#fef2f2', color: '#ef4444', flexShrink: 0}}
+                                                                    >
+                                                                        <i className="bi bi-x" style={{fontSize: '16px'}}></i>
+                                                                    </button>
+                                                                </div>
+                                                            ))
+                                                        ) : (
+                                                            <div className="text-center py-4">
+                                                                <i className="bi bi-person-plus" style={{fontSize: '24px', color: '#cbd5e1'}}></i>
+                                                                <p className="mb-0 mt-1" style={{fontSize: '13px', color: '#94a3b8'}}>No teachers assigned</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Students Section */}
+                                        <div className="col-md-6">
+                                            <div style={{background: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0', overflow: 'hidden'}}>
+                                                <div className="px-3 py-2 d-flex align-items-center justify-content-between" style={{background: '#f1f5f9', borderBottom: '1px solid #e2e8f0'}}>
+                                                    <div className="d-flex align-items-center">
+                                                        <i className="bi bi-mortarboard me-2" style={{color: '#10b981'}}></i>
+                                                        <span style={{fontWeight: 600, fontSize: '14px', color: '#334155'}}>Students</span>
+                                                    </div>
+                                                    <span className="badge" style={{background: '#10b981', fontSize: '11px', padding: '4px 10px', borderRadius: '20px'}}>{schoolStudents.length}</span>
+                                                </div>
+                                                <div className="p-3">
+                                                    <div className="d-flex gap-2 mb-3">
+                                                        <select
+                                                            className="form-select form-select-sm"
+                                                            value={selectedStudentId}
+                                                            onChange={(e) => setSelectedStudentId(e.target.value)}
+                                                            style={{borderRadius: '8px', fontSize: '13px', border: '1px solid #cbd5e1'}}
+                                                        >
+                                                            <option value="">Select student...</option>
+                                                            {availableStudents.map(s => (
+                                                                <option key={s.id} value={s.id}>
+                                                                    {s.fullname}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                        <button
+                                                            className="btn btn-sm px-3"
+                                                            onClick={addStudentToSchool}
+                                                            disabled={!selectedStudentId}
+                                                            style={{borderRadius: '8px', background: '#10b981', color: '#fff', border: 'none', whiteSpace: 'nowrap', fontSize: '13px'}}
+                                                        >
+                                                            <i className="bi bi-plus-lg me-1"></i>Add
+                                                        </button>
+                                                    </div>
+                                                    {availableStudents.length === 0 && allStudents.length > 0 && (
+                                                        <div className="text-center py-1 mb-2">
+                                                            <small style={{color: '#94a3b8', fontSize: '12px'}}>All students assigned</small>
+                                                        </div>
+                                                    )}
+                                                    <div style={{maxHeight: '240px', overflowY: 'auto'}}>
+                                                        {schoolStudents.length > 0 ? (
+                                                            schoolStudents.map(ss => (
+                                                                <div key={ss.id} className="d-flex align-items-center justify-content-between p-2 mb-2" style={{background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9'}}>
+                                                                    <div className="d-flex align-items-center">
+                                                                        <div style={{
+                                                                            width: '32px', height: '32px', borderRadius: '50%',
+                                                                            background: 'linear-gradient(135deg, #10b981, #059669)',
+                                                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                                            marginRight: '10px', flexShrink: 0
+                                                                        }}>
+                                                                            <span style={{color: '#fff', fontSize: '12px', fontWeight: 600}}>
+                                                                                {(ss.student?.fullname || 'S').charAt(0).toUpperCase()}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div style={{fontSize: '13px', fontWeight: 500, color: '#1e293b', lineHeight: 1.3}}>
+                                                                                {ss.student?.fullname || 'Student'}
+                                                                            </div>
+                                                                            <div style={{fontSize: '11px', color: '#94a3b8'}}>{ss.student?.email}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button
+                                                                        className="btn btn-sm p-0 d-flex align-items-center justify-content-center"
+                                                                        onClick={() => removeStudentFromSchool(ss.id)}
+                                                                        title="Remove student"
+                                                                        style={{width: '28px', height: '28px', borderRadius: '6px', border: '1px solid #fecaca', background: '#fef2f2', color: '#ef4444', flexShrink: 0}}
+                                                                    >
+                                                                        <i className="bi bi-x" style={{fontSize: '16px'}}></i>
+                                                                    </button>
+                                                                </div>
+                                                            ))
+                                                        ) : (
+                                                            <div className="text-center py-4">
+                                                                <i className="bi bi-person-plus" style={{fontSize: '24px', color: '#cbd5e1'}}></i>
+                                                                <p className="mb-0 mt-1" style={{fontSize: '13px', color: '#94a3b8'}}>No students assigned</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Footer */}
+                            <div className="modal-footer py-2 px-4" style={{background: '#fff', borderTop: '1px solid #e2e8f0'}}>
+                                <button
+                                    type="button"
+                                    className="btn btn-sm px-4"
+                                    onClick={closeMembersModal}
+                                    style={{borderRadius: '8px', background: '#1e293b', color: '#fff', border: 'none', fontSize: '13px', fontWeight: 500}}
+                                >
+                                    Close
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
