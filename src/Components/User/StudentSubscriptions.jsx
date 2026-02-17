@@ -737,7 +737,7 @@ const StudentSubscriptions = () => {
                                                             Your Assigned Teacher
                                                         </div>
                                                         <div style={{ fontWeight: 600, color: '#1e40af' }}>
-                                                            {sub.assigned_teacher_details.fullname}
+                                                            {sub.assigned_teacher_details.full_name}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -781,18 +781,18 @@ const StudentSubscriptions = () => {
                                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                                                         <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px' }}>
                                                             <div style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a' }}>
-                                                                {sub.usage_summary.courses_accessed || 0}
+                                                                {sub.usage_summary.courses_used || 0}
                                                             </div>
                                                             <div style={{ fontSize: '12px', color: '#64748b' }}>
-                                                                / {sub.usage_summary.max_courses || '∞'} courses
+                                                                / {sub.usage_summary.courses_limit || '∞'} courses
                                                             </div>
                                                         </div>
                                                         <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px' }}>
                                                             <div style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a' }}>
-                                                                {sub.usage_summary.lessons_accessed || 0}
+                                                                {sub.usage_summary.lessons_used || 0}
                                                             </div>
                                                             <div style={{ fontSize: '12px', color: '#64748b' }}>
-                                                                / {sub.usage_summary.max_lessons || '∞'} lessons
+                                                                / {sub.usage_summary.lessons_limit || '∞'} lessons
                                                             </div>
                                                         </div>
                                                     </div>
@@ -801,13 +801,13 @@ const StudentSubscriptions = () => {
                                                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '6px' }}>
                                                                 <span style={{ color: '#64748b' }}>Weekly Lessons</span>
                                                                 <span style={{ fontWeight: 600 }}>
-                                                                    {sub.usage_summary.current_week_lessons || 0} / {sub.usage_summary.lessons_per_week}
+                                                                    {sub.usage_summary.lessons_this_week || 0} / {sub.usage_summary.lessons_per_week}
                                                                 </span>
                                                             </div>
                                                             <div style={{ height: '8px', background: '#e2e8f0', borderRadius: '4px', overflow: 'hidden' }}>
                                                                 <div style={{
                                                                     height: '100%',
-                                                                    width: `${Math.min(((sub.usage_summary.current_week_lessons || 0) / sub.usage_summary.lessons_per_week) * 100, 100)}%`,
+                                                                    width: `${Math.min(((sub.usage_summary.lessons_this_week || 0) / sub.usage_summary.lessons_per_week) * 100, 100)}%`,
                                                                     background: '#8b5cf6',
                                                                     borderRadius: '4px'
                                                                 }}></div>

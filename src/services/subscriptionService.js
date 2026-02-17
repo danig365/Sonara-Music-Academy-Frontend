@@ -199,13 +199,13 @@ export const clearSubscriptionCache = () => {
  */
 export const formatAccessLevel = (level) => {
     const levels = {
-        0: 'Free',
-        1: 'Basic',
-        2: 'Standard',
-        3: 'Premium',
-        4: 'Unlimited'
+        'free': 'Free',
+        'basic': 'Basic',
+        'standard': 'Standard',
+        'premium': 'Premium',
+        'unlimited': 'Unlimited'
     };
-    return levels[level] || 'Unknown';
+    return levels[level] || levels[String(level).toLowerCase()] || 'Unknown';
 };
 
 /**
@@ -213,13 +213,13 @@ export const formatAccessLevel = (level) => {
  */
 export const getAccessLevelColor = (level) => {
     const colors = {
-        0: '#6b7280', // gray
-        1: '#3b82f6', // blue
-        2: '#8b5cf6', // purple
-        3: '#f59e0b', // amber
-        4: '#10b981'  // emerald
+        'free': '#6b7280', // gray
+        'basic': '#3b82f6', // blue
+        'standard': '#8b5cf6', // purple
+        'premium': '#f59e0b', // amber
+        'unlimited': '#10b981'  // emerald
     };
-    return colors[level] || '#6b7280';
+    return colors[level] || colors[String(level).toLowerCase()] || '#6b7280';
 };
 
 /**
@@ -227,7 +227,7 @@ export const getAccessLevelColor = (level) => {
  */
 export const isCourseLockedForStudent = async (studentId, course) => {
     // Free courses are never locked
-    if (!course.required_access_level || course.required_access_level === 0) {
+    if (!course.required_access_level || course.required_access_level === 'free') {
         return { locked: false, reason: null };
     }
     
