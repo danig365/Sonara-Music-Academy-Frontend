@@ -55,7 +55,8 @@ const AdminLessonManagement = ({
         category: '',
         teacher: '',
         techs: '',
-        featured_img: null
+        featured_img: null,
+        required_access_level: 'free'
     });
     const [imagePreview, setImagePreview] = useState(null);
     
@@ -85,7 +86,9 @@ const AdminLessonManagement = ({
         duration_seconds: 0,
         objectives: '',
         is_preview: false,
-        is_locked: false
+        is_locked: false,
+        is_premium: false,
+        required_access_level: 'free'
     });
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef(null);
@@ -302,7 +305,8 @@ const AdminLessonManagement = ({
             category: '',
             teacher: '',
             techs: '',
-            featured_img: null
+            featured_img: null,
+            required_access_level: 'free'
         });
         setImagePreview(null);
         setShowCourseModal(true);
@@ -316,7 +320,8 @@ const AdminLessonManagement = ({
             category: course.category?.title || '',  // Use category name instead of ID
             teacher: course.teacher?.id || '',
             techs: course.techs || '',
-            featured_img: null
+            featured_img: null,
+            required_access_level: course.required_access_level || 'free'
         });
         setImagePreview(course.featured_img);
         setShowCourseModal(true);
@@ -331,7 +336,8 @@ const AdminLessonManagement = ({
             category: '',
             teacher: '',
             techs: '',
-            featured_img: null
+            featured_img: null,
+            required_access_level: 'free'
         });
         setImagePreview(null);
         setShowNewCategoryInput(false);
@@ -409,6 +415,7 @@ const AdminLessonManagement = ({
             const teacherIdToUse = userType === 'teacher' ? effectiveTeacherId : courseFormData.teacher;
             submitData.append('teacher', teacherIdToUse);
             submitData.append('techs', courseFormData.techs);
+            submitData.append('required_access_level', courseFormData.required_access_level || 'free');
             if (courseFormData.featured_img) {
                 submitData.append('featured_img', courseFormData.featured_img);
             }
@@ -565,7 +572,9 @@ const AdminLessonManagement = ({
             duration_seconds: 0,
             objectives: '',
             is_preview: false,
-            is_locked: false
+            is_locked: false,
+            is_premium: false,
+            required_access_level: 'free'
         });
         setUploadProgress(0);
         setIsDragging(false);
@@ -601,7 +610,9 @@ const AdminLessonManagement = ({
             duration_seconds: lesson.duration_seconds,
             objectives: lesson.objectives || '',
             is_preview: lesson.is_preview || false,
-            is_locked: lesson.is_locked || false
+            is_locked: lesson.is_locked || false,
+            is_premium: lesson.is_premium || false,
+            required_access_level: lesson.required_access_level || 'free'
         });
         setUploadProgress(0);
         setShowLessonModal(true);
@@ -669,6 +680,8 @@ const AdminLessonManagement = ({
             formData.append('objectives', lessonFormData.objectives);
             formData.append('is_preview', lessonFormData.is_preview);
             formData.append('is_locked', lessonFormData.is_locked);
+            formData.append('is_premium', lessonFormData.is_premium);
+            formData.append('required_access_level', lessonFormData.required_access_level || 'free');
             if (lessonFormData.file) {
                 formData.append('file', lessonFormData.file);
             }
@@ -1581,6 +1594,25 @@ const AdminLessonManagement = ({
                                                 </div>
                                             )}
                                         </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label" style={{ fontWeight: 500, color: '#374151' }}>
+                                                <i className="bi bi-shield-lock me-1" style={{ color: '#8b5cf6' }}></i>
+                                                Required Access Level
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                name="required_access_level"
+                                                value={courseFormData.required_access_level}
+                                                onChange={handleCourseInputChange}
+                                                style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px' }}
+                                            >
+                                                <option value="free">🟢 Free — Anyone can access</option>
+                                                <option value="basic">🔵 Basic — Basic plan or higher</option>
+                                                <option value="standard">🟣 Standard — Standard plan or higher</option>
+                                                <option value="premium">🟠 Premium — Premium plan or higher</option>
+                                            </select>
+                                            <small className="text-muted">Students need at least this subscription level to enroll</small>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="modal-footer" style={{ borderTop: '1px solid #e5e7eb', padding: '16px 24px' }}>
@@ -1886,6 +1918,43 @@ const AdminLessonManagement = ({
                                             </div>
                                         </div>
                                         
+                                        {/* Subscription Access Controls */}
+                                        <div className="col-md-6">
+                                            <div className="form-check form-switch" style={{ padding: '12px 16px', backgroundColor: '#fef3c7', borderRadius: '8px', border: '1px solid #fcd34d' }}>
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="isPremiumSwitch"
+                                                    checked={lessonFormData.is_premium}
+                                                    onChange={(e) => setLessonFormData({ ...lessonFormData, is_premium: e.target.checked })}
+                                                    style={{ width: '40px', height: '20px', cursor: 'pointer' }}
+                                                />
+                                                <label className="form-check-label ms-2" htmlFor="isPremiumSwitch" style={{ fontWeight: 500, color: '#92400e', cursor: 'pointer' }}>
+                                                    <i className="bi bi-star-fill me-1"></i>
+                                                    Premium Content
+                                                </label>
+                                                <small className="d-block text-muted mt-1">Only premium/unlimited subscribers can access</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label" style={{ fontWeight: 500, color: '#374151' }}>
+                                                <i className="bi bi-shield-lock me-1" style={{ color: '#8b5cf6' }}></i>
+                                                Required Access Level
+                                            </label>
+                                            <select
+                                                className="form-select"
+                                                value={lessonFormData.required_access_level}
+                                                onChange={(e) => setLessonFormData({ ...lessonFormData, required_access_level: e.target.value })}
+                                                style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px' }}
+                                            >
+                                                <option value="free">🟢 Free</option>
+                                                <option value="basic">🔵 Basic</option>
+                                                <option value="standard">🟣 Standard</option>
+                                                <option value="premium">🟠 Premium</option>
+                                            </select>
+                                            <small className="text-muted">Minimum subscription tier needed for this lesson</small>
+                                        </div>
+
                                         {/* Drag & Drop File Upload */}
                                         <div className="col-12">
                                             <label className="form-label" style={{ fontWeight: 500, color: '#374151' }}>

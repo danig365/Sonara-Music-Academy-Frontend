@@ -33,7 +33,7 @@ export const getStudentSubscription = async (studentId, forceRefresh = false) =>
     }
     
     try {
-        const response = await axios.get(`${baseUrl}/access/summary/?student_id=${studentId}`);
+        const response = await axios.get(`${baseUrl}/access/summary/${studentId}/`);
         
         // Update cache
         subscriptionCache = {
@@ -54,7 +54,7 @@ export const getStudentSubscription = async (studentId, forceRefresh = false) =>
  */
 export const checkSubscriptionStatus = async (studentId) => {
     try {
-        const response = await axios.get(`${baseUrl}/access/check-subscription/?student_id=${studentId}`);
+        const response = await axios.get(`${baseUrl}/access/check-subscription/${studentId}/`);
         return response.data;
     } catch (error) {
         console.error('Error checking subscription:', error);
@@ -99,10 +99,7 @@ export const checkLessonAccess = async (studentId, lessonId) => {
  */
 export const recordLessonAccess = async (studentId, lessonId) => {
     try {
-        const response = await axios.post(`${baseUrl}/access/record-lesson/`, {
-            student_id: studentId,
-            lesson_id: lessonId
-        });
+        const response = await axios.post(`${baseUrl}/access/record-lesson/${studentId}/${lessonId}/`);
         // Invalidate cache as usage has changed
         subscriptionCache.data = null;
         return response.data;
@@ -164,7 +161,7 @@ export const getSubscriptionUsage = async (studentId) => {
  */
 export const getAssignedTeacher = async (studentId) => {
     try {
-        const response = await axios.get(`${baseUrl}/access/assigned-teacher/?student_id=${studentId}`);
+        const response = await axios.get(`${baseUrl}/access/assigned-teacher/${studentId}/`);
         return response.data;
     } catch (error) {
         console.error('Error fetching assigned teacher:', error);
@@ -177,7 +174,7 @@ export const getAssignedTeacher = async (studentId) => {
  */
 export const getPlanTeachers = async (planId) => {
     try {
-        const response = await axios.get(`${baseUrl}/access/plan-teachers/?plan_id=${planId}`);
+        const response = await axios.get(`${baseUrl}/access/plan-teachers/${planId}/`);
         return response.data;
     } catch (error) {
         console.error('Error fetching plan teachers:', error);

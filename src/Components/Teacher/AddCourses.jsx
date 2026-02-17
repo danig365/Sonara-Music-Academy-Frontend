@@ -19,7 +19,8 @@ const AddCourses = () => {
         title:'',
         description:'',
         f_img:'',
-        techs:''
+        techs:'',
+        required_access_level:'free'
       });
 
       useEffect(()=>{
@@ -56,6 +57,7 @@ const AddCourses = () => {
         _formData.append('description',courseData.description);
         _formData.append('featured_img',courseData.f_img,courseData.f_img.name);
         _formData.append('techs',courseData.techs);
+        _formData.append('required_access_level',courseData.required_access_level);
 
         try{
             axios.post(baseUrl+'/course/',_formData,{
@@ -97,6 +99,18 @@ const AddCourses = () => {
                     <div className="mb-3">
                         <label for="exampleInputPassword1" className="form-label">Technologies</label>
                         <textarea onChange={handleChange} name='techs' className='form-control' placeholder='php,Java,C++...'></textarea>
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">
+                            <i className="bi bi-shield-lock me-1"></i>Required Access Level
+                        </label>
+                        <select name='required_access_level' onChange={handleChange} className='form-control' value={courseData.required_access_level}>
+                            <option value="free">🟢 Free — Anyone can access</option>
+                            <option value="basic">🔵 Basic — Basic plan or higher</option>
+                            <option value="standard">🟣 Standard — Standard plan or higher</option>
+                            <option value="premium">🟠 Premium — Premium plan or higher</option>
+                        </select>
+                        <small className='text-muted'>Students need at least this subscription level to enroll</small>
                     </div>
                     <button type="submit" onClick={formSubmit} className="btn btn-primary">Submit</button>
                 </div>

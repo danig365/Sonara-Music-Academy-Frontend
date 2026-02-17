@@ -168,11 +168,11 @@ const CourseDetail = () => {
             setCourseAccess({ ...accessResult, checking: false });
             setSubscriptionInfo(subInfo);
           } catch (error) {
-            console.log('Access check error:', error);
-            setCourseAccess({ can_access: true, checking: false }); // Default to allow if check fails
+            console.error('Access check error:', error);
+            setCourseAccess({ can_access: false, checking: false, reason: 'Unable to verify access. Please try again.' });
           }
         } else {
-          setCourseAccess({ can_access: true, checking: false });
+          setCourseAccess({ can_access: false, checking: false, reason: 'Please log in to access courses.' });
         }
       };
       checkAccess();
@@ -252,7 +252,7 @@ const CourseDetail = () => {
             return;
         }
 
-        // Try subscription-based enrollment first
+        // Enroll via subscription-validated endpoint
         try {
             const result = await enrollWithSubscription(studentId, course_id);
             
@@ -271,45 +271,36 @@ const CourseDetail = () => {
                 // Refresh access info
                 const newAccessInfo = await checkCourseAccess(studentId, course_id);
                 setCourseAccess({ ...newAccessInfo, checking: false });
-                return;
-            }
-        } catch (subError) {
-            console.log('Subscription enrollment not available, falling back to standard enrollment');
-        }
-
-        // Fallback to standard enrollment
-        const _formData = new FormData();
-        _formData.append('course', course_id);
-        _formData.append('student', studentId);
-
-        axios.post(baseUrl + '/student-enroll-course/', _formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
-        .then((res) => {
-            if (res.status === 200 || res.status === 201) {
+            } else {
+                // Enrollment denied by subscription validation
                 Swal.fire({
-                    title: 'You Successfully Enrolled!',
-                    icon: 'success',
-                    toast: true,
-                    timer: 3000,
-                    position: 'top-right',
-                    timerProgressBar: true,
-                    showConfirmButton: false
+                    title: 'Enrollment Failed',
+                    html: `
+                        <div style="text-align: left;">
+                            <p>${result.message || result.error || 'You do not meet the subscription requirements for this course.'}</p>
+                            <p style="margin-top: 10px; font-size: 14px; color: #666;">Please check your subscription plan or contact support.</p>
+                        </div>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'View Plans',
+                    cancelButtonText: 'Close',
+                    confirmButtonColor: '#3b82f6'
+                }).then((swalResult) => {
+                    if (swalResult.isConfirmed) {
+                        navigate('/subscriptions');
+                    }
                 });
-                setEnrolledStatus('success');
             }
-        })
-        .catch((error) => {
+        } catch (error) {
             console.error('Enrollment error:', error);
             Swal.fire({
                 title: 'Enrollment Failed',
-                text: error.response?.data?.detail || error.response?.data?.error || 'Something went wrong. Please try again.',
+                text: error.response?.data?.message || error.response?.data?.error || 'Something went wrong. Please try again.',
                 icon: 'error',
                 confirmButtonColor: '#4285f4'
             });
-        });
+        }
     }
 
     const [ratingData,setRatingData]=useState({
